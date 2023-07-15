@@ -3,13 +3,17 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import { ThemeProvider } from "@material-tailwind/react";
+import { ToastContainer } from 'react-toastify'
 
 
 const client_id = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-console.log(client_id);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <GoogleOAuthProvider clientId={client_id}>
-      <App />
+    <ThemeProvider>
+      <ToastContainer autoClose={1000} hideProgressBar={true} limit={2} />
+        <App />
+    </ThemeProvider>
   </GoogleOAuthProvider>,
 )

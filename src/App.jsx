@@ -6,6 +6,7 @@ import ForgotPassword from './Pages/Authentication/ForgotPassword'
 import ResetPassword from './Pages/Authentication/ResetPassword'
 import PrivateRoute from './utils/PrivateRoute'
 import Home from './Pages/User/Home'
+import AdminHome from './Pages/Admin/AdminHome'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Route path='register/' Component={Signup}/>
           <Route path='forgot-password/' Component={ForgotPassword}/>
           <Route path='reset-password/' Component={ResetPassword}/>
+          <Route path='admin/' Component={AdminHome}/>
         </Routes>
       </Router>
       

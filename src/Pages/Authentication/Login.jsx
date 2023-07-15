@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
@@ -6,49 +6,92 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useGoogleLogin, googleLogout } from '@react-oauth/google';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import login, { getLocal } from '../../Context/auth';
+import jwtDecode from 'jwt-decode';
 
 
 function Login() {
+
+
   const navigate = useNavigate();
   const urlParams = new URLSearchParams(window.location.search);
   const message = urlParams.get('message');
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState([]);
+  const [values, setValues] = useState({ email: "", password: "" });
 
   useEffect(() => {
     document.title = "Login | MindEase";
-      if (user) {
-        axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-            headers: {
-              Authorization: `Bearer ${user.access_token}`,
-              Accept: 'application/json'
-            }
-          })
-          .then((res) => {
-            setProfile(res.data);
-          })
-          .catch((err) => console.log(err));
+  });
+
+
+  useEffect(() => {
+    const checkLoggedInUser = async () => {
+      const localResponse = getLocal('authToken');
+
+      if (localResponse) {
+        console.log(('Reacher here'));
+        const decoded = jwtDecode(localResponse);
+
+        if (decoded.is_admin) {
+          navigate('/admin', { replace: true })
+        } else if (decoded.is_staff) {
+          toast.info('Counselor')
+        } else {
+          navigate('/')
+        }
       }
-  },[user]);
+    };
+
+    checkLoggedInUser();
+  }, [navigate]);
+
+
+
+
+  // Google login
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: (codeResponse) => setUser(codeResponse),
+    onError: (error) => console.log('Login Failed:', error)
+  });
+
+  useEffect(() => {
+    if (user) {
+      axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+        headers: {
+          Authorization: `Bearer ${user.access_token}`,
+          Accept: 'application/json'
+        }
+      })
+        .then((res) => {
+          setProfile(res.data);
+          console.log('User', user);
+          console.log('Profile', res.data);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [user])
 
   if (message) {
     Swal.fire('Congrats', message, 'success');
   }
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    //  login logic here
+    console.log(values)
+    if (values.email.trim() === "") {
+      return toast.error('Email should not be empty');
+    } else if (values.password.trim() === "") {
+      return toast.error("Password should not be empty");
+    }
+    const loginResponse = await login(values);
+    console.log('login response', loginResponse);
+
+    if (loginResponse) {
+      navigate('/')
+    }
   };
-
-  // Google login
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: (codeResponse) => setUser(codeResponse),
-    onError: (error) => console.log('Login Failed:', error) 
-  });
-
-  // useEffect(
-    
-  // );
 
   const logOut = () => {
     googleLogout();
@@ -87,9 +130,12 @@ function Login() {
               <input
                 type="email"
                 id="email"
+                name="email"
+                onChange={(e) => {
+                  setValues({ ...values, [e.target.name]: e.target.value })
+                }}
                 className="border rounded-md pl-10 py-2 w-full focus:outline-none focus:border-blue-500"
                 placeholder="Email"
-                required
               />
             </div>
           </div>
@@ -104,9 +150,12 @@ function Login() {
               <input
                 type="password"
                 id="password"
+                name='password'
+                onChange={(e) => {
+                  setValues({ ...values, [e.target.name]: e.target.value })
+                }}
                 className="border rounded-md pl-10 py-2 w-full focus:outline-none focus:border-blue-500"
                 placeholder="Password"
-                required
               />
             </div>
           </div>

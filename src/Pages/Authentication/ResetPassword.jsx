@@ -21,12 +21,9 @@ const ResetPassword = () => {
     const handleResetPassword = (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-            toast.warning("Password didn't match", {
-                position: toast.POSITION.BOTTOM_RIGHT,
-                autoClose: 2000,
-            });
+            toast.warning("Password didn't match");
         } else {
-            axios.post('http://127.0.0.1:8000/api/reset-password/', data).then((response) => {
+            axios.post(import.meta.env.VITE_BASE_URL + '/api/reset-password/', data).then((response) => {
                 if (response.status === 200) {
                     localStorage.removeItem('user_id')
                     Swal.fire('Password reset', response.data.msg, 'success').then(() => {
@@ -40,7 +37,7 @@ const ResetPassword = () => {
 
     return (
         <div className="flex flex-col md:flex-row h-screen">
-            <ToastContainer position='top-center' reverseOrder='false' ></ToastContainer>
+            {/* <ToastContainer position='top-center' reverseOrder='false' ></ToastContainer> */}
             <div className="bg-white-200 md:w-1/2 flex flex-col justify-center items-center">
                 <h2 className="text-2xl font-bold text-gray-800">MindEase</h2>
 

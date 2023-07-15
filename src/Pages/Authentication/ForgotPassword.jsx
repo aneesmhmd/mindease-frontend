@@ -2,28 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('')
-    const navigate = useNavigate();
-    const data = { 'email': email }
+    const navigate = useNavigate('');
 
     useEffect(() => {
         document.title = "Forgot Password | MindEase";
     });
 
-    const handleResetPassword = (e) => {
+    const handleResetPassword = async (e) => {
         e.preventDefault();
-        axios.post('http://127.0.0.1:8000/api/forgot-password/', data).then((response) => {
-            const dat = response.data;
-            localStorage.setItem('user_id', dat.user_id);
+        if (email.trim() === '') {
+            toast.info('Email cannot be empty')
 
-            Swal.fire('Message', response.data.msg, response.data.status)
-        }).catch((error) => {
-            Swal.fire('Error', error.response.data.message, 'error')
-        })
+
+        } else {
+            const toastId = toast.loading('Sending password reset email!')
+            await axios.post(import.meta.env.VITE_BASE_URL + '/api/forgot-password/', { 'email': email }).then((response) => {
+                const data = response.data;
+                localStorage.setItem('user_id', data.user_id);
+                toast.dismiss(toastId)
+                toast.success('Password reset email sent!')
+                navigate('/login')
+
+            }).catch((error) => {
+                Swal.fire('Error', error.response.data.message, 'error')
+            })
+        }
+
     };
 
     return (
@@ -58,7 +67,6 @@ const ForgotPassword = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="border border-gray-400 rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
                                 placeholder="Email"
-                                required
                             />
                         </div>
                         <div className="mb-4">

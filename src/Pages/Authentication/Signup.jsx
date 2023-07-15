@@ -23,7 +23,7 @@ const Signup = () => {
     
     const navigate = useNavigate();
 
-    const data = {
+    const values = {
         first_name,
         last_name,
         email,
@@ -38,7 +38,7 @@ const Signup = () => {
         if (password !== confirmPassword) {
             Swal.fire('Oops!', 'Password didnt match', 'warning')
         } else {
-           await axios.post(import.meta.env.VITE_BASE_URL + '/api/register/', data).then((response) => {
+           await axios.post(import.meta.env.VITE_BASE_URL + '/api/register/', values).then((response) => {
                 Swal.fire('Registration Success', response.data.msg, 'success').then(
                 navigate('/login')
                 );
@@ -155,35 +155,11 @@ const Signup = () => {
                             required
                         />
                     </div>
-                    {/* <div className="mb-4 flex items-center">
-                        <div className="flex items-center mr-4">
-                            <input
-                                type="radio"
-                                id="user"
-                                value="user"
-                                checked={role === 'user'}
-                                onChange={() => setRole('user')}
-                                className="mr-2"
-                            />
-                            <label htmlFor="user">User</label>
-                        </div>
-                        <div className="flex items-center">
-                            <input
-                                type="radio"
-                                id="counselor"
-                                value="counselor"
-                                checked={role === 'counselor'}
-                                onChange={() => setRole('counselor')}
-                                className="mr-2"
-                            />
-                            <label htmlFor="counselor">Counselor</label>
-                        </div>
-                    </div> */}
 
-                    <div className="mb-4">
+                    <div className="mb-4 flex justify-center">
                         <button
                             type="submit"
-                            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full"
+                            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 md:w-full"
                         >
                             Sign Up
                         </button>

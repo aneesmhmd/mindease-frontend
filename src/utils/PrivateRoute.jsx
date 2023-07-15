@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route,Routes, Navigate } from 'react-router-dom'
-import Navbar from '../Components/Navbar/Navbar'
+import Navbar from '../Components/UserNavbar/Navbar'
 import Login from '../Pages/Authentication/Login'
 
 const PrivateRoute = ({children, ...rest}) => {
