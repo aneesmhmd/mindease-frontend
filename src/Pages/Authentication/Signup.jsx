@@ -6,7 +6,9 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useGoogleLogin } from '@react-oauth/google';
+import { googleAuthentication } from '../../Services/userApi';
+import jwtDecode from 'jwt-decode';
 
 
 const Signup = () => {
@@ -20,8 +22,12 @@ const Signup = () => {
     const [password, setPassword] = useState('')
     const [phone, setPhone] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('');
-    
-    const navigate = useNavigate();
+    const [user, setUser] = useState(null)
+
+    const [errors, setErrors] = useState({});
+
+
+    const navigate = useNavigate('');
 
     const values = {
         first_name,
@@ -32,15 +38,15 @@ const Signup = () => {
         // role,
     };
 
-
+    // Email register
     const handleSignup = async (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
             Swal.fire('Oops!', 'Password didnt match', 'warning')
         } else {
-           await axios.post(import.meta.env.VITE_BASE_URL + '/api/register/', values).then((response) => {
+            await axios.post(import.meta.env.VITE_BASE_USER_URL + '/api/register/', values).then((response) => {
                 Swal.fire('Registration Success', response.data.msg, 'success').then(
-                navigate('/login')
+                    navigate('/login')
                 );
             }).catch((error) => {
                 Swal.fire('Error', error.response.data.message, 'error');
@@ -48,9 +54,36 @@ const Signup = () => {
         }
     };
 
-    const handleGoogleSignup = () => {
-        // Handle Google signup logic here
-    };
+    // Google login
+    const handleGoogleAuth = useGoogleLogin({
+        onSuccess: (codeResponse) => setUser(codeResponse),
+        onError: (error) => console.log('Login Failed:', error)
+    });
+
+    useEffect(() => {
+        if (user) {
+            axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                headers: {
+                    Authorization: `Bearer ${user.access_token}`,
+                    Accept: 'application/json'
+                }
+            })
+                .then((res) => {
+                    const userProfile = res.data
+                    googleAuthentication(userProfile).then((res) => {
+                        console.log('final result :', jwtDecode(JSON.stringify(res.data.token)));
+                        if (res.data.status === 200) {
+                            localStorage.setItem('authToken', JSON.stringify(res.data.token));
+                            toast.success(res.data.msg)
+                            navigate('/')
+                        } else if (res.data.status === 400) {
+                            toast.error(res.data.msg)
+                        }
+                    })
+                })
+                .catch((err) => toast.error('Something went wrong!'));
+        }
+    }, [user])
 
     return (
         <div className="flex flex-col md:flex-row h-screen">
@@ -82,8 +115,11 @@ const Signup = () => {
                             onChange={(e) => setFirstName(e.target.value)}
                             className="border rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
                             placeholder="First Name"
-                            required
+                        // required
                         />
+                        <div className="w-3/4 ms-16 mt-2">
+                            {errors.first_name && <div className="text-red-500 text-center   bg-purple-200 rounded-md p-2 text-xs ">{errors.first_name.message}</div>}
+                        </div>
                     </div>
                     <div className="mb-4">
                         <label htmlFor="lastName" className="sr-only">
@@ -96,7 +132,7 @@ const Signup = () => {
                             onChange={(e) => setLastName(e.target.value)}
                             className="border rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
                             placeholder="Last Name"
-                            required
+                        // required
                         />
                     </div>
                     <div className="mb-4">
@@ -104,14 +140,15 @@ const Signup = () => {
                             Email
                         </label>
                         <input
-                            type="email"
+                            type="text"
                             id="email"
                             name="email"
                             onChange={(e) => setEmail(e.target.value)}
                             className="border rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
                             placeholder="Email"
-                            required
+                        // required
                         />
+                        {/* {errors.email && <span>{errors.email}</span>} */}
                     </div>
                     <div className="mb-4">
                         <label htmlFor="phoneNumber" className="sr-only">
@@ -124,7 +161,7 @@ const Signup = () => {
                             onChange={(e) => setPhone(e.target.value)}
                             className="border rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
                             placeholder="Phone Number"
-                            required
+                        // required
                         />
                     </div>
                     <div className="mb-4">
@@ -138,7 +175,7 @@ const Signup = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             className="border rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
                             placeholder="Password"
-                            required
+                        // required
                         />
                     </div>
                     <div className="mb-4">
@@ -152,7 +189,7 @@ const Signup = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className="border rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
                             placeholder="Confirm Password"
-                            required
+                        // required
                         />
                     </div>
 
@@ -169,7 +206,7 @@ const Signup = () => {
                         <button
                             type="button"
                             className="bg-white text-gray-500 border border-gray-300 py-2 px-4 rounded-md hover:bg-gray-100 w-full"
-                            onClick={handleGoogleSignup}
+                            onClick={handleGoogleAuth}
                         >
                             <FontAwesomeIcon
                                 icon={faGoogle}

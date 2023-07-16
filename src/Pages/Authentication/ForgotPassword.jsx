@@ -3,7 +3,6 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('')
@@ -21,7 +20,7 @@ const ForgotPassword = () => {
 
         } else {
             const toastId = toast.loading('Sending password reset email!')
-            await axios.post(import.meta.env.VITE_BASE_URL + '/api/forgot-password/', { 'email': email }).then((response) => {
+            await axios.post(import.meta.env.VITE_BASE_USER_URL + '/api/forgot-password/', { 'email': email }).then((response) => {
                 const data = response.data;
                 localStorage.setItem('user_id', data.user_id);
                 toast.dismiss(toastId)

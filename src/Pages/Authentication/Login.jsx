@@ -9,12 +9,13 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import login, { getLocal } from '../../Context/auth';
 import jwtDecode from 'jwt-decode';
+import { googleAuthentication } from '../../Services/userApi';
 
 
 function Login() {
 
 
-  const navigate = useNavigate();
+  const history = useNavigate();
   const urlParams = new URLSearchParams(window.location.search);
   const message = urlParams.get('message');
   const [user, setUser] = useState(null);
@@ -27,31 +28,32 @@ function Login() {
 
 
   useEffect(() => {
+    if (message) {
+      toast.success('Congrats! Account activated')
+    }
+
     const checkLoggedInUser = async () => {
       const localResponse = getLocal('authToken');
 
       if (localResponse) {
-        console.log(('Reacher here'));
         const decoded = jwtDecode(localResponse);
 
-        if (decoded.is_admin) {
-          navigate('/admin', { replace: true })
-        } else if (decoded.is_staff) {
+        if (decoded.role === 'admin') {
+          history('/admin', { replace: true })
+        } else if (decoded.role === 'counselor') {
           toast.info('Counselor')
         } else {
-          navigate('/')
+          history('/')
         }
       }
     };
 
     checkLoggedInUser();
-  }, [navigate]);
-
-
+  }, [history]);
 
 
   // Google login
-  const handleGoogleLogin = useGoogleLogin({
+  const handleGoogleAuth = useGoogleLogin({
     onSuccess: (codeResponse) => setUser(codeResponse),
     onError: (error) => console.log('Login Failed:', error)
   });
@@ -65,37 +67,37 @@ function Login() {
         }
       })
         .then((res) => {
-          setProfile(res.data);
-          console.log('User', user);
-          console.log('Profile', res.data);
+          const userProfile = res.data
+          googleAuthentication(userProfile).then((res) => {
+            console.log('final result :', jwtDecode(JSON.stringify(res.data.token)));
+            if (res.data.status === 200) {
+              localStorage.setItem('authToken', JSON.stringify(res.data.token));
+              toast.success(res.data.msg)
+              history('/')
+            } else if (res.data.status === 400) {
+              toast.error(res.data.msg)
+            }
+          })
         })
-        .catch((err) => console.log(err));
+        .catch((err) => toast.error('Something went wrong!'));
     }
   }, [user])
 
-  if (message) {
-    Swal.fire('Congrats', message, 'success');
-  }
 
+
+  // email login
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(values)
     if (values.email.trim() === "") {
       return toast.error('Email should not be empty');
     } else if (values.password.trim() === "") {
       return toast.error("Password should not be empty");
     }
     const loginResponse = await login(values);
-    console.log('login response', loginResponse);
 
     if (loginResponse) {
-      navigate('/')
+      history('/')
     }
-  };
-
-  const logOut = () => {
-    googleLogout();
-    setProfile(null);
   };
 
 
@@ -171,7 +173,7 @@ function Login() {
             <button
               type="button"
               className="text-blue-500 hover:underline"
-              onClick={() => navigate('/forgot-password')}
+              onClick={() => history('/forgot-password')}
             >
               Forgot Password?
             </button>
@@ -180,7 +182,7 @@ function Login() {
             <button
               type="button"
               className="bg-white text-gray-500 border border-gray-300 py-2 px-4 rounded-md hover:bg-gray-100 w-full"
-              onClick={handleGoogleLogin}
+              onClick={handleGoogleAuth}
             >
               <FontAwesomeIcon
                 icon={faGoogle}
@@ -194,7 +196,7 @@ function Login() {
             <button
               type="button"
               className="text-blue-500 hover:underline ml-1"
-              onClick={() => navigate("/register")}
+              onClick={() => history("/register")}
             >
               Sign up
             </button>
@@ -206,3 +208,4 @@ function Login() {
 };
 
 export default Login;
+

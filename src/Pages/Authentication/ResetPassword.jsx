@@ -23,7 +23,7 @@ const ResetPassword = () => {
         if (password !== confirmPassword) {
             toast.warning("Password didn't match");
         } else {
-            axios.post(import.meta.env.VITE_BASE_URL + '/api/reset-password/', data).then((response) => {
+            axios.post(import.meta.env.VITE_BASE_USER_URL + '/api/reset-password/', data).then((response) => {
                 if (response.status === 200) {
                     localStorage.removeItem('user_id')
                     Swal.fire('Password reset', response.data.msg, 'success').then(() => {
