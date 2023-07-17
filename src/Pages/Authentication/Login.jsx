@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import { useGoogleLogin, googleLogout } from '@react-oauth/google';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -15,7 +14,7 @@ import { googleAuthentication } from '../../Services/userApi';
 function Login() {
 
 
-  const history = useNavigate();
+  const navigate = useNavigate();
   const urlParams = new URLSearchParams(window.location.search);
   const message = urlParams.get('message');
   const [user, setUser] = useState(null);
@@ -39,17 +38,17 @@ function Login() {
         const decoded = jwtDecode(localResponse);
 
         if (decoded.role === 'admin') {
-          history('/admin', { replace: true })
+          navigate('/admin', { replace: true })
         } else if (decoded.role === 'counselor') {
           toast.info('Counselor')
         } else {
-          history('/')
+          navigate('/')
         }
       }
     };
 
     checkLoggedInUser();
-  }, [history]);
+  }, [navigate]);
 
 
   // Google login
@@ -73,7 +72,7 @@ function Login() {
             if (res.data.status === 200) {
               localStorage.setItem('authToken', JSON.stringify(res.data.token));
               toast.success(res.data.msg)
-              history('/')
+              navigate('/')
             } else if (res.data.status === 400) {
               toast.error(res.data.msg)
             }
@@ -96,7 +95,7 @@ function Login() {
     const loginResponse = await login(values);
 
     if (loginResponse) {
-      history('/')
+      navigate('/')
     }
   };
 
@@ -173,7 +172,7 @@ function Login() {
             <button
               type="button"
               className="text-blue-500 hover:underline"
-              onClick={() => history('/forgot-password')}
+              onClick={() => navigate('/forgot-password')}
             >
               Forgot Password?
             </button>
@@ -196,7 +195,7 @@ function Login() {
             <button
               type="button"
               className="text-blue-500 hover:underline ml-1"
-              onClick={() => history("/register")}
+              onClick={() => navigate("/register")}
             >
               Sign up
             </button>

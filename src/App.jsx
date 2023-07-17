@@ -5,20 +5,23 @@ import Login from './Pages/Authentication/Login'
 import ForgotPassword from './Pages/Authentication/ForgotPassword'
 import ResetPassword from './Pages/Authentication/ResetPassword'
 import Home from './Pages/User/Home'
-import AdminHome from './Pages/Admin/AdminHome'
-
+import PrivateRoutes from './protectedRoutes/PrivateRoutes'
+import AdminRoutes from './routes/AdminRoutes'
 function App() {
 
   return (
     <div className='main'>
       <Router>
         <Routes>
-          <Route path='/' exact element={<Home />} />
+
+
           <Route path='login/' element={<Login />} />
-          <Route path='register/' element={<Signup/>} />
-          <Route path='forgot-password/' element={<ForgotPassword/>} />
-          <Route path='reset-password/' element={<ResetPassword/>} />
-          <Route path='admin/' element={<AdminHome/>} />
+          <Route path='/' exact element={<Home />} />
+          <Route path='admin/' element/>
+          <Route path='register/' element={<Signup />} />
+          <Route path='forgot-password/' element={<ForgotPassword />} />
+          <Route path='reset-password/' element={<ResetPassword />} />
+          <Route path='admin/*' element={<AdminRoutes />} />
         </Routes>
       </Router>
 

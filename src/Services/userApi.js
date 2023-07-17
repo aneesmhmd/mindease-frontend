@@ -13,9 +13,14 @@ const googleAuthentication = (value) => {
     })
 }
 
+const getAllServices=()=>{
+    return userAxiosInstance.get("/services/services-list/",{withCredentials:true})
+}
+
 
 
 
 export {
-    googleAuthentication
+    googleAuthentication,
+    getAllServices
 }

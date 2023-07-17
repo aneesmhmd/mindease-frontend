@@ -49,7 +49,7 @@ const Signup = () => {
                     navigate('/login')
                 );
             }).catch((error) => {
-                Swal.fire('Error', error.response.data.message, 'error');
+                Swal.fire('Error', 'Account with given email already exists', 'error');
             });
         }
     };
@@ -71,7 +71,9 @@ const Signup = () => {
                 .then((res) => {
                     const userProfile = res.data
                     googleAuthentication(userProfile).then((res) => {
-                        console.log('final result :', jwtDecode(JSON.stringify(res.data.token)));
+                        const entho = jwtDecode(JSON.stringify(res.data.token.role))
+                        const athoo = entho.role
+                        console.log('final result :', athoo);
                         if (res.data.status === 200) {
                             localStorage.setItem('authToken', JSON.stringify(res.data.token));
                             toast.success(res.data.msg)

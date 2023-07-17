@@ -22,13 +22,13 @@ export default function Example() {
     
   const localResponse = getLocal('authToken');
 
-  const history = useNavigate()
+  const navigate = useNavigate()
 
     
   const handleLogOut=()=>{
     localStorage.removeItem('authToken');
     toast.success('Succesfully Logged Out')
-    history('/login')
+    navigate('/login')
   }
 
     return (
