@@ -10,11 +10,9 @@ function AdminRoutes() {
   return (
     <div>
       <Routes>
-        <Route element={<PrivateRoutes role={'user'} route={'/'}/>} >
-        <Route path='/dashboard' element={<AdminHome/>}/>
-        <Route path='add-counselor/' element={<AddCounselor />} />
+        <Route path='/dashboard/' element={<AdminHome/>}/>
+        <Route path='/add-counselor/' element={<AddCounselor />} />
 
-        </Route>
       </Routes>
     </div>
   )

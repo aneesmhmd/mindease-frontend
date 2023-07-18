@@ -23,12 +23,19 @@ function Login() {
 
   useEffect(() => {
     document.title = "Login | MindEase";
-  });
+  },[]);
 
 
   useEffect(() => {
     if (message) {
-      toast.success('Congrats! Account activated')
+      if(message.length === 13){
+        toast.error(message)
+      }else{
+        toast.success(message)
+      }
+      // params.delete('message');
+      // const newUrl = `${location.pathname}${params.toString()}`;
+      // window.history.replaceState({}, '', newUrl);
     }
 
     const checkLoggedInUser = async () => {

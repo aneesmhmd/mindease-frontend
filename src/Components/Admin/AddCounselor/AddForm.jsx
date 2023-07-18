@@ -35,6 +35,8 @@ function AddForm() {
           }else {
             toast.error('Counselor registration failed')
           }
+        }).catch((error)=>{
+          toast.error(error.message)
         })
       }
       
