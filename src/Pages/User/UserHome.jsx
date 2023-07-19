@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import NavBar from '../../Components/UserNavbar/Navbar'
+import NavBar from '../../Components/UserNavbar/UserNavBar'
 import BannerOne from '../../Components/User/UserHome/BannerOne'
 import BannerTwo from '../../Components/User/UserHome/BannerTwo'
 import OurServices from '../../Components/User/UserHome/OurServices'

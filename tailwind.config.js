@@ -9,6 +9,10 @@ module.exports = withMT( {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      pacifico: ['Pacifico', 'cursive'],
+      // You can add other custom font families here if needed
+    },
   },
   plugins: [],
 });

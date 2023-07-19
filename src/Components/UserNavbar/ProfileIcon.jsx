@@ -45,7 +45,7 @@ export default function Example() {
           <MenuItem className="flex items-center gap-2">
             <UserCircleIcon strokeWidth={2} className="h-4 w-4" />
             <Typography variant="small" className="font-normal">
-             <Link to='profile' >My profile</Link>
+             <Link to='/user/profile' >My profile</Link>
             </Typography>
           </MenuItem>
           <MenuItem className="flex items-center gap-2">

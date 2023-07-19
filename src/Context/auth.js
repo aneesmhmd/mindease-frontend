@@ -10,10 +10,10 @@ export default async function login(values) {
             toast.success('Login successful');
             return data;
         } else {
-            toast.error('Invalid user credentials');
+            toast.error('Invalid login credentials');
         }
     } catch(error) {
-        toast.error('Login failed');
+        toast.error('Invalid login credentials');
     }
 }
 
