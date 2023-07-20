@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import { ToastContainer, toast } from 'react-toastify';
 import { useGoogleLogin } from '@react-oauth/google';
 import { googleAuthentication } from '../../Services/userApi';
@@ -35,21 +33,19 @@ const Signup = () => {
         email,
         password,
         phone,
-        // role,
     };
-
+    
     // Email register
     const handleSignup = async (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-            Swal.fire('Oops!', 'Password didnt match', 'warning')
+            toast.error("Password didn't match")
         } else {
             await axios.post(import.meta.env.VITE_BASE_USER_URL + '/api/register/', values).then((response) => {
-                Swal.fire('Registration Success', response.data.msg, 'success').then(
-                    navigate('/login')
-                );
+                toast.success(response.data.msg)
+                navigate('/login')
             }).catch((error) => {
-                Swal.fire('Error', 'Account with given email already exists', 'error');
+                toast.error('Some error occured')
             });
         }
     };
@@ -71,11 +67,9 @@ const Signup = () => {
                 .then((res) => {
                     const userProfile = res.data
                     googleAuthentication(userProfile).then((res) => {
-                        const entho = jwtDecode(JSON.stringify(res.data.token.role))
-                        const athoo = entho.role
                         console.log('final result :', athoo);
                         if (res.data.status === 200) {
-                            localStorage.setItem('authToken', JSON.stringify(res.data.token));
+                            localStorage.setItem('userJwt', JSON.stringify(res.data.token));
                             toast.success(res.data.msg)
                             navigate('/')
                         } else if (res.data.status === 400) {

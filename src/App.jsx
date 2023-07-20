@@ -1,7 +1,7 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Signup from './Pages/Authentication/Signup'
-import Login from './Pages/Authentication/Login'
+import UserLogin from './Pages/Authentication/UserLogin'
 import ForgotPassword from './Pages/Authentication/ForgotPassword'
 import ResetPassword from './Pages/Authentication/ResetPassword'
 import Home from './Pages/User/UserHome'
@@ -9,6 +9,7 @@ import AdminRoutes from './routes/AdminRoutes'
 import CounselorRoutes from './routes/CounselorRoutes'
 import UserProfile from './Pages/User/UserProfile'
 import UserRoutes from './routes/UserRoutes'
+import PageNotFound from './Pages/User/PageNotFound'
 
 function App() {
 
@@ -18,7 +19,8 @@ function App() {
         <Routes>
 
           <Route path='/' exact element={<Home />} />
-          <Route path='login/' element={<Login />} />
+          <Route path='/*' element={<UserRoutes />} />
+          <Route path='login/' element={<UserLogin />} />
           <Route path='register/' element={<Signup />} />
           <Route path='forgot-password/' element={<ForgotPassword />} />
 

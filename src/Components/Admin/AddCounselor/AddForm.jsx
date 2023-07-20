@@ -24,10 +24,10 @@ function AddForm() {
         toast.error('First name cannot be empty')
       }else if(values.last_name.trim() === ""){
         toast.error('Last name cannot be empty')
-      }else if(values.phone.trim() === ""){
-        toast.error('Phone number cannot be empty')
       }else if(values.email.trim() === ""){
         toast.error('Email cannot be empty')
+      }else if(values.phone.trim() === ""){
+        toast.error('Phone number cannot be empty')
       }else{
         addCounselor({values}).then((res)=>{
           if(res.status === 200){
@@ -49,7 +49,7 @@ function AddForm() {
   return (
     <div className='flex justify-center flex-col md:w-full items-center mt-10 px-3'>
       <h1 className='justify-center font-bold md:text-2xl text-gray-800 mb-4'>Add Psychologist</h1>
-      <form onClick={handleSubmit} className="flex flex-col items-center w-full border-t max-w-xl shadow-lg rounded-sm">
+      <form onSubmit={handleSubmit} className="flex flex-col items-center w-full border-t max-w-xl shadow-lg rounded-sm">
 
         <div className="md:w-full">
           <label htmlFor="firstName" className="sr-only">

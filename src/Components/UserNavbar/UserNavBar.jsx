@@ -83,7 +83,7 @@ export default function NavBar() {
   }, []);
 
   return (
-      <Navbar className="fixed z-10 mx-auto bg-blue-600 max-w-full px-6 py-3 rounded-none border-0">
+      <Navbar className="fixed z-10 mx-auto bg-blue-900 max-w-full px-6 py-3 rounded-none border-0">
       <div className="flex mx-auto max-w-screen-2xl items-center justify-between text-light">
         <Typography
           as="a"

@@ -11,31 +11,27 @@ import jwtDecode from 'jwt-decode';
 import { googleAuthentication } from '../../Services/userApi';
 
 
-function Login() {
+function UserLogin() {
 
 
   const navigate = useNavigate();
   const urlParams = new URLSearchParams(window.location.search);
   const message = urlParams.get('message');
   const [user, setUser] = useState(null);
-  const [profile, setProfile] = useState([]);
   const [values, setValues] = useState({ email: "", password: "" });
 
   useEffect(() => {
     document.title = "Login | MindEase";
-  },[]);
+  }, []);
 
 
   useEffect(() => {
     if (message) {
-      if(message.length === 13){
+      if (message.length === 13) {
         toast.error(message)
-      }else{
+      } else {
         toast.success(message)
       }
-      // params.delete('message');
-      // const newUrl = `${location.pathname}${params.toString()}`;
-      // window.history.replaceState({}, '', newUrl);
     }
 
     const checkLoggedInUser = async () => {
@@ -90,20 +86,28 @@ function Login() {
   }, [user])
 
 
+  const isValidEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  }
+
 
   // email login
   const handleLogin = async (e) => {
     e.preventDefault();
     if (values.email.trim() === "") {
       return toast.error('Email should not be empty');
+    } else if (!isValidEmail(values.email.trim())) {
+      toast.warn('Enter a valid email');
     } else if (values.password.trim() === "") {
       return toast.error("Password should not be empty");
+    } else {
+      const loginResponse = await login(values);
+      if (loginResponse) {
+        navigate('/')
+      }
     }
-    const loginResponse = await login(values);
 
-    if (loginResponse) {
-      navigate('/')
-    }
   };
 
 
@@ -136,7 +140,7 @@ function Login() {
                 <FontAwesomeIcon icon={faEnvelope} className="text-gray-500" />
               </div>
               <input
-                type="email"
+                type="text"
                 id="email"
                 name="email"
                 onChange={(e) => {
@@ -213,5 +217,5 @@ function Login() {
   );
 };
 
-export default Login;
+export default UserLogin;
 

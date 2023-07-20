@@ -35,7 +35,7 @@ function CounselorLogin() {
                 <div className="bg-gray-50 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
                     <div className="md:w-1/2 px-8 md:px-16">
                         <h1 className="font-bold font-sans text-2xl text-[#002D74] mb-5">MindEase</h1>
-                        <h2 className="font-medium text-2xl text-[#002D74]">Login</h2>
+                        <h2 className="font-medium text-2xl text-[#002D74]">Counselor Login</h2>
                         <p className="text-xs mt-4 text-[#002D74]">Login to your account as counselor</p>
 
                         <form className="flex flex-col gap-4"  onSubmit={handleCounselorLogin}>
