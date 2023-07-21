@@ -6,7 +6,7 @@ export default async function login(values) {
         const response = await axios.post(import.meta.env.VITE_BASE_USER_URL + '/api/token/', values);
         if (response.status === 200) {
             const data = response.data;
-            localStorage.setItem('authToken', JSON.stringify(data));
+            localStorage.setItem('userJwt', JSON.stringify(data));
             toast.success('Login successful');
             return data;
         } else {
@@ -19,6 +19,6 @@ export default async function login(values) {
 
 
 export function getLocal() {
-    const response = localStorage.getItem('authToken');
+    const response = localStorage.getItem('userJwt');
     return response
 }

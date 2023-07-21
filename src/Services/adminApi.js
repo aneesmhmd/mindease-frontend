@@ -1,8 +1,12 @@
-import { userAxiosInstance } from "../utils/axiosUtils"
+import { adminAxiosInstance } from "../utils/axiosUtils"
 
 
 const addCounselor = (values) =>{
-    return userAxiosInstance.post('/admin/add-counselor/', values, {withCredentials: true})
+    return adminAxiosInstance.post('/add-counselor/', values, {withCredentials: true})
 }
 
+// const isAdminAuth = () =>{
+//     return adminAxiosInstance.get('/')
+// }
+    
 export {addCounselor}

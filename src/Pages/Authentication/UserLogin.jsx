@@ -8,7 +8,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import login, { getLocal } from '../../Context/auth';
 import jwtDecode from 'jwt-decode';
-import { googleAuthentication } from '../../Services/userApi';
+import { googleAuthentication, userLogin } from '../../Services/userApi';
 
 
 function UserLogin() {
@@ -35,15 +35,15 @@ function UserLogin() {
     }
 
     const checkLoggedInUser = async () => {
-      const localResponse = getLocal('authToken');
+      const localResponse = getLocal('userJwt');
 
       if (localResponse) {
         const decoded = jwtDecode(localResponse);
 
         if (decoded.role === 'admin') {
-          navigate('/admin', { replace: true })
+          navigate('/admin/dashboard', { replace: true })
         } else if (decoded.role === 'counselor') {
-          toast.info('Counselor')
+          navigate('/counselor/dashboard')
         } else {
           navigate('/')
         }
@@ -73,7 +73,7 @@ function UserLogin() {
           googleAuthentication(userProfile).then((res) => {
             console.log('final result :', jwtDecode(JSON.stringify(res.data.token)));
             if (res.data.status === 200) {
-              localStorage.setItem('authToken', JSON.stringify(res.data.token));
+              localStorage.setItem('userJwt', JSON.stringify(res.data.token));
               toast.success(res.data.msg)
               navigate('/')
             } else if (res.data.status === 400) {
@@ -93,7 +93,24 @@ function UserLogin() {
 
 
   // email login
-  const handleLogin = async (e) => {
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+    // if (values.email.trim() === "") {
+    //   return toast.error('Email should not be empty');
+    // } else if (!isValidEmail(values.email.trim())) {
+    //   toast.warn('Enter a valid email');
+    // } else if (values.password.trim() === "") {
+    //   return toast.error("Password should not be empty");
+    // } else {
+    //   const loginResponse = await login(values);
+    //   if (loginResponse) {
+    //     navigate('/')
+    //   }
+  //   }
+
+  // };
+
+  const handleLogin = async (e) =>{
     e.preventDefault();
     if (values.email.trim() === "") {
       return toast.error('Email should not be empty');
@@ -102,14 +119,27 @@ function UserLogin() {
     } else if (values.password.trim() === "") {
       return toast.error("Password should not be empty");
     } else {
-      const loginResponse = await login(values);
-      if (loginResponse) {
-        navigate('/')
+      userLogin(values).then((res)=>{
+        if(res.status === 200){
+          const token = JSON.stringify(res.data)
+          const decoded = jwtDecode(token)
+          if(decoded.role === 'user'){
+            localStorage.setItem("userJwt",token)
+            toast.success('Login succesfull')
+            navigate('/')
+          }else{
+            toast.error('Invalid user')
+          }
+          
+        }else{
+          toast.error('Invalid login credentials')
+        }
+      }).catch((error)=>{
+        console.log(error);
+        toast.error('Invalid login credentials')
+      })
       }
-    }
-
-  };
-
+  }
 
   return (
     <div className="flex flex-col md:flex-row h-screen">

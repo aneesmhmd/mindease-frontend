@@ -20,13 +20,13 @@ import { toast } from "react-toastify";
    
 export default function Example() {
     
-  const localResponse = getLocal('authToken');
+  const localResponse = getLocal('userJwt');
 
   const navigate = useNavigate()
 
     
   const handleLogOut=()=>{
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('userJwt');
     toast.success('Succesfully Logged Out')
     navigate('/login')
   }

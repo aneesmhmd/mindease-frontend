@@ -1,10 +1,21 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { counselorLogin } from '../../Services/counselorApi'
 
 function CounselorLogin() {
     const [email, setEmail] =useState('')
     const [password, setPassword] =useState('')
+    const navigate = useNavigate()
+    const urlParams = new URLSearchParams(window.location.search);
+    const message = urlParams.get('message');
+
+    useEffect(()=>{
+        if(message){
+            toast.success(message)
+        }
+    },[navigate])
+
 
 
     const handleCounselorLogin = async (e) => {
@@ -17,11 +28,27 @@ function CounselorLogin() {
         } else if (password.trim() === '') {
             toast.error('Enter password');
         } else {
-            // Perform the login logic here
+            try{
+                counselorLogin({email,password}).then((res)=>{
+                    if(res.status === 200){
+                        localStorage.setItem('counselorJwt', JSON.stringify(res.data.token))
+                        toast.success(res.data.message)
+                        navigate('/counselor/home')
+                    }
+                }).catch((error)=>{
+                    console.log(error);
+                    toast.error(error.response.data.message)
+                    navigate('/login')
+                })
+            }catch(error){
+                console.log('This is the error:',error);
+                toast.error('An error occured. Please try again.')
+            }
+           
         }
     }
 
-    // Email validation function using regular expression
+    // Email validation function
     const isValidEmail = (email) => {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailPattern.test(email);

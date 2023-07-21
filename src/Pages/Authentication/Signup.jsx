@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import { useGoogleLogin } from '@react-oauth/google';
 import { googleAuthentication } from '../../Services/userApi';
 import jwtDecode from 'jwt-decode';
@@ -45,7 +45,7 @@ const Signup = () => {
                 toast.success(response.data.msg)
                 navigate('/login')
             }).catch((error) => {
-                toast.error('Some error occured')
+                toast.error(error.msg)
             });
         }
     };
@@ -67,7 +67,6 @@ const Signup = () => {
                 .then((res) => {
                     const userProfile = res.data
                     googleAuthentication(userProfile).then((res) => {
-                        console.log('final result :', athoo);
                         if (res.data.status === 200) {
                             localStorage.setItem('userJwt', JSON.stringify(res.data.token));
                             toast.success(res.data.msg)
@@ -196,7 +195,6 @@ const Signup = () => {
                         >
                             Sign Up
                         </button>
-                        <ToastContainer />
                     </div>
                     <div className="mb-4">
                         <button
