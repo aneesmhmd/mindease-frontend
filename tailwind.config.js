@@ -8,7 +8,12 @@ module.exports = withMT( {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "dark-purple": "#081A51",
+        "light-white": "rgba(255,255,255,0.17)",
+      },
+    },
     fontFamily: {
       pacifico: ['Pacifico', 'cursive'],
       // You can add other custom font families here if needed

@@ -83,7 +83,7 @@ export default function NavBar() {
   }, []);
 
   return (
-      <Navbar className="fixed z-10 mx-auto bg-blue-900 max-w-full px-6 py-3 rounded-none border-0">
+    <Navbar className="fixed z-10 mx-auto bg-blue-900 max-w-full px-6 py-3 rounded-none border-0">
       <div className="flex mx-auto max-w-screen-2xl items-center justify-between text-light">
         <Typography
           as="a"
@@ -91,12 +91,12 @@ export default function NavBar() {
           variant="h6"
           className="mr-4 cursor-pointer py-1.5 text-2xl font-bold text-white-800"
         >
-         MindEase
+          MindEase
         </Typography>
         <div className="hidden lg:block">
           <NavList />
         </div>
-        <ProfileIcon/>
+        <ProfileIcon />
         <IconButton
           variant="text"
           className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"

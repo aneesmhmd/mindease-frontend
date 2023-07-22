@@ -1,7 +1,8 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import UserProfile from '../Pages/User/UserProfile'
-import PageNotFound from '../Pages/User/PageNotFound'
+import PageNotFound from '../Pages/PageNotFound'
+import PrivateRoutes from '../protectedRoutes/PrivateRoutes'
 
 function UserRoutes() {
     return (

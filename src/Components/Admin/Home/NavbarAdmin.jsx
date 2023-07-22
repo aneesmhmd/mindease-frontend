@@ -7,7 +7,8 @@ import {
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-import ProfileIcon from '../UserNavbar/ProfileIcon'
+import ProfileIcon from '../../UserNavbar/ProfileIcon'
+import AdminProfileIcon from './AdminProfileIcon'
 import SideBar from "./SideBar";
 
 function NavList() {
@@ -86,7 +87,6 @@ export default function NavBar() {
   return (
     <Navbar className="mx-auto bg-blue-900 max-w-full px-6 py-3 rounded-none border-0">
       <div className="flex mx-auto max-w-screen-2xl items-center justify-between text-light">
-        {/* <SideBar/> */}
         <Typography
           as="a"
           href="#"
@@ -95,22 +95,9 @@ export default function NavBar() {
         >
          MindEase
         </Typography>
-        <div className="hidden lg:block">
-          <NavList />
-        </div>
-        <ProfileIcon/>
-        <IconButton
-          variant="text"
-          className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
-          ripple={false}
-          onClick={() => setOpenNav(!openNav)}
-        >
-          {openNav ? (
-            <XMarkIcon className="h-6 w-6" strokeWidth={2} />
-          ) : (
-            <Bars3Icon className="h-6 w-6" strokeWidth={2} />
-          )}
-        </IconButton>
+        
+        <AdminProfileIcon/>
+        
       </div>
       <Collapse open={openNav}>
         <NavList />

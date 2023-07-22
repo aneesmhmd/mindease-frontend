@@ -4,17 +4,18 @@ import { toast } from 'react-toastify'
 import { counselorLogin } from '../../Services/counselorApi'
 
 function CounselorLogin() {
-    const [email, setEmail] =useState('')
-    const [password, setPassword] =useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const navigate = useNavigate()
     const urlParams = new URLSearchParams(window.location.search);
     const message = urlParams.get('message');
 
-    useEffect(()=>{
-        if(message){
+    useEffect(() => {
+        document.title = 'Counselor Login | MindEase'
+        if (message) {
             toast.success(message)
         }
-    },[navigate])
+    }, [navigate])
 
 
 
@@ -28,23 +29,24 @@ function CounselorLogin() {
         } else if (password.trim() === '') {
             toast.error('Enter password');
         } else {
-            try{
-                counselorLogin({email,password}).then((res)=>{
-                    if(res.status === 200){
+            try {
+                counselorLogin({ email, password }).then((res) => {
+                    if (res.status === 200) {
                         localStorage.setItem('counselorJwt', JSON.stringify(res.data.token))
                         toast.success(res.data.message)
                         navigate('/counselor/home')
                     }
-                }).catch((error)=>{
-                    console.log(error);
+                }).catch((error) => {
+                    
                     toast.error(error.response.data.message)
-                    navigate('/login')
+                    if (error.response.status === 401) {
+                        navigate('/login')
+                    }
                 })
-            }catch(error){
-                console.log('This is the error:',error);
+            }catch (error) {
                 toast.error('An error occured. Please try again.')
             }
-           
+
         }
     }
 
@@ -65,23 +67,23 @@ function CounselorLogin() {
                         <h2 className="font-medium text-2xl text-[#002D74]">Counselor Login</h2>
                         <p className="text-xs mt-4 text-[#002D74]">Login to your account as counselor</p>
 
-                        <form className="flex flex-col gap-4"  onSubmit={handleCounselorLogin}>
-                            <input 
-                            className="p-2 mt-8 rounded-xl border" 
-                            type="text"
-                            name="email"
-                            onChange={(e)=>{setEmail(e.target.value)}} 
-                            placeholder="Email"
+                        <form className="flex flex-col gap-4" onSubmit={handleCounselorLogin}>
+                            <input
+                                className="p-2 mt-8 rounded-xl border"
+                                type="text"
+                                name="email"
+                                onChange={(e) => { setEmail(e.target.value) }}
+                                placeholder="Email"
                             />
                             <div className="relative">
                                 <input
-                                className="p-2 rounded-xl border w-full"
-                                type="password"
-                                name="password"
-                                onChange={(e)=>{setPassword(e.target.value)}}
-                                placeholder="Password"
+                                    className="p-2 rounded-xl border w-full"
+                                    type="password"
+                                    name="password"
+                                    onChange={(e) => { setPassword(e.target.value) }}
+                                    placeholder="Password"
                                 />
-                                
+
                             </div>
                             <button className="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300">Login</button>
                         </form>
@@ -107,7 +109,7 @@ function CounselorLogin() {
                         </div>
 
                         <div className="text-md  text-center py-4 text-[#002D74]">
-                            <h2>"Find Ease<br/>Unlock Your Peace"</h2>
+                            <h2>"Find Ease<br />Unlock Your Peace"</h2>
                         </div>
 
                         {/* <div className="mt-3 text-xs flex justify-between items-center text-[#002D74]">

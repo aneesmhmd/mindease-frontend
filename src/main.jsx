@@ -13,7 +13,7 @@ const client_id = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 ReactDOM.createRoot(document.getElementById('root')).render(
   <GoogleOAuthProvider clientId={client_id}>
     <ThemeProvider>
-      <ToastContainer autoClose={1000} hideProgressBar={true} limit={1} className='mt-15'/>
+      <ToastContainer autoClose={1000} hideProgressBar={true} limit={2} className='mt-15'/>
         <App />
     </ThemeProvider>
   </GoogleOAuthProvider>,

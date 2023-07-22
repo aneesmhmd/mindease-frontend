@@ -18,7 +18,7 @@ export default async function login(values) {
 }
 
 
-export function getLocal() {
-    const response = localStorage.getItem('userJwt');
+export function getLocal(tokenName) {
+    const response = localStorage.getItem(tokenName);
     return response
 }

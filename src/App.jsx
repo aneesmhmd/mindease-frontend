@@ -7,9 +7,8 @@ import ResetPassword from './Pages/Authentication/ResetPassword'
 import Home from './Pages/User/UserHome'
 import AdminRoutes from './routes/AdminRoutes'
 import CounselorRoutes from './routes/CounselorRoutes'
-import UserProfile from './Pages/User/UserProfile'
 import UserRoutes from './routes/UserRoutes'
-import PageNotFound from './Pages/User/PageNotFound'
+import SideBar from './Components/Admin/Home/SideBar'
 
 function App() {
 
@@ -23,12 +22,13 @@ function App() {
           <Route path='login/' element={<UserLogin />} />
           <Route path='register/' element={<Signup />} />
           <Route path='forgot-password/' element={<ForgotPassword />} />
+          <Route path='reset-password/' element={<ResetPassword />} />
+          <Route path='sidebar/' element={<SideBar />} />
 
           <Route path='counselor/*' element={<CounselorRoutes/>}/>
           <Route path='admin/*' element={<AdminRoutes />} />
           <Route path='user/*' element={<UserRoutes/>}/>
          
-          <Route path='reset-password/' element={<ResetPassword />} />
           
         </Routes>
       </Router>

@@ -47,7 +47,7 @@ function AddForm() {
 
 
   return (
-    <div className='flex justify-center flex-col md:w-full items-center mt-10 px-3'>
+    <div className='flex justify-center flex-col md:w-1/2 items-center '>
       <h1 className='justify-center font-bold md:text-2xl text-gray-800 mb-4'>Add Psychologist</h1>
       <form onSubmit={handleSubmit} className="flex flex-col items-center w-full border-t max-w-xl shadow-lg rounded-sm">
 
