@@ -2,7 +2,7 @@ import React from 'react'
 import image from '../../../images/post-1.jpeg'
 import imageTwo from '../../../images/post-2.jpeg'
 
-function BannerTwo() {
+function SubBanners() {
   return (
     <div>
       <div className="flex flex-col md:flex-row align-middle justify-center my-9">
@@ -50,4 +50,4 @@ function BannerTwo() {
   )
 }
 
-export default BannerTwo
+export default SubBanners

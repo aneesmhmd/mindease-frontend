@@ -12,7 +12,6 @@ const createAxiosClient = (baseURL) => {
     return client;
 }
 
-
 const attachToken = (req, tokenName) => {
     let authToken = localStorage.getItem(tokenName)
     if (authToken) {

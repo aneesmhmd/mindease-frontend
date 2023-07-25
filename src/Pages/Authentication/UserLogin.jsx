@@ -95,22 +95,22 @@ function UserLogin() {
   // email login
   // const handleLogin = async (e) => {
   //   e.preventDefault();
-    // if (values.email.trim() === "") {
-    //   return toast.error('Email should not be empty');
-    // } else if (!isValidEmail(values.email.trim())) {
-    //   toast.warn('Enter a valid email');
-    // } else if (values.password.trim() === "") {
-    //   return toast.error("Password should not be empty");
-    // } else {
-    //   const loginResponse = await login(values);
-    //   if (loginResponse) {
-    //     navigate('/')
-    //   }
+  // if (values.email.trim() === "") {
+  //   return toast.error('Email should not be empty');
+  // } else if (!isValidEmail(values.email.trim())) {
+  //   toast.warn('Enter a valid email');
+  // } else if (values.password.trim() === "") {
+  //   return toast.error("Password should not be empty");
+  // } else {
+  //   const loginResponse = await login(values);
+  //   if (loginResponse) {
+  //     navigate('/')
+  //   }
   //   }
 
   // };
 
-  const handleLogin = async (e) =>{
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (values.email.trim() === "") {
       return toast.error('Email should not be empty');
@@ -119,26 +119,26 @@ function UserLogin() {
     } else if (values.password.trim() === "") {
       return toast.error("Password should not be empty");
     } else {
-      userLogin(values).then((res)=>{
-        if(res.status === 200){
+      userLogin(values).then((res) => {
+        if (res.status === 200) {
           const token = JSON.stringify(res.data)
           const decoded = jwtDecode(token)
-          if(decoded.role === 'user'){
-            localStorage.setItem("userJwt",token)
+          if (decoded.role === 'user') {
+            localStorage.setItem("userJwt", token)
             toast.success('Login succesfull')
             navigate('/')
-          }else{
+          } else {
             toast.error('Invalid user')
           }
-          
-        }else{
+
+        } else {
           toast.error('Invalid login credentials')
         }
-      }).catch((error)=>{
+      }).catch((error) => {
         console.log(error);
         toast.error('Invalid login credentials')
       })
-      }
+    }
   }
 
   return (

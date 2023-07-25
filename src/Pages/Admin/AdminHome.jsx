@@ -11,11 +11,7 @@ function AdminHome() {
   })
   return (
     <div>
-      <div>
-      <NavbarAdmin/>
-      <SideBar/>
-     
-    </div>
+      
     </div>
   )
 }

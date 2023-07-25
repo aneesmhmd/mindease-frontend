@@ -16,16 +16,20 @@ import {
 import { getLocal } from "../../../Context/auth";
 import { toast } from "react-toastify";
 
-export default function AdminProfileIcon() {
+export default function CounselorProfileIcon() {
 
-  const localResponse = getLocal('adminJwt');
+  const localResponse = getLocal('counselorJwt');
   const navigate = useNavigate()
+
+  if (localResponse === null) {
+    navigate('/counselor/login')
+  }
 
 
   const handleLogOut = () => {
-    localStorage.removeItem('adminJwt');
+    localStorage.removeItem('counselorJwt');
     toast.success('Succesfully Logged Out')
-    navigate('/admin/login')
+    navigate('/counselor/login')
   }
 
   return (

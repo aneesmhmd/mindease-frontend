@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
-import { MdOutlineDashboard, MdOutlinePayments,MdOutlineMedicalServices } from "react-icons/md";
+import { MdOutlineDashboard, MdOutlinePayments,MdOutlineMedicalServices, MdAddCircleOutline } from "react-icons/md";
 import {BiTask} from 'react-icons/bi'
-import { RiSettings4Line } from "react-icons/ri";
 import {GrTasks} from 'react-icons/gr'
 import { TbReportAnalytics } from "react-icons/tb";
-import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
-import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
-import { FaUserNurse,FaRegComments } from 'react-icons/fa'
+import { FaUsers,FaUserNurse,FaRegComments } from 'react-icons/fa'
 import { Link } from "react-router-dom";
 
 const SideBar = () => {
   const menus = [
     { name: "Dashboard", link: "/admin/dashboard", icon: MdOutlineDashboard },
-    { name: "Users", link: "/admin/users", icon: AiOutlineUser },
-    { name: "Counselors", link: "/admin/add-counselor", icon: FaUserNurse },
+    { name: "Users", link: "/admin/users", icon: FaUsers },
+    { name: "Psychologists", link: "/admin/counselors", icon: FaUserNurse },
+    { name: "Add Psychologists", link: "/admin/add-counselor", icon: MdAddCircleOutline },
     { name: "Appointments", link: "/admin/appointments", icon: TbReportAnalytics },
     { name: "Appointment Payment", link: "/admin/appointment-payments", icon: MdOutlinePayments },
     { name: "Psychological tasks", link: "/admin/tasks", icon: GrTasks },
@@ -25,11 +23,11 @@ const SideBar = () => {
   ];
 
   // FiMessageSquare , , margin: true
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   return (
       <div
         className={`bg-white border-r-2 border-gray-500 min-h-screen ${open ? "w-72" : "w-16"
-          } duration-500 text-dark-900 px-4`}
+          } duration-500 text-dark-900 px-4 fixed z-10 mt-16`}
       >
         <div className="py-3 flex justify-end">
           <HiMenuAlt3

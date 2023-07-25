@@ -23,11 +23,9 @@ function App() {
           <Route path='register/' element={<Signup />} />
           <Route path='forgot-password/' element={<ForgotPassword />} />
           <Route path='reset-password/' element={<ResetPassword />} />
-          <Route path='sidebar/' element={<SideBar />} />
 
           <Route path='counselor/*' element={<CounselorRoutes/>}/>
           <Route path='admin/*' element={<AdminRoutes />} />
-          <Route path='user/*' element={<UserRoutes/>}/>
          
           
         </Routes>

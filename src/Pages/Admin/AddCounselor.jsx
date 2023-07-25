@@ -9,17 +9,9 @@ function AddCounselor() {
   }, [])
   return (
     <div>
-      <NavBar />
-      <div className='flex' >
-        <div className='1/4'>
-          <SideBar />
-        </div>
-        <div className='flex justify-center w-full '>
-          <AddForm />
-        </div>
-
+      <div className='flex justify-center w-full'>
+        <AddForm />
       </div>
-
     </div>
   )
 }

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import { addCounselor } from '../../../Services/adminApi';
+import axios from 'axios';
+import { AdminUrl } from '../../../constants/constants';
 
 function AddForm() {
 
@@ -19,28 +21,39 @@ function AddForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-      if(values.first_name.trim() === ""){
+    try {
+      if (values.first_name.trim() === "") {
         toast.error('First name cannot be empty')
-      }else if(values.last_name.trim() === ""){
+      } else if (values.last_name.trim() === "") {
         toast.error('Last name cannot be empty')
-      }else if(values.email.trim() === ""){
+      } else if (values.email.trim() === "") {
         toast.error('Email cannot be empty')
-      }else if(values.phone.trim() === ""){
+      } else if (values.phone.trim() === "") {
         toast.error('Phone number cannot be empty')
-      }else{
-        addCounselor({values}).then((res)=>{
-          if(res.status === 200){
+      } else {
+        axios.post(`${AdminUrl}/add-counselor/`, values).then((res) => {
+          if (res.status === 200) {
             toast.success('Counselor added succesfully')
-          }else {
+          } else {
             toast.error('Counselor registration failed')
           }
-        }).catch((error)=>{
+        }).catch((error) => {
           toast.error(error.message)
         })
+
+
+        // addCounselor({ values }).then((res) => {
+        //   if (res.status === 200) {
+        //     toast.success('Counselor added succesfully')
+        //   } else {
+        //     toast.error('Counselor registration failed')
+        //   }
+        // }).catch((error) => {
+        //   toast.error(error.message)
+        // })
       }
-      
-    } catch(error){
+
+    } catch (error) {
       console.log(error.message);
     }
   }
@@ -93,7 +106,7 @@ function AddForm() {
           </label>
           <div className="relative py-2 px-8">
             <input
-              type="email"
+              type="text"
               id="email"
               name="email"
               onChange={(e) =>

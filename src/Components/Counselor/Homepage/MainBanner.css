@@ -1,0 +1,8 @@
+/* Custom text stroke class */
+.text-stroke {
+    -webkit-text-stroke: 1px rgb(167, 44, 44); /* Set the stroke width and color */
+    /* text-str: 2px black; Set the stroke width and color */
+    -webkit-fill-color: transparent; /* Make the text transparent */
+  }
+
+  
