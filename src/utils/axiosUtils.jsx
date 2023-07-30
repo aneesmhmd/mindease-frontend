@@ -13,9 +13,9 @@ const createAxiosClient = (baseURL) => {
 }
 
 const attachToken = (req, tokenName) => {
-    let authToken = localStorage.getItem(tokenName)
+    let authToken = localStorage.getItem(tokenName.access)
     if (authToken) {
-        console.log('Token taken :', authToken);
+        console.log('Token taken :', JSON.stringify(authToken));
         req.headers.Authorization = `Bearer ${authToken}`
     }
     return req

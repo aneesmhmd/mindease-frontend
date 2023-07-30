@@ -20,6 +20,7 @@ import {
 } from "@material-tailwind/react";
 import axios from "axios";
 import { AdminUrl } from "../../../constants/constants";
+import EditModal from "./EditModal";
 
 
 const TABLE_HEAD = ["Title", "Description", "Status", "Action", "Edit/Delete"];
@@ -34,55 +35,57 @@ export default function TransactionsTable() {
   }, [])
 
   // Getting all services
-  // async function getServices() {
-  //   adminListServices().then((res) => {
-  //     setServices(res.data)
-  //     console.log('This is the services data:', res.data);
-  //   }).catch((error) => {
-  //     console.log('This is said as error:', error);
-  //   })
-  // }
-  async function getServices(){
-    axios.get(`${AdminUrl}/list-services`).then((res)=>{
+  async function getServices() {
+    adminListServices().then((res) => {
       setServices(res.data)
-      console.log('Services data:',res.data);
-    }).catch((err)=>{
-      console.log('Service error:', err.response);
+      console.log('This is the services data:', res.data);
+    }).catch((error) => {
+      console.log('This is said as error:', error);
     })
   }
+  // async function getServices(){
+  //   axios.get(`${AdminUrl}/list-services`).then((res)=>{
+  //     setServices(res.data)
+  //     console.log('Services data:',res.data);
+  //   }).catch((err)=>{
+  //     console.log('Service error:', err.response);
+  //   })
+  // }
 
 
 
   // List and unlist services
   async function handleManageService(serviceId) {
     console.log('Thisis the servie Id:',serviceId);
-    // adminManageService(serviceId).then((res) => {
-    //   getServices();
-    //   toast.success(res.data.message)
-    // }).catch((error) => {
-    //   toast.error(error.response.data.message)
-    // })
-    await axios.patch(`${AdminUrl}/manage-service/${serviceId}/`).then((res)=>{
+    adminManageService(serviceId).then((res) => {
       getServices();
       toast.success(res.data.message)
-    }).catch((err)=>{
-      toast.error(err.response.data.message)
+    }).catch((error) => {
+      toast.error(error.response.data.message)
     })
+
+    // await axios.patch(`${AdminUrl}/manage-service/${serviceId}/`).then((res)=>{
+    //   getServices();
+    //   toast.success(res.data.message)
+    // }).catch((err)=>{
+    //   toast.error(err.response.data.message)
+    // })
   };
 
   // Deleting services
   const handleDeleteService = async (serviceId) => {
-    await axios.delete(`${AdminUrl}/delete-service/${serviceId}/`).then((res)=>{
+    adminDeleteService(serviceId).then((res) => {
       getServices();
       toast.success('Service Deletion succesfull')
-    }).catch((err)=>{
-      toast.error('Something went wrong')
+    }).catch((error) => {
+      toast.error('Something went wrong. Please try again!')
     })
-    // adminDeleteService(serviceId).then((res) => {
+    
+    // await axios.delete(`${AdminUrl}/delete-service/${serviceId}/`).then((res)=>{
     //   getServices();
     //   toast.success('Service Deletion succesfull')
-    // }).catch((error) => {
-    //   toast.error('Something went wrong. Please try again!')
+    // }).catch((err)=>{
+    //   toast.error('Something went wrong')
     // })
   }
 
@@ -105,7 +108,7 @@ export default function TransactionsTable() {
             </div>
 
             {/* Add Modal Of Services */}
-            <AddModal />
+            <AddModal getServices={getServices}/>
 
           </div>
         </div>
@@ -171,11 +174,12 @@ export default function TransactionsTable() {
                       </Button>
                     </td>
                     <td className={classes}>
-                      <Tooltip content="Edit Service">
+                      {/* <Tooltip content="Edit Service">
                         <IconButton variant="text" color="blue-gray">
                           <PencilIcon className="h-4 w-4" />
                         </IconButton>
-                      </Tooltip>
+                      </Tooltip> */}
+                      <EditModal service={service} getServices={getServices}/>
 
                       {/* Service Deletion */}
                       <AlertModal

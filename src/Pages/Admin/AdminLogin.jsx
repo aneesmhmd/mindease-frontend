@@ -3,11 +3,21 @@ import { Helmet } from 'react-helmet'
 import { toast } from 'react-toastify'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { adminLogin } from '../../Services/adminApi'
+import isLogged, { getLocal } from '../../Context/auth'
+import jwtDecode from 'jwt-decode'
 
 function AdminLogin() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
+
+    useEffect(()=>{
+        document.title = 'Admin Login'
+        const response = isLogged('adminJwt')
+        if(response && response == 'admin'){
+            navigate('/admin/dashboard')
+        }
+    }, [navigate])
 
 
 

@@ -1,0 +1,22 @@
+.profile-container {
+    text-align: center;
+}
+
+.profile-image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.edit-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: rgb(81, 81, 81); /* You can change the background color here */
+    color: #ffffff; /* You can change the icon color here */
+    border-radius: 50%;
+    padding: 4px;
+}
+
+.edit-icon svg {
+    fill: currentColor;
+}

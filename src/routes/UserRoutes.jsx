@@ -3,12 +3,18 @@ import { Route, Routes } from 'react-router-dom'
 import UserProfile from '../Pages/User/UserProfile'
 import PageNotFound from '../Pages/PageNotFound'
 import PrivateRoutes from '../protectedRoutes/PrivateRoutes'
+import Home from '../Pages/User/UserHome'
+import UserLayout from '../Pages/User/UserLayout'
 
 function UserRoutes() {
     return (
-        <div>
+        <div className='bg-gray-200 h-screen'>
             <Routes>
-                <Route path='profile/' element={<UserProfile />} />
+                <Route path='/' element={<UserLayout />}>
+                    <Route index element={<Home />} />
+                    <Route path='profile/' element={<UserProfile />} />
+                </Route>
+                
                 <Route path='*' element={<PageNotFound />} />
             </Routes>
         </div>

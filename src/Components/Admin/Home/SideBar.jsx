@@ -26,7 +26,7 @@ const SideBar = () => {
   const [open, setOpen] = useState(false);
   return (
       <div
-        className={`bg-white border-r-2 border-gray-500 min-h-screen ${open ? "w-72" : "w-16"
+        className={`bg-blue-50 border-r-2 border-gray-500 min-h-screen ${open ? "w-72" : "w-16"
           } duration-500 text-dark-900 px-4 fixed z-10 mt-16`}
       >
         <div className="py-3 flex justify-end">

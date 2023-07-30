@@ -1,12 +1,12 @@
-import React from 'react'
-import NavBar from '../../Components/UserNavbar/UserNavBar'
+import React from 'react';
+import ProfileCard from '../../Components/User/Profile/UserProfile';
 
-function UserProfile() {
+const UserProfile = () => {
   return (
-    <div>
-      <NavBar/>
-    </div>
-  )
-}
+   <div>
+    <ProfileCard/>
+   </div>
+  );
+};
 
-export default UserProfile
+export default UserProfile;

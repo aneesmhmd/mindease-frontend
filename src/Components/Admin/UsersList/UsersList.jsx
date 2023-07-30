@@ -17,34 +17,35 @@ function ListTable() {
     const TABLE_HEAD = ["First name", "Last name", "Email", "Phone", "Status", "Action"];
 
     async function listUsers(){
-        axios.get(`${AdminUrl}/list-users/`).then((res)=>{
+        adminUserDetails().then((res) => {
             setUsers(res.data)
-        }).catch((err)=>{
-            console.log(err);
+            console.log('This is the user data:', res.data);
+        }).catch((error) => {
+            console.log('this is sai as error:', error);
         })
-        // adminUserDetails().then((res) => {
+        // axios.get(`${AdminUrl}/list-users/`).then((res)=>{
         //     setUsers(res.data)
-        //     console.log('This is the user data:', res.data);
-        // }).catch((error) => {
-        //     console.log('this is sai as error:', error);
+        // }).catch((err)=>{
+        //     console.log(err);
         // })
     }
 
     const handleManageUser = (userId) => {
         
-        axios.patch(`${AdminUrl}/manage-user/${userId}/`).then((res)=>{
+        adminManageUser(userId).then((res) => {
             listUsers()
-            toast.success(res.data.message)
-        }).catch((error)=>{
-            toast.error(err.response.data.message)
+            if (res.status === 200) {
+                toast.success(res.data.message)
+            }
+        }).catch((error) => {
+            toast.error(error.response.data.message)
         })
-        // adminManageUser(userId).then((res) => {
+        
+        // axios.patch(`${AdminUrl}/manage-user/${userId}/`).then((res)=>{
         //     listUsers()
-        //     if (res.status === 200) {
-        //         toast.success(res.data.message)
-        //     }
-        // }).catch((error) => {
-        //     toast.error(error.response.data.message)
+        //     toast.success(res.data.message)
+        // }).catch((error)=>{
+        //     toast.error(err.response.data.message)
         // })
     };
 

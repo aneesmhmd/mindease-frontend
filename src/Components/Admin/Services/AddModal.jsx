@@ -15,7 +15,7 @@ import { adminAddService } from "../../../Services/adminApi";
 import { AdminUrl } from "../../../constants/constants";
 import axios from "axios";
 
-export default function AddModal() {
+export default function AddModal({ getServices }) {
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
@@ -39,28 +39,21 @@ export default function AddModal() {
         } else if (!icon) {
             toast.error('Image cannot be empty')
         } else {
-            handleOpen()
             const serviceFormData = new FormData();
             serviceFormData.append('title', title)
             serviceFormData.append('description', description)
             serviceFormData.append('icon', icon)
-            
-            await axios.post(`${AdminUrl}/add-services/`,serviceFormData).then((res)=>{
-                toast.success('Service added succesfully')
-            }).catch((err)=>{
-                toast.error(err.response)
+
+            adminAddService(serviceFormData).then((res) => {
+                if (res.status === 201) {
+                    getServices();
+                    handleOpen()
+                    toast.success('Service added succefully')
+                }
+            }).catch((error) => {
+                console.log('This is the service error :', error);
+                toast.error(error.response.data[0])
             })
-
-            // adminAddService(serviceFormData).then((res) => {
-            //     if (res.status === 201) {
-                    
-            //         toast.success('Service added succefully')
-
-            //     }
-            // }).catch((error) => {
-            //     console.log('This is the service error :', error);
-            //     toast.error(error.response)
-            // })
         }
     }
     return (

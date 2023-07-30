@@ -5,19 +5,14 @@ import BannerTwo from '../../Components/User/UserHome/BannerTwo'
 import OurServices from '../../Components/User/UserHome/OurServices'
 
 function Home() {
-  useEffect(()=>{
+  useEffect(() => {
     document.title = 'MindEase'
   })
   return (
     <div>
-      <div className='pb-20'>
-      <NavBar/>
-      </div>
-      <div>
-      <BannerOne/>
-      <BannerTwo/>
-      <OurServices/>
-      </div>
+      <BannerOne />
+      <BannerTwo />
+      <OurServices />
     </div>
   )
 }
