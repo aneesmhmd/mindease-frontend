@@ -4,7 +4,6 @@ import { adminDeleteService, adminListServices, adminManageService } from "../..
 import AddModal from "./AddModal";
 import AlertModal from "./AlertModal";
 
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import {
   Card,
@@ -17,6 +16,7 @@ import {
   IconButton,
   Tooltip,
   Input,
+  Chip,
 } from "@material-tailwind/react";
 import axios from "axios";
 import { AdminUrl } from "../../../constants/constants";
@@ -56,7 +56,7 @@ export default function TransactionsTable() {
 
   // List and unlist services
   async function handleManageService(serviceId) {
-    console.log('Thisis the servie Id:',serviceId);
+    console.log('Thisis the servie Id:', serviceId);
     adminManageService(serviceId).then((res) => {
       getServices();
       toast.success(res.data.message)
@@ -80,7 +80,7 @@ export default function TransactionsTable() {
     }).catch((error) => {
       toast.error('Something went wrong. Please try again!')
     })
-    
+
     // await axios.delete(`${AdminUrl}/delete-service/${serviceId}/`).then((res)=>{
     //   getServices();
     //   toast.success('Service Deletion succesfull')
@@ -108,7 +108,7 @@ export default function TransactionsTable() {
             </div>
 
             {/* Add Modal Of Services */}
-            <AddModal getServices={getServices}/>
+            <AddModal getServices={getServices} />
 
           </div>
         </div>
@@ -142,6 +142,7 @@ export default function TransactionsTable() {
                       <div className="flex items-center gap-3">
                         <Avatar
                           src={service.icon}
+                          variant="rounded"
                           alt={service.title}
                           size="xl"
                           className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
@@ -157,12 +158,15 @@ export default function TransactionsTable() {
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className={`font-normal text-center text-white px-2 rounded-md ${service.is_active ? 'bg-green-500' : 'bg-red-500'}`} >
-                        {service.is_active ? 'Listed' : 'Unlisted'}
-                      </Typography>
+                     
+                      <Chip
+                        size="sm"
+                        variant="ghost"
+                        value={service.is_active ? 'Listed' : 'Unlisted'}
+                        color={
+                          service.is_active ? "green" : "red"
+                        }
+                      />
                     </td>
 
                     <td className={classes}>
@@ -174,16 +178,12 @@ export default function TransactionsTable() {
                       </Button>
                     </td>
                     <td className={classes}>
-                      {/* <Tooltip content="Edit Service">
-                        <IconButton variant="text" color="blue-gray">
-                          <PencilIcon className="h-4 w-4" />
-                        </IconButton>
-                      </Tooltip> */}
-                      <EditModal service={service} getServices={getServices}/>
+                     
+                      <EditModal service={service} getServices={getServices} />
 
                       {/* Service Deletion */}
                       <AlertModal
-                        message={`Are you sure want to delete the service ${service.title}`}
+                        message={`Are you sure want to delete the service"${service.title}"`}
                         confirm={'delete'}
                         serviceId={service.id}
                         action={handleDeleteService}

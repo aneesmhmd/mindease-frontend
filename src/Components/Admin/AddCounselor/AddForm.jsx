@@ -4,6 +4,7 @@ import {addCounselor} from '../../../Services/adminApi';
 import axios from 'axios';
 import {AdminUrl} from '../../../constants/constants';
 import {useNavigate} from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 function AddForm() {
 
@@ -36,34 +37,32 @@ function AddForm() {
             } else if (values.phone.trim() === "") {
                 toast.error('Phone number cannot be empty')
             } else {
-                // addCounselor({values}).then((res) => {
-                //     const toastId = toast.loading('Verification email sending')
-                //     if (res.status === 200) {
-                //         toast.dismiss(toastId)
-                //         toast.success('Counselor added succesfully')
-                //         navigate('/admin/counselors')
-                //     } else {
-                //         toast.error('Counselor registration failed')
-                //     }
-                // }).catch((error) => {
-                //   console.log('Error' ,error);
-                //     toast.error(error.message)
-                // })
-
-
-                axios.post(`${AdminUrl}/add-counselor/`, values).then((res) => {
-                   if (res.status === 200) {
-                      const toastId = toast.loading('Verification email sending')
-                      toast.dismiss(toastId)
-                      toast.success('Counselor added succesfully')
-                      navigate('/admin/counselors')
+                addCounselor(values).then((res) => {
+                    // const toastId = toast.loading('Verification email sending')
+                    if (res.status === 200) {
+                        // toast.dismiss(toastId)
+                        toast.success('Counselor added succesfully')
+                        navigate('/admin/counselors')
                     } else {
-                      toast.error('Counselor registration failed')
+                        toast.error('Counselor registration failed')
                     }
                 }).catch((error) => {
-                  console.log(error);
+                  console.log('Error' ,error);
                     toast.error(error.message)
                 })
+
+
+                // axios.post(`${AdminUrl}/add-counselor/`, values).then((res) => {
+                //    if (res.status === 200) {
+                //       toast.success('Counselor added succesfully')
+                //       navigate('/admin/counselors')
+                //     } else {
+                //       toast.error('Counselor registration failed')
+                //     }
+                // }).catch((error) => {
+                //   console.log(error);
+                //     toast.error(error.message)
+                // })
 
 
             }
@@ -76,6 +75,7 @@ function AddForm() {
 
     return (
         <div className='flex justify-center flex-col md:w-1/2 items-center '>
+
             <h1 className='justify-center font-bold md:text-2xl text-gray-800 mb-4'>Add Psychologist</h1>
             <form onSubmit={handleSubmit}
                 className="flex flex-col items-center w-full border-t max-w-xl shadow-lg rounded-lg bg-gray-50">

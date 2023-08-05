@@ -4,6 +4,7 @@ import { adminCounselorDetails, adminManageCounselor } from '../../../Services/a
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { AdminUrl } from '../../../constants/constants';
+import { Helmet } from 'react-helmet';
 
 
 function ListTable() {
@@ -16,42 +17,41 @@ function ListTable() {
 
     const TABLE_HEAD = ["First name", "Last name", "Email", "Phone", "Status", "Action"];
 
-    // async function listCounselors() {
-    //     adminCounselorDetails().then((res) => {
+    async function listCounselors() {
+        adminCounselorDetails().then((res) => {
+            setCounselors(res.data)
+        }).catch((error) => {
+            console.log('this is counselor data error:', error);
+        })
+    }
+
+    // async function listCounselors(){
+    //     await axios.get(`${AdminUrl}/list-counselors`).then((res)=>{
     //         setCounselors(res.data)
-    //         console.log('This is the counselor data:', res.data);
-    //     }).catch((error) => {
-    //         console.log('this is counselor data error:', error);
+    //     }).catch((error)=>{
+    //         console.log('Counselor listing error:', error.response);
     //     })
     // }
 
-    async function listCounselors(){
-        await axios.get(`${AdminUrl}/list-counselors`).then((res)=>{
-            setCounselors(res.data)
-        }).catch((error)=>{
-            console.log('Counselor listing error:', error.response);
-        })
-    }
-    
 
-  
+
 
     const handleManageCounselor = async (counselorId) => {
-        await axios.patch(`${AdminUrl}/manage-counselor/${counselorId}/`).then((res)=>{
-            listCounselors();
-            toast.success(res.data.message)
-        }).catch((err)=>{
-            toast.error(err.response.data.message)
-        })
-
-        // await adminManageCounselor(counselorId).then((res) => {
-        //     listCounselors()
-        //     if (res.status === 200) {
-        //         toast.success(res.data.message)
-        //     }
-        // }).catch((error) => {
-        //     toast.error(error.response.data.message)
+        // await axios.patch(`${AdminUrl}/manage-counselor/${counselorId}/`).then((res)=>{
+        //     listCounselors();
+        //     toast.success(res.data.message)
+        // }).catch((err)=>{
+        //     toast.error(err.response.data.message)
         // })
+
+        await adminManageCounselor(counselorId).then((res) => {
+            listCounselors()
+            if (res.status === 200) {
+                toast.success(res.data.message)
+            }
+        }).catch((error) => {
+            toast.error(error.response.data.message)
+        })
     };
 
     return (

@@ -2,19 +2,22 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import UserProfile from '../Pages/User/UserProfile'
 import PageNotFound from '../Pages/PageNotFound'
-import PrivateRoutes from '../protectedRoutes/PrivateRoutes'
 import Home from '../Pages/User/UserHome'
 import UserLayout from '../Pages/User/UserLayout'
+import UserPrivateRoutes from '../protectedRoutes/UserPrivateRoutes'
 
 function UserRoutes() {
     return (
-        <div className='bg-gray-200 h-screen'>
+        <div className='bg-gray-200 min-h-screen bg-cover'>
             <Routes>
                 <Route path='/' element={<UserLayout />}>
                     <Route index element={<Home />} />
-                    <Route path='profile/' element={<UserProfile />} />
+                    <Route element={<UserPrivateRoutes/>}>
+
+                        <Route path='profile/' element={<UserProfile />} />
+                    </Route>
                 </Route>
-                
+
                 <Route path='*' element={<PageNotFound />} />
             </Routes>
         </div>

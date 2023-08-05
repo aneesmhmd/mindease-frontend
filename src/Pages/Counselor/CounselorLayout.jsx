@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 function CounselorLayout() {
     return (
         <div>
-            <div className='pb-20'>
+            <div className='flex'>
                 <NavbarCounselor />
             </div>
             <div>

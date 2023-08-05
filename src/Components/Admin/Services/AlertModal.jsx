@@ -8,11 +8,11 @@ import {
     IconButton,
     Tooltip,
 } from "@material-tailwind/react";
-import {  TrashIcon } from "@heroicons/react/24/solid";
+import { TrashIcon } from "@heroicons/react/24/solid";
 
 
 
-export default function AlertModal({message,confirm,serviceId,action}) {
+export default function AlertModal({ message, confirm, serviceId, action }) {
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = () => setOpen(!open);
@@ -27,6 +27,7 @@ export default function AlertModal({message,confirm,serviceId,action}) {
             </Tooltip>
 
             <Dialog
+                size="xs"
                 open={open}
                 handler={handleOpen}
                 animate={{
@@ -48,9 +49,9 @@ export default function AlertModal({message,confirm,serviceId,action}) {
                         <span>Cancel</span>
                     </Button>
                     <Button
-                    variant="gradient"
-                    color="red"
-                    onClick={()=>{action({serviceId}.serviceId), handleOpen()}}>
+                        variant="gradient"
+                        color="red"
+                        onClick={() => { action({ serviceId }.serviceId), handleOpen() }}>
                         <span>Confirm</span>
                     </Button>
                 </DialogFooter>

@@ -2,16 +2,17 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import AdminHome from '../Pages/Admin/AdminHome'
 import AddCounselor from '../Pages/Admin/AddCounselor'
-import PrivateRoutes from '../protectedRoutes/PrivateRoutes'
 import AdminLogin from '../Pages/Admin/AdminLogin'
 import PageNotFound from '../Pages/PageNotFound'
 import UsersList from '../Pages/Admin/UsersList'
 import AdminLayout from '../Pages/Admin/AdminLayout'
 import CounselorsList from '../Pages/Admin/CounselorsList'
 import Services from '../Pages/Admin/Services'
-import AddModal from '../Components/Admin/Services/AddModal'
 import AlertModal from '../Components/Admin/Services/AlertModal'
-
+import adminPrivateRoutes from '../protectedRoutes/adminPrivateRoutes'
+import AdminNotifications from '../Pages/Admin/AdminNotifications'
+import VerifyEducation from '../Components/Admin/Notifications/VerifyEducation'
+import VerifyExperience from '../Components/Admin/Notifications/VerifyExperience'
 
 function AdminRoutes() {
   return (
@@ -27,6 +28,9 @@ function AdminRoutes() {
           <Route path='/add-counselor/' element={<AddCounselor />} />
           <Route path='/services/' element={<Services />} />
           <Route path='/testimonials/' element={<AlertModal />} />
+          <Route path='/notifications/' element={<AdminNotifications />} />
+          <Route path='/notifications/verify-education/' element={<VerifyEducation />} />
+          <Route path='/notifications/verify-experience/' element={<VerifyExperience />} />
         </Route>
 
       </Routes>

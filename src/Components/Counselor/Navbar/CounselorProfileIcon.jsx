@@ -43,12 +43,14 @@ export default function CounselorProfileIcon() {
         />
       </MenuHandler>
       <MenuList>
-        <MenuItem className="flex items-center gap-2">
-          <UserCircleIcon strokeWidth={2} className="h-4 w-4" />
-          <Typography variant="small" className="font-normal">
-            <Link to='/user/profile' >My profile</Link>
-          </Typography>
-        </MenuItem>
+        <Link to='/counselor/profile'>
+          <MenuItem className="flex items-center gap-2">
+            <UserCircleIcon strokeWidth={2} className="h-4 w-4" />
+            <Typography variant="small" className="font-normal">
+              My profile
+            </Typography>
+          </MenuItem>
+        </Link>
         <MenuItem className="flex items-center gap-2">
           <LifebuoyIcon strokeWidth={2} className="h-4 w-4" />
           <Typography variant="small" className="font-normal">
@@ -60,9 +62,13 @@ export default function CounselorProfileIcon() {
           <PowerIcon strokeWidth={2} className="h-4 w-4" />
           {localResponse ? <Typography variant="small" className="font-normal" onClick={handleLogOut}>
             Logout
-          </Typography> : <Typography variant="small" className="font-normal">
-            <Link to='/admin/login'>Login</Link>
-          </Typography>}
+          </Typography> :
+            <Link to='/counselor/login'>
+              <Typography variant="small" className="font-normal">
+                Login
+              </Typography>
+            </Link>
+          }
 
         </MenuItem>
       </MenuList>

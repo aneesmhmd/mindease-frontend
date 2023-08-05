@@ -1,13 +1,13 @@
-import {userAxiosInstance} from "../utils/axiosUtils";
+import { userAxiosInstance } from "../utils/axiosUtils";
 
 
 const userSignup = (values) => {
-    return userAxiosInstance.post('/api/register/', values, {withCredentials: true})
+    return userAxiosInstance.post('/api/register/', values, { withCredentials: true })
 }
 
 
 const userLogin = (values) => {
-    return userAxiosInstance.post('/api/token/', values, {withCredentials: true})
+    return userAxiosInstance.post('/api/token/', values, { withCredentials: true })
 }
 
 
@@ -19,32 +19,40 @@ const googleAuthentication = (value) => {
         password: value.id,
         is_google: true
     }
-    return userAxiosInstance.post("/api/google_authentication/", values, {withCredentials: true})
+    return userAxiosInstance.post("/api/google_authentication/", values, { withCredentials: true })
 }
 
 
 const getAllServices = () => {
-    return userAxiosInstance.get("/services/services-list", {withCredentials: true})
+    return userAxiosInstance.get("/services/services-list", { withCredentials: true })
 }
 
 
 const isUserAuth = () => {
-    return userAxiosInstance.get('/api/user-auth', {withCredentials: true})
+    return userAxiosInstance.get('/api/user-auth', { withCredentials: true })
 }
 
 
 const getUserProfile = (user_id) => {
-    return userAxiosInstance.get(`/api/user-profile/${user_id}/`, {withCredentials: true})
+    return userAxiosInstance.get(`/api/user-profile/${user_id}/`, { withCredentials: true })
 }
 
 
 const updateUserProfile = (values, id) => {
-    return userAxiosInstance.put(`/api/update-profile/${id}/`, values, {withCredentials: true})
+    return userAxiosInstance.put(`/api/update-profile/${id}/`, values, { withCredentials: true })
+}
+
+const updateUserImage = (id, image) => {
+    return userAxiosInstance.patch(`api/update-profile-photo/${id}/`, image, { withCredentials: true })
+}
+
+const removeUserImage = (id) => {
+    return userAxiosInstance.delete(`api/remove-profile-photo/${id}/`, { withCredentials: true })
 }
 
 
 const changeUserPassword = (values, id) => {
-    return userAxiosInstance.post(`/api/change-password/${id}/`, values, {withCredentials: true})
+    return userAxiosInstance.post(`/api/change-password/${id}/`, values, { withCredentials: true })
 }
 
 export {
@@ -55,5 +63,7 @@ export {
     isUserAuth,
     getUserProfile,
     changeUserPassword,
-    updateUserProfile
+    updateUserProfile,
+    removeUserImage,
+    updateUserImage,
 }

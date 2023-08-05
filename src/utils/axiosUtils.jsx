@@ -17,6 +17,7 @@ const attachToken = (req, tokenName) => {
     if (authToken) {
         console.log('Token taken :', JSON.stringify(authToken));
         req.headers.Authorization = `Bearer ${authToken}`
+        // console.log('THis is the request header:',req.headers);
     }
     return req
 }

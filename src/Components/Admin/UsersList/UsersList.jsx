@@ -106,7 +106,7 @@ function ListTable() {
                                     </td>
 
                                     <td className={classes}>
-                                        <Typography as="a" href="#" variant="small" color="blue" className="font-medium">
+                                        <Typography as="a" variant="small" color="blue" className="font-medium">
                                             <button className='w-1/2  rounded-full' type='button' onClick={() => handleManageUser(user.id)}>
                                                 {user.is_active ?
                                                     <p className='text-white border-2 rounded-full text-center bg-red-700 hover:bg-white hover:text-red-700 hover:border-red-700 w-full p-1'>Block</p>

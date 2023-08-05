@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react'
 import NavBar from '../../Components/Admin/Home/NavbarAdmin'
 import AddForm from '../../Components/Admin/AddCounselor/AddForm'
 import SideBar from '../../Components/Admin/Home/SideBar'
+import { Helmet } from 'react-helmet'
 
 function AddCounselor() {
-  useEffect(() => {
-    document.title = 'Add Counselor | Admin'
-  }, [])
+  
   return (
     <div>
+      <Helmet>
+        <title>Add Counselor | MindEase</title>
+      </Helmet>
       <div className='flex justify-center w-full'>
         <AddForm />
       </div>

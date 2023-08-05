@@ -5,6 +5,12 @@ export function getLocal(tokenName) {
     return response
 }
 
+export function decodedToken(tokenName){
+    const token = getLocal(tokenName)
+    const decoded = jwtDecode(token)
+    return decoded
+}
+
 export default function isLogged(tokenName) {
     const localResponse = getLocal(tokenName)
     console.log('Local response :', localResponse)
@@ -19,20 +25,3 @@ export default function isLogged(tokenName) {
         }
     }
 }
-
-
-// export async function login(values) {
-//     try {
-//         const response = await axios.post(import.meta.env.VITE_BASE_USER_URL + '/api/token/', values);
-//         if (response.status === 200) {
-//             const data = response.data;
-//             localStorage.setItem('userJwt', JSON.stringify(data));
-//             toast.success('Login successful');
-//             return data;
-//         } else {
-//             toast.error('Invalid login credentials');
-//         }
-//     } catch (error) {
-//         toast.error('Invalid login credentials');
-//     }
-// }

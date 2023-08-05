@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
     Button,
     Dialog,
@@ -11,29 +11,61 @@ import {
     Checkbox,
     IconButton
 } from "@material-tailwind/react";
-import {PencilIcon} from "@heroicons/react/24/solid";
-import {updateUserProfile} from "../../../Services/userApi";
-import {toast} from "react-toastify";
+import { PencilIcon } from "@heroicons/react/24/solid";
+import { updateUserProfile } from "../../../Services/userApi";
+import { toast } from "react-toastify";
 
 
-export default function EditProfile({profile, getProfile}) {
+export default function EditProfile({ profile, getProfile }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
-    const [values, setValues] = useState({
-        ...profile
-    })
+    const [values, setValues] = useState({})
+
+    useEffect(() => {
+        setValues({ ...profile })
+    }, [profile])
 
     console.log(values);
 
     const handleUpdateProfile = async (e) => {
         e.preventDefault();
-        updateUserProfile(values, profile.id).then((res) => {
-            getProfile();
-            toast.success('Profile updated')
-        }).catch((error) => {
-            toast.error('Some error occured. Please try again!')
-            console.log(error);
-        })
+
+        // Regex patterns for validation
+        const firstNameRegex = /^[a-zA-Z]{4,}$/;
+        const lastNameRegex = /^[a-zA-Z]+$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^\d{10,12}$/;
+
+        if (!values.first_name || !firstNameRegex.test(values.first_name)) {
+            toast.error("First name must be at least four characters long and contain only letters");
+        } else if (values.last_name && !lastNameRegex.test(values.last_name)) {
+            toast.error("Last name should contain only letters");
+        } else if (!values.email || !emailRegex.test(values.email)) {
+            toast.error("Invalid email");
+        } else if (!values.phone || !phoneRegex.test(values.phone)) {
+            toast.error("Invalid phone number");
+        } else {
+
+            const updatedProfile = {
+                first_name: values.first_name,
+                last_name: values.last_name,
+                email: values.email,
+                phone: values.phone
+            }
+
+            updateUserProfile(updatedProfile, profile.id).then((res) => {
+                getProfile();
+                handleOpen();
+                toast.success('Profile updated')
+            }).catch((error) => {
+                if (error.response.data.email) {
+                    toast.error(error.response.data.email[0])
+                } else (
+                    toast.error('Some error occured. Please try again!')
+                )
+                console.log(error);
+            })
+        }
     }
 
 
@@ -43,7 +75,7 @@ export default function EditProfile({profile, getProfile}) {
                 className="flex items-center text-center py-0 px-2 mt-5">
 
                 <IconButton variant="text" color="white">
-                    <PencilIcon className="h-4 w-4"/>
+                    <PencilIcon className="h-4 w-4" />
                 </IconButton>
                 Edit Profile
             </Button>
@@ -70,7 +102,7 @@ export default function EditProfile({profile, getProfile}) {
                                         ...values,
                                         [e.target.name]: e.target.value
                                     })
-                                }/>
+                                } />
 
                             <Input label="Last name" size="lg"
                                 value={
@@ -82,7 +114,7 @@ export default function EditProfile({profile, getProfile}) {
                                         ...values,
                                         [e.target.name]: e.target.value
                                     })
-                                }/>
+                                } />
 
                             <Input label="Email" size="lg"
                                 value={
@@ -94,7 +126,7 @@ export default function EditProfile({profile, getProfile}) {
                                         ...values,
                                         [e.target.name]: e.target.value
                                     })
-                                }/>
+                                } />
 
                             <Input label="Phone Number" size="lg"
                                 value={
@@ -106,12 +138,11 @@ export default function EditProfile({profile, getProfile}) {
                                         ...values,
                                         [e.target.name]: e.target.value
                                     })
-                                }/>
+                                } />
 
                         </CardBody>
                         <CardFooter className="pt-0">
                             <Button variant="gradient" color="blue-gray" type="submit"
-                                onClick={handleOpen}
                                 fullWidth>
                                 Apply Changes
                             </Button>

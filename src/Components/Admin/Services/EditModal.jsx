@@ -115,7 +115,6 @@ export default function AddModal({ service, getServices }) {
                                     setIcon(e.target.files[0])
                                 }}
                             />
-                            {/* {icon && <img src={icon} alt="Service Icon" className="w-full " />} */}
 
                         </CardBody>
                         <CardFooter className="pt-0 mb-3">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     Button,
     Dialog,
@@ -12,8 +12,6 @@ import {
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-toastify";
 import { adminAddService } from "../../../Services/adminApi";
-import { AdminUrl } from "../../../constants/constants";
-import axios from "axios";
 
 export default function AddModal({ getServices }) {
     const [open, setOpen] = useState(false);
@@ -21,10 +19,6 @@ export default function AddModal({ getServices }) {
     const [description, setDescription] = useState('')
     const [icon, setIcon] = useState('')
     const handleOpen = () => setOpen((cur) => !cur);
-
-    useEffect(() => {
-        console.log('This is values:', icon);
-    }, [title])
 
     const handleAddService = async (e) => {
         e.preventDefault();
@@ -51,7 +45,6 @@ export default function AddModal({ getServices }) {
                     toast.success('Service added succefully')
                 }
             }).catch((error) => {
-                console.log('This is the service error :', error);
                 toast.error(error.response.data[0])
             })
         }

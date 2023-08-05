@@ -19,11 +19,6 @@ function SetPassword() {
 
 
 
-
-
-
-
-
     const handlePassword = async (e) => {
         e.preventDefault();
         if (password !== cPassword) {
