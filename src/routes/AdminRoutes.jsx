@@ -13,6 +13,8 @@ import adminPrivateRoutes from '../protectedRoutes/adminPrivateRoutes'
 import AdminNotifications from '../Pages/Admin/AdminNotifications'
 import VerifyEducation from '../Components/Admin/Notifications/VerifyEducation'
 import VerifyExperience from '../Components/Admin/Notifications/VerifyExperience'
+import PsychologicalTasks from '../Pages/Admin/PsychologicalTasks'
+import AddTasks from '../Components/Admin/Tasks/AddTasks'
 
 function AdminRoutes() {
   return (
@@ -26,6 +28,8 @@ function AdminRoutes() {
           <Route path='/users/' element={<UsersList />} />
           <Route path='/counselors' element={<CounselorsList />} />
           <Route path='/add-counselor/' element={<AddCounselor />} />
+          <Route path='/psychological-tasks/' element={<PsychologicalTasks />} />
+          <Route path='/psychological-tasks/add' element={<AddTasks />} />
           <Route path='/services/' element={<Services />} />
           <Route path='/testimonials/' element={<AlertModal />} />
           <Route path='/notifications/' element={<AdminNotifications />} />

@@ -1,7 +1,6 @@
 import { Button, Card, Input, Typography } from '@material-tailwind/react'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import certificateImage from '../../../images/educertificate.jpg'
 import CertificateView from './CertificateView';
 import {
     CheckCircleIcon,
@@ -16,7 +15,16 @@ function VerifyEducation() {
     const [open, setOpen] = useState(false);
     const [verify, setVerify] = useState(false)
     const [decline, setDecline] = useState(false)
-    const [details, setDetails] = useState({})
+
+    // Qualification details
+    const [counselor,setCounselor] = useState({})
+    const [qualification, setQualification] = useState('')
+    const [university, setUniversity] = useState('')
+    const [state, setState] = useState('')
+    const [country, setCountry] = useState('')
+    const [academicYear, setAcademicYear] = useState('')
+    const [certificate, setCertificate] = useState(null)
+
     const navigate = useNavigate()
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -32,7 +40,13 @@ function VerifyEducation() {
 
     async function getEducationDetails() {
         await adminGetEducationDetails(requestId).then((res) => {
-            setDetails(res.data)
+            {res.data.counselor &&  setCounselor(res.data.counselor)}
+            setQualification(res.data.qualification)
+            setUniversity(res.data.university)
+            setState(res.data.state)
+            setCountry(res.data.country)
+            setAcademicYear(res.data.year)
+            setCertificate(res.data.certificate)
         }).catch((err) => {
             console.log('Educational error:', err);
         })
@@ -86,11 +100,11 @@ function VerifyEducation() {
                         <div className='flex flex-col md:w-3/4 w-full gap-4 pb-4 mt-2'>
 
                             <div className='flex md:flex-row flex-col md:mx-0 mx-5 justify-center gap-3'>
-                                {details.counselor && (
+                                {counselor && (
                                     <Input
                                         size="md"
                                         label="User"
-                                        value={details.counselor.first_name + ' ' + details.counselor.last_name}
+                                        value={counselor.first_name + ' ' + counselor.last_name}
                                         readOnly
                                         className='bg-gray-200'
                                     />
@@ -99,7 +113,7 @@ function VerifyEducation() {
                                 <Input
                                     size="md"
                                     label="University"
-                                    value={details.university}
+                                    value={university}
                                     readOnly
                                 />
                             </div>
@@ -108,14 +122,14 @@ function VerifyEducation() {
                                 <Input
                                     size="md"
                                     label="Qualification"
-                                    value={details.qualification}
+                                    value={qualification}
                                     readOnly
                                 />
 
                                 <Input
                                     size="md"
                                     label="Academic Year"
-                                    value={details.year}
+                                    value={academicYear}
                                     readOnly
                                     className='bg-gray-200'
                                 />
@@ -125,7 +139,7 @@ function VerifyEducation() {
                                 <Input
                                     size="md"
                                     label="State"
-                                    value={details.state}
+                                    value={state}
                                     readOnly
                                     className='bg-gray-200'
                                 />
@@ -133,7 +147,7 @@ function VerifyEducation() {
                                 <Input
                                     size="md"
                                     label="Country"
-                                    value={details.country}
+                                    value={country}
                                     readOnly
                                 />
                             </div>
@@ -150,11 +164,11 @@ function VerifyEducation() {
                                 <img
                                     alt="nature"
                                     className="mx-10 my-3 rounded-lg object-cover object-center cursor-pointer overflow-hidden hover:opacity-80"
-                                    src={details.certificate}
+                                    src={certificate}
                                 />
                             </Card>
                             {open &&
-                                <CertificateView open={open} handler={handleOpen} certificate={certificateImage} />
+                                <CertificateView open={open} handler={handleOpen} certificate={certificate} />
                             }
 
                             <div className='flex flex-row justify-center gap-3'>

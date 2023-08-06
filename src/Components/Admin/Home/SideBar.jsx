@@ -15,7 +15,7 @@ const SideBar = () => {
     { name: "Add Psychologists", link: "/admin/add-counselor", icon: MdAddCircleOutline },
     { name: "Appointments", link: "/admin/appointments", icon: TbReportAnalytics },
     { name: "Appointment Payment", link: "/admin/appointment-payments", icon: MdOutlinePayments },
-    { name: "Psychological tasks", link: "/admin/tasks", icon: GrTasks },
+    { name: "Psychological tasks", link: "/admin/psychological-tasks", icon: GrTasks },
     { name: "Subscriptions taken", link: "/admin/task-subscription", icon: BiTask },
     { name: "Subscriptions payment", link: "/admin/task-payments", icon: MdOutlinePayments },
     { name: "Testimonials", link: "/admin/testimonials", icon: FaRegComments },

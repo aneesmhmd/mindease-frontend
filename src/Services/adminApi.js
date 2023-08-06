@@ -132,7 +132,24 @@ const adminDeclineExperienceReqs = (id) => {
     })
 }
 
+const adminListPsychologicalTasks = () => {
+    return adminAxiosInstance.get(`list-psychological-tasks/`, {
+        withCredentials: true
+    })
+}
 
+
+const adminAddPsychologicalTasks = (values) => {
+    return adminAxiosInstance.post(`add-psychological-tasks/`, values, {
+        withCredentials: true
+    })
+}
+
+const adminAddTaskItem = (id, values) => {
+    return adminAxiosInstance.post(`add-task-items/${id}`, values, {
+        withCredentials: true
+    })
+}
 
 
 
@@ -160,4 +177,7 @@ export {
     adminGetExperienceDetails,
     adminDeclineEducationReqs,
     adminDeclineExperienceReqs,
+    adminListPsychologicalTasks,
+    adminAddPsychologicalTasks,
+    adminAddTaskItem,
 }

@@ -1,7 +1,6 @@
 import { Button, Card, Input, Typography } from '@material-tailwind/react'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import certificateImage from '../../../images/educertificate.jpg'
 import CertificateView from './CertificateView';
 import {
   CheckCircleIcon,
@@ -17,7 +16,16 @@ function VerifyExperience() {
   const [open, setOpen] = useState(false);
   const [verify, setVerify] = useState(false)
   const [decline, setDecline] = useState(false)
-  const [details, setDetails] = useState({})
+
+  const [counselor, setCounselor] = useState('');
+  const [institute, setInstitute] = useState('');
+  const [location, setLocation] = useState('');
+  const [state, setState] = useState('');
+  const [country, setCountry] = useState('');
+  const [certificate, setCertificate] = useState(null)
+  const [yearsOfExperience, setYearsOfExperience] = useState(0);
+  const [monthsOfExperience, setMonthsOfExperience] = useState(0);
+
   const navigate = useNavigate()
 
 
@@ -34,8 +42,14 @@ function VerifyExperience() {
 
   async function getExperienceDetails() {
     await adminGetExperienceDetails(requestId).then((res) => {
-      setDetails(res.data)
-      console.log('Exp details:', details);
+      setInstitute(res.data.institute)
+      setLocation(res.data.location)
+      setState(res.data.location)
+      setCountry(res.data.country)
+      {res.data.years_of_experience && setYearsOfExperience(res.data.years_of_experience)}
+      {res.data.months_of_experience && setMonthsOfExperience(res.data.months_of_experience)}
+      {res.data.certificate && setCertificate(res.data.certificate)}
+      {res.data.counselor && setCounselor(res.data.counselor)}
     }).catch((err) => {
       console.log('Experience error:', err);
     })
@@ -43,7 +57,6 @@ function VerifyExperience() {
 
   const handleApproveRequest = async () => {
     await adminVerifyExperienceReqs(requestId).then((res) => {
-      console.log('Verify result:', res);
       toast.success(res.data.message)
       navigate('/admin/notifications/')
     }).catch((err) => {
@@ -87,12 +100,12 @@ function VerifyExperience() {
             <div className='flex flex-col md:w-3/4 w-full gap-4 pb-4 mt-2'>
 
 
-              {details.counselor &&
+              {counselor &&
                 <div className='flex md:flex-row flex-col md:mx-0 mx-5 justify-center gap-3'>
                   <Input
                     size="md"
                     label="User"
-                    value={details.counselor.first_name}
+                    value={counselor.first_name + ' ' + counselor.last_name}
                     readOnly
                     className='bg-gray-200'
                   />
@@ -103,7 +116,7 @@ function VerifyExperience() {
                 <Input
                   size="md"
                   label="Institute"
-                  value={details.institute}
+                  value={institute}
                   readOnly
                   className='bg-gray-200'
                 />
@@ -111,7 +124,7 @@ function VerifyExperience() {
                 <Input
                   size="md"
                   label="Location"
-                  value={details.location}
+                  value={location}
                   readOnly
                 />
               </div>
@@ -120,7 +133,7 @@ function VerifyExperience() {
                 <Input
                   size="md"
                   label="State"
-                  value={details.state}
+                  value={state}
                   readOnly
                   className='bg-gray-200'
                 />
@@ -128,7 +141,7 @@ function VerifyExperience() {
                 <Input
                   size="md"
                   label="Country"
-                  value={details.country}
+                  value={country}
                   readOnly
                 />
               </div>
@@ -137,7 +150,7 @@ function VerifyExperience() {
                 <Input
                   size="md"
                   label="Years of experience"
-                  value={details.years_of_experience ? details.years_of_experience : 0}
+                  value={yearsOfExperience}
                   readOnly
                   className='bg-gray-200'
                 />
@@ -145,7 +158,7 @@ function VerifyExperience() {
                 <Input
                   size="md"
                   label="Months of experience"
-                  value={details.months_of_experience ? details.months_of_experience : 0}
+                  value={monthsOfExperience}
                   readOnly
                 />
               </div>
@@ -162,11 +175,11 @@ function VerifyExperience() {
                 <img
                   alt="nature"
                   className="mx-10 my-3 rounded-lg object-cover object-center cursor-pointer overflow-hidden hover:opacity-80"
-                  src={certificateImage}
+                  src={certificate}
                 />
               </Card>
               {open &&
-                <CertificateView open={open} handler={handleOpen} certificate={certificateImage} />
+                <CertificateView open={open} handler={handleOpen} certificate={certificate} />
               }
 
               <div className='flex flex-row justify-center gap-3'>

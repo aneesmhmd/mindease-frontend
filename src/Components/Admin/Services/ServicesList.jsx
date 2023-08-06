@@ -36,57 +36,33 @@ export default function TransactionsTable() {
 
   // Getting all services
   async function getServices() {
-    adminListServices().then((res) => {
+    await adminListServices().then((res) => {
       setServices(res.data)
       console.log('This is the services data:', res.data);
     }).catch((error) => {
       console.log('This is said as error:', error);
     })
   }
-  // async function getServices(){
-  //   axios.get(`${AdminUrl}/list-services`).then((res)=>{
-  //     setServices(res.data)
-  //     console.log('Services data:',res.data);
-  //   }).catch((err)=>{
-  //     console.log('Service error:', err.response);
-  //   })
-  // }
-
-
 
   // List and unlist services
   async function handleManageService(serviceId) {
     console.log('Thisis the servie Id:', serviceId);
-    adminManageService(serviceId).then((res) => {
+    await adminManageService(serviceId).then((res) => {
       getServices();
       toast.success(res.data.message)
     }).catch((error) => {
       toast.error(error.response.data.message)
     })
-
-    // await axios.patch(`${AdminUrl}/manage-service/${serviceId}/`).then((res)=>{
-    //   getServices();
-    //   toast.success(res.data.message)
-    // }).catch((err)=>{
-    //   toast.error(err.response.data.message)
-    // })
   };
 
   // Deleting services
   const handleDeleteService = async (serviceId) => {
-    adminDeleteService(serviceId).then((res) => {
+    await adminDeleteService(serviceId).then((res) => {
       getServices();
       toast.success('Service Deletion succesfull')
     }).catch((error) => {
       toast.error('Something went wrong. Please try again!')
     })
-
-    // await axios.delete(`${AdminUrl}/delete-service/${serviceId}/`).then((res)=>{
-    //   getServices();
-    //   toast.success('Service Deletion succesfull')
-    // }).catch((err)=>{
-    //   toast.error('Something went wrong')
-    // })
   }
 
 
