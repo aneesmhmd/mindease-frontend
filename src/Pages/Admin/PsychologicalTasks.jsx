@@ -10,7 +10,9 @@ function PsychologicalTasks() {
                     Psychological Tasks | MindEase
                 </title>
             </Helmet>
+            <div className='my-8'>
             <TasksTable />
+            </div>
         </div>
     )
 }

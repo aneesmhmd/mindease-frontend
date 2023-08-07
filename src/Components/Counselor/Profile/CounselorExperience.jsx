@@ -1,4 +1,4 @@
-import { Button } from '@material-tailwind/react'
+import { Button, Chip } from '@material-tailwind/react'
 import React, { useState } from 'react'
 import { FaHospital, FaPlus } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
@@ -32,15 +32,22 @@ function CounselorExperience() {
             <div key={index} className='flex flex-col mt-5 mb-5 justify-start md:items-start md:ms-10 items-center gap-1 lg:w-3/4 w-full'>
               <div className='flex flex-col mb-2 w-full'>
 
-                <div className='flex flex-row'>
+                <div className='flex flex-row gap-2'>
                   <FaHospital strokeWidth={2} className="h-4 w-4 mt-1.5" />
-                  <span className='text-blue-900 md:text-lg  font-serif ms-2'>{item.institute}, {item.location}</span>
+                  <span className='text-blue-900 md:text-lg  font-serif'>{item.institute}, {item.location}</span>
+                  <Chip
+                    size='sm'
+                    variant="ghost"
+                    value={item.is_verified ? 'Verified' : 'Pending'}
+                    color={item.is_verified ? "green" : "orange"}
+                    className='w-max ms-2 max-h-6'
+                  />
                 </div>
 
                 <h1 className='ms-6 text-sm font-sans'>{item.state}, {item.country}</h1>
-                <h1 className='ms-6 text-sm font-sans'>{item.years_of_experience} years, {item.months_of_experience} months</h1>
-                {/* <button className='text-white bg-dark-purple px-2 w-1/4  rounded-full ms-6 mt-1 text-sm'>Edit</button> */}
-
+                <h1 className='ms-6 text-sm font-sans'>
+                  {item.years_of_experience ? item.years_of_experience : 0} years,
+                  {item.months_of_experience ? item.months_of_experience : 0} months</h1>
               </div>
             </div>
           ))}

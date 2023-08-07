@@ -11,7 +11,7 @@ function AdminNotifications() {
                 Admin Notifications | MindEase
             </title>
         </Helmet>
-        <div className='flex flex-col gap-9 w-full min-h-screen'>
+        <div className='flex flex-col gap-16 mt-10 w-full min-h-screen'>
             <EducationNotification/>
             <ExperienceNotification/>
         </div>

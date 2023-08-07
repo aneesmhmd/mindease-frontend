@@ -22,14 +22,18 @@ export default function AddModal({ service, getServices }) {
     const [title, setTitle] = useState(service.title)
     const [description, setDescription] = useState(service.description)
     const [icon, setIcon] = useState(service.icon)
+    const [isIconChanged, setIsIconChanged] = useState(false)
     const handleOpen = () => setOpen((cur) => !cur);
-
-    console.log('serci');
 
 
     useEffect(() => {
         console.log('This is values:', icon);
     }, [title])
+
+    const handleImageChange = (e) =>{
+        setIcon(e.target.files[0])
+        setIsIconChanged(true)
+    }
 
     const handleUpdateService = async (e) => {
         e.preventDefault();
@@ -47,7 +51,10 @@ export default function AddModal({ service, getServices }) {
             const serviceFormData = new FormData();
             serviceFormData.append('title', title)
             serviceFormData.append('description', description)
-            serviceFormData.append('icon', icon)
+            {isIconChanged&&
+                serviceFormData.append('icon', icon)
+                setIsIconChanged(false)
+            }
 
             adminUpdateService(service.id,serviceFormData).then((res) => {
                 if (res.status === 200) {
@@ -111,9 +118,7 @@ export default function AddModal({ service, getServices }) {
                                 size="lg"
                                 name="icon"
                                 type="file"
-                                onChange={(e) => {
-                                    setIcon(e.target.files[0])
-                                }}
+                                onChange={handleImageChange}
                             />
 
                         </CardBody>

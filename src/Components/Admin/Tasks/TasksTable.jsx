@@ -1,5 +1,5 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { PlusCircleIcon,TrashIcon,PencilIcon } from "@heroicons/react/24/solid";
+import { PlusCircleIcon, TrashIcon, PencilIcon } from "@heroicons/react/24/solid";
 import {
     Card,
     CardHeader,
@@ -15,9 +15,12 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { adminListPsychologicalTasks } from "../../../Services/adminApi";
+import { adminDeletePsychologicalTask, adminListPsychologicalTasks, adminManagePsychologicalTasks, adminUpdatePsyhcologicalTasks } from "../../../Services/adminApi";
+import { toast } from "react-toastify";
+import DeleteTaskModal from "./DeleteTaskModal";
+import EditTaskModal from "./EditTaskModal";
 
-const TABLE_HEAD = ["Title", "Subscritption", "Validity", "Status", "List/Unlist", "View", "Action"];
+const TABLE_HEAD = ["Title", "Subscritption", "Validity", "Status", "List/Unlist", "View", "Edit/Delete"];
 
 
 
@@ -32,14 +35,44 @@ export function TasksTable() {
     async function listTasks() {
         await adminListPsychologicalTasks().then((res) => {
             setTasks(res.data)
-            console.log('Tasks :', tasks[0]);
         }).catch((err) => {
             console.log('Task list err:', err);
         })
     }
 
+    async function handleManageTask(id) {
+        await adminManagePsychologicalTasks(id).then((res) => {
+            toast.success(res.data.message)
+            listTasks();
+        }).catch((err) => {
+            console.log('Mange task error', err);
+            toast.error('Something went wrong. Please try again')
+        })
+    }
+
+    async function handleDeleteTask(id) {
+        await adminDeletePsychologicalTask(id).then((res) => {
+            listTasks();
+            toast.success('Task Deleted!')
+        }).catch((err) => {
+            toast.error('Some error occured')
+            console.log('Psy task deletion err:', err);
+        })
+    }
+
+    async function handleUpdateTask(id, updatedData) {
+
+        adminUpdatePsyhcologicalTasks(id, updatedData).then((res) => {
+            listTasks();
+            toast.success('Task updated')
+        }).catch((err) => {
+            toast.error('Something went wrong. Try again!')
+            console.log('Task updation error:', err);
+        })
+    }
+
     return (
-        <Card className="h-full w-full">
+        <Card className="h-full w-full border-t">
             <CardHeader floated={false} shadow={false} className="rounded-none">
                 <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
                     <div>
@@ -67,11 +100,11 @@ export function TasksTable() {
                     <thead>
                         <tr>
                             {TABLE_HEAD.map((head) => (
-                                <th key={head} className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                                <th key={head} className="border-y border-blue-gray-100 bg-blue-gray-500 p-4">
                                     <Typography
                                         variant="small"
-                                        color="blue-gray"
-                                        className="font-normal leading-none opacity-70"
+                                        color="white"
+                                        className="font-normal leading-none"
                                     >
                                         {head}
                                     </Typography>
@@ -86,7 +119,7 @@ export function TasksTable() {
                                 const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
                                 return (
-                                    <tr key={index}>
+                                    <tr key={task.id}>
                                         <td className={classes}>
                                             <div className="flex items-center gap-3">
                                                 <Avatar
@@ -124,30 +157,28 @@ export function TasksTable() {
 
                                         <td className={classes}>
                                             <Button
+                                                onClick={() => handleManageTask(task.id)}
                                                 className={`rounded-md py-1 px-2 text-center item w-20 ${task.is_active ? 'bg-red-500' : 'bg-green-500'}`}
                                             >
                                                 {task.is_active ? 'Unlist' : 'List'}
                                             </Button>
                                         </td>
                                         <td className={classes}>
-                                            <Button
-                                                className='rounded-md py-1 px-2 text-center item w-20'
-                                            >
+                                            <Button className='rounded-md py-1 px-2 text-center item w-20'>
                                                 View
                                             </Button>
                                         </td>
                                         <td className={classes}>
-                                            <Tooltip content="Edit User">
-                                                <IconButton variant="text" color="blue-gray">
-                                                    <PencilIcon className="h-4 w-4" />
-                                                </IconButton>
-                                            </Tooltip>
 
-                                            <Tooltip content="Delete Task">
-                                                <IconButton variant="text" color="blue-gray">
-                                                    <TrashIcon className="h-4 w-4" />
-                                                </IconButton>
-                                            </Tooltip>
+                                            <EditTaskModal
+                                                task={task}
+                                                action={handleUpdateTask}
+                                            />
+
+                                            <DeleteTaskModal
+                                                action={handleDeleteTask}
+                                                taskId={task.id}
+                                            />
                                         </td>
                                     </tr>
                                 );
@@ -170,18 +201,11 @@ export function TasksTable() {
                     <IconButton variant="text" color="blue-gray" size="sm">
                         3
                     </IconButton>
+
                     <IconButton variant="text" color="blue-gray" size="sm">
-                        ...
+                        4
                     </IconButton>
-                    <IconButton variant="text" color="blue-gray" size="sm">
-                        8
-                    </IconButton>
-                    <IconButton variant="text" color="blue-gray" size="sm">
-                        9
-                    </IconButton>
-                    <IconButton variant="text" color="blue-gray" size="sm">
-                        10
-                    </IconButton>
+
                 </div>
                 <Button variant="outlined" color="blue-gray" size="sm">
                     Next

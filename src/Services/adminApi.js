@@ -49,6 +49,7 @@ const adminListServices = () => {
     })
 }
 
+
 const adminAddService = (values) => {
     return adminAxiosInstance.post('/add-services/', values, {
         withCredentials: true
@@ -57,7 +58,7 @@ const adminAddService = (values) => {
 
 
 const adminUpdateService = (id, updatedData) => {
-    return adminAxiosInstance.put(`/update-service/${id}/`, updatedData, {
+    return adminAxiosInstance.patch(`/update-service/${id}/`, updatedData, {
         withCredentials: true
     })
 }
@@ -132,6 +133,7 @@ const adminDeclineExperienceReqs = (id) => {
     })
 }
 
+
 const adminListPsychologicalTasks = () => {
     return adminAxiosInstance.get(`list-psychological-tasks/`, {
         withCredentials: true
@@ -145,6 +147,7 @@ const adminAddPsychologicalTasks = (values) => {
     })
 }
 
+
 const adminAddTaskItem = (id, values) => {
     return adminAxiosInstance.post(`add-task-items/${id}`, values, {
         withCredentials: true
@@ -152,10 +155,28 @@ const adminAddTaskItem = (id, values) => {
 }
 
 
+const adminUpdatePsyhcologicalTasks = (id, values) => {
+    return adminAxiosInstance.patch(`update-psychological-tasks/${id}/`, values, {
+        withCredentials: true
+    })
+}
 
-// const isAdminAuth = () =>{
-//     return adminAxiosInstance.get('/')
-// }
+
+const adminManagePsychologicalTasks = (id) => {
+    return adminAxiosInstance.patch(`manage-psychological-task/${id}/`, {
+        withCredentials: true
+    })
+}
+
+
+const adminDeletePsychologicalTask = (id) => {
+    return adminAxiosInstance.delete(`delete-psychological-tasks/${id}/`, {
+        withCredentials: true
+    })
+}
+
+
+
 
 export {
     addCounselor,
@@ -180,4 +201,7 @@ export {
     adminListPsychologicalTasks,
     adminAddPsychologicalTasks,
     adminAddTaskItem,
+    adminDeletePsychologicalTask,
+    adminManagePsychologicalTasks,
+    adminUpdatePsyhcologicalTasks,
 }

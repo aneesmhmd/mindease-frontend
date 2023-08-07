@@ -67,7 +67,7 @@ export default function TransactionsTable() {
 
 
   return (
-    <Card className="h-full md:w-full mb-8 border-t" shadow={true}>
+    <Card className="h-full md:w-full border-t" shadow={true}>
       <CardHeader floated={false} shadow={false} className="rounded-none">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-center">
           <div>
@@ -110,7 +110,7 @@ export default function TransactionsTable() {
             {services.map(
               (service, index) => {
                 const isLast = index === services.length - 1;
-                const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
+                const classes = isLast ? "p-4 max-w-md" : "p-4 border-b border-blue-gray-50 max-w-md";
 
                 return (
                   <tr key={service.image}>
@@ -120,7 +120,7 @@ export default function TransactionsTable() {
                           src={service.icon}
                           variant="rounded"
                           alt={service.title}
-                          size="xl"
+                          size="xxl"
                           className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
                         />
                         <Typography variant="small" color="blue-gray" className="font-bold">
@@ -139,9 +139,8 @@ export default function TransactionsTable() {
                         size="sm"
                         variant="ghost"
                         value={service.is_active ? 'Listed' : 'Unlisted'}
-                        color={
-                          service.is_active ? "green" : "red"
-                        }
+                        color={service.is_active ? "green" : "red"}
+                        className="text-center"
                       />
                     </td>
 
