@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { getCounselorProfile, updateCounselorProfile } from '../../../Services/counselorApi'
+import { getCounselorAccount, getCounselorProfile, updateCounselorProfile } from '../../../Services/counselorApi'
 import { decodedToken } from '../../../Context/auth'
 import profilepic from '../../../images/counselor.png'
 import DrawerPlacement from './ProfilePicture'
 import EditProfile from './EditProfile'
 import { toast } from 'react-toastify'
+import { Button } from '@material-tailwind/react'
+import EdiProffessional from './EdiProffessional'
+import AddProffesional from './AddProffesional'
 
 
 function ProfileCard() {
     const [profile, setProfile] = useState({})
     const [showOptions, setShowOptions] = useState(false);
+    const [proffessional, setProffessional] = useState({})
 
     const toggleOptions = () => {
         setShowOptions(!showOptions);
@@ -17,6 +21,7 @@ function ProfileCard() {
 
     useEffect(() => {
         getProfile();
+        getProffessional();
     }, [])
 
     async function getProfile() {
@@ -24,9 +29,19 @@ function ProfileCard() {
         const user_id = decoded.user_id
         getCounselorProfile(user_id).then((res) => {
             setProfile(res.data)
-            console.log('this is the profile:', res.data);
         }).catch((error) => {
             console.log('Profile details error:', error);
+        })
+    }
+
+    async function getProffessional() {
+        const decoded = decodedToken('counselorJwt')
+        const id = decoded.counselor
+        getCounselorAccount(id).then((res) => {
+            setProffessional(res.data)
+            console.log('Success', res.data);
+        }).catch((err) => {
+            console.log('CAccount Error', err);
         })
     }
 
@@ -60,7 +75,7 @@ function ProfileCard() {
 
                         {showOptions &&
                             <div>
-                                <DrawerPlacement getProfile={getProfile} profile_image={profile.profile_image}/>
+                                <DrawerPlacement getProfile={getProfile} profile_image={profile.profile_image} />
                             </div>
                         }
                     </div>
@@ -73,6 +88,21 @@ function ProfileCard() {
                         <EditProfile profile={profile} updateProfile={updateProfile} />
 
                     </div>
+                </div>
+            </div>
+
+
+
+            <div className='flex mx-28 bg-gray-300 shadow-lg rounded-xl w-3/4 bg-opacity-80 mt-4'>
+                <div className='flex md:flex-row flex-col md:justify-around items-center w-full py-3'>
+                    <h1>Fee : Rs.{proffessional.fee ? proffessional.fee : '--'}</h1>
+                    <h1>Specialization : {proffessional.specialization ? proffessional.specialization_details.title : '--'}</h1>
+                    <h1>State : {proffessional.state ? proffessional.state : '--'}</h1>
+                    {proffessional.state ?
+                        <EdiProffessional getProffessional={getProffessional} proffessional={proffessional}/> :
+                        <AddProffesional getProffessional={getProffessional} />
+                    }
+
                 </div>
             </div>
         </div>

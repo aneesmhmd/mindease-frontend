@@ -24,7 +24,17 @@ const googleAuthentication = (value) => {
 
 
 const getAllServices = () => {
-    return userAxiosInstance.get("/services/services-list", { withCredentials: true })
+    return userAxiosInstance.get("/user/services-list", { withCredentials: true })
+}
+
+
+const listCounselors = () => {
+    return userAxiosInstance.get(`/user/counselors-list/`, { withCredentials: true })
+}
+
+
+const listPsychologicalTasks = () => {
+    return userAxiosInstance.get(`/user/list-psychological-tasks/`, { withCredentials: true })
 }
 
 
@@ -66,4 +76,6 @@ export {
     updateUserProfile,
     removeUserImage,
     updateUserImage,
+    listCounselors,
+    listPsychologicalTasks,
 }

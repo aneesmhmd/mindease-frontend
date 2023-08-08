@@ -42,6 +42,18 @@ const changeCounselorPassword = (values, id) => {
     return counselorAxiosInstance.post(`/change-password/${id}/`, values, { withCredentials: true })
 }
 
+const listCounselorServices = () => {
+    return counselorAxiosInstance.get(`list-services/`, { withCredentials: true })
+}
+
+const getCounselorAccount = (id) =>{
+    return counselorAxiosInstance.get(`get-counselor-account/${id}/`, {withCredentials:true})
+}
+
+const updateCounselorAccount = (id, values) => {
+    return counselorAxiosInstance.patch(`update-counselor-account/${id}/`, values, { withCredentials: true })
+}
+
 // const isCounselorAuth = (values) =>{
 //     return counselorAxiosInstance.post('/')
 // }
@@ -57,4 +69,7 @@ export {
     updateCounselorImage,
     removeCounselorImage,
     updateCounselorProfile,
+    listCounselorServices,
+    getCounselorAccount,
+    updateCounselorAccount,
 }

@@ -5,16 +5,22 @@ import PageNotFound from '../Pages/PageNotFound'
 import Home from '../Pages/User/UserHome'
 import UserLayout from '../Pages/User/UserLayout'
 import UserPrivateRoutes from '../protectedRoutes/UserPrivateRoutes'
+import Pyschologists from '../Pages/User/Pyschologists'
+import PsychologicalTasks from '../Pages/User/PsychologicalTasks'
+import ContactUs from '../Pages/User/ContactUs'
 
 function UserRoutes() {
     return (
-        <div className='bg-gray-200 min-h-screen bg-cover'>
+        <div>
             <Routes>
                 <Route path='/' element={<UserLayout />}>
                     <Route index element={<Home />} />
                     <Route element={<UserPrivateRoutes/>}>
 
                         <Route path='profile/' element={<UserProfile />} />
+                        <Route path='psychologists/' element={<Pyschologists />} />
+                        <Route path='psychological-tasks/' element={<PsychologicalTasks/>} />
+                        <Route path='contact-us/' element={<ContactUs/>} />
                     </Route>
                 </Route>
 

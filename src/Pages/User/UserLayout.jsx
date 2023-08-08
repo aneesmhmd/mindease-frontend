@@ -5,7 +5,7 @@ import NavBar from '../../Components/UserNavbar/UserNavBar'
 function UserLayout() {
     return (
         <div>
-            <div className='pb-20'>
+            <div>
                 <NavBar />
             </div>
             <div>

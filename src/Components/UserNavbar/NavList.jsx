@@ -1,6 +1,6 @@
-import {Typography} from '@material-tailwind/react'
+import { Typography } from '@material-tailwind/react'
 import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 function NavList() {
     return (
@@ -12,7 +12,7 @@ function NavList() {
             </Typography>
 
             <Typography as="li" variant="small" color="white" className="p-1 font-medium">
-                <Link className="flex items-center md:text-base hover:text-blue-100 transition-colors">
+                <Link to='/psychologists' className="flex items-center md:text-base hover:text-blue-100 transition-colors">
                     Psychologists
                 </Link>
             </Typography>
@@ -21,6 +21,13 @@ function NavList() {
                     Book Slot
                 </Link>
             </Typography>
+
+            <Typography as="li" variant="small" color="white" className="p-1 font-medium">
+                <Link to='/psychological-tasks' className="flex items-center md:text-base hover:text-blue-100 transition-colors">
+                     Psychological Tasks
+                </Link>
+            </Typography>
+
             <Typography as="li" variant="small" color="white" className="p-1 font-medium">
                 <a href="#" className="flex items-center md:text-base hover:text-blue-100 transition-colors">
                     Testimonials
@@ -28,9 +35,9 @@ function NavList() {
             </Typography>
 
             <Typography as="li" variant="small" color="white" className="p-1 font-medium">
-                <a href="#" className="flex items-center md:text-base hover:text-blue-100 transition-colors">
-                    Contact Us
-                </a>
+            <Link to='/contact-us' className="flex items-center md:text-base hover:text-blue-100 transition-colors">
+                     Contact Us
+                </Link>
             </Typography>
         </ul>
     )

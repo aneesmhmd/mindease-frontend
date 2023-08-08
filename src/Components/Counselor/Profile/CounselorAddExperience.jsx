@@ -81,6 +81,7 @@ function CounselorAddExperience() {
             expFormData.append('state', state)
             expFormData.append('country', country)
             expFormData.append('counselor', counselor)
+            expFormData.append('certificate', certificate)
             { year.trim() !== '' && expFormData.append('years_of_experience', year) }
             { month.trim() !== '' && expFormData.append('months_of_experience', month) }
 

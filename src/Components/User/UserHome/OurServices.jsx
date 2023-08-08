@@ -10,6 +10,7 @@ import {
   import axios from "axios";
   import { useEffect, useState } from "react";
   import {BaseUrl} from '../../../constants/constants'
+import { getAllServices } from "../../../Services/userApi";
   
   export default function OurServices() {
     const [services, setServices] = useState([]);
@@ -20,22 +21,13 @@ import {
       }, []);
   
     async function getServices() {
-      try {
-        const response = await axios.get("http://127.0.0.1:8000/services/services-list")
-        console.log(response.data);
-        setServices(response.data);
-      } catch (e) {
-        console.log(e);
-      }
+      getAllServices().then((res)=>{
+        setServices(res.data)
+      }).catch((err)=>{
+        console.log(err);
+      })
     }
   
-  
-    const truncateText = (text, limit) => {
-      if (text.length <= limit) {
-        return text;
-      }
-      return text.slice(0, limit) + "...";
-    };
   
     return (
       <div className="div text-center">
@@ -59,7 +51,7 @@ import {
                     {service?.title}
                   </Typography>
                   <Typography color="gray" className="font-normal mb-8 font-serif">
-                    {truncateText(service?.description, 300)}
+                    {service?.description}
                   </Typography>
                 </div>
               </CardBody>

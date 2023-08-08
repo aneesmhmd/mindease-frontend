@@ -9,7 +9,7 @@ function Home() {
     document.title = 'MindEase'
   })
   return (
-    <div>
+    <div className='min-h-screen pt-16 bg-gray-100'>
       <BannerOne />
       <BannerTwo />
       <OurServices />

@@ -46,8 +46,8 @@ function CounselorExperience() {
 
                 <h1 className='ms-6 text-sm font-sans'>{item.state}, {item.country}</h1>
                 <h1 className='ms-6 text-sm font-sans'>
-                  {item.years_of_experience ? item.years_of_experience : 0} years,
-                  {item.months_of_experience ? item.months_of_experience : 0} months</h1>
+                  {item.years_of_experience && item.years_of_experience + ' years '}
+                  {item.months_of_experience && item.months_of_experience + ' months'}</h1>
               </div>
             </div>
           ))}
