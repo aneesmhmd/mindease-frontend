@@ -1,0 +1,13 @@
+/* Custom CSS to remove scrollbar */
+.custom-scrollbar {
+    overflow: hidden;
+    scrollbar-width: none;
+    /* For Mozilla Firefox */
+    -ms-overflow-style: none;
+    /* For Internet Explorer and Microsoft Edge */
+}
+
+/* For Webkit-based browsers like Chrome and Safari */
+.custom-scrollbar::-webkit-scrollbar {
+    display: none;
+}

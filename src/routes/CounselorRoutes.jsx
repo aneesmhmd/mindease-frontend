@@ -1,14 +1,14 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import CounselorLayout from '../Pages/Counselor/CounselorLayout'
-import SetPassword from '../Pages/Counselor/SetPassword'
-import CounselorLogin from '../Pages/Counselor/CounselorLogin'
-import CounselorHome from '../Pages/Counselor/CounselorHome'
-import CounselorProfile from '../Pages/Counselor/CounselorProfile'
-import PageNotFound from '../Pages/PageNotFound'
+import CounselorLayout from '../pages/Counselor/CounselorLayout'
+import SetPassword from '../pages/Counselor/SetPassword'
+import CounselorLogin from '../pages/Counselor/CounselorLogin'
+import CounselorHome from '../pages/Counselor/CounselorHome'
+import CounselorProfile from '../pages/Counselor/CounselorProfile'
+import PageNotFound from '../pages/PageNotFound'
 import counselorPrivateRoutes from '../protectedRoutes/counselorPrivateRoutes'
-import CounselorAddEducation from '../Pages/Counselor/CounselorAddEducation'
-import CounselorAddExperience from '../Components/Counselor/Profile/CounselorAddExperience'
+import CounselorAddEducation from '../pages/Counselor/CounselorAddEducation'
+import CounselorAddExperience from '../components/Counselor/Profile/CounselorAddExperience'
 
 function CounselorRoutes() {
   return (

@@ -1,6 +1,13 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { getLocal } from '../Context/auth'
 
-function adminPrivateRoutes() {
+function adminPrivateRoutes({route}) {
+  const [verify, setVerify] = useState(false)
+
+  useEffect(()=>{
+    const token = getLocal('adminJwt')
+    
+  })
   return (
     <div>
       
