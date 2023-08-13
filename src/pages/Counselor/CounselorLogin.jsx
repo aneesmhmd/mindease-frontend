@@ -3,7 +3,7 @@ import {Link, useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {counselorLogin} from '../../services/counselorApi'
 import isLogged from '../../Context/auth'
-
+import image from '../../images/counselorLogin.jpg'
 function CounselorLogin() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -103,7 +103,7 @@ function CounselorLogin() {
                 </div>
 
                 <div className="md:block hidden w-1/2">
-                    <img className="rounded-2xl" src="https://www.manomaya.in/assets_web/images/slider/2020-04-04/covid-mobile-banner.jpg"/>
+                    <img className="rounded-2xl" src={image}/>
                 </div>
             </div>
         </section>

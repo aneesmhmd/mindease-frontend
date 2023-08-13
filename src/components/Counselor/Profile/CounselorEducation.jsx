@@ -3,7 +3,7 @@ import {
     AcademicCapIcon,
     DocumentTextIcon
 } from '@heroicons/react/24/solid'
-import { Button, Chip } from '@material-tailwind/react'
+import { Button, Chip, Typography } from '@material-tailwind/react'
 import { FaPlus } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { getCounselorEducation } from '../../../services/counselorApi'
@@ -31,9 +31,9 @@ function CounselorEducation() {
     return (
         <div className='flex flex-col bg-white bg-opacity-90 text-black rounded-b-lg'>
             <div className='flex md:flex-row flex-col w-full'>
-                <div className='md:w-1/2 w-full'>
+                <div className='md:w-3/4 w-full'>
 
-                    {educations && educations.map((item, index) => (
+                    {educations.length >= 1 ? educations.map((item, index) => (
 
                         <div key={index} className='flex flex-col mt-5 mb-5 justify-start md:items-start md:ms-10 items-center gap-1 lg:w-3/4 w-full'>
                             <div className='flex flex-col mb-2 w-full'>
@@ -53,9 +53,15 @@ function CounselorEducation() {
                             </div>
                         </div>
 
-                    ))}
+                    )):
+                    <div className='flex flex-col text-center mt-5 ms-20 w-full'>
+                        <Typography>
+                            You haven't added any educations yet
+                        </Typography>
+                    </div>
+                    }
                 </div>
-                <div className='flex items-start m-4 justify-end md:w-1/2'>
+                <div className='flex items-start m-4 justify-end md:w-1/4'>
                     <Link to='/counselor/add-qualification'>
                         <Button className="flex items-center gap-1 bg-dark-purple p-2 rounded-full">
                             <FaPlus className="h-3 w-3" />

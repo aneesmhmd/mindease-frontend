@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
-import { MdOutlineDashboard, MdOutlinePayments, MdOutlineMedicalServices, MdAddCircleOutline, MdOutlineNotificationsActive } from "react-icons/md";
+import {
+  MdOutlineDashboard,
+  MdOutlinePayments,
+  MdOutlineMedicalServices,
+  MdAddCircleOutline,
+  MdOutlineNotificationsActive,
+  MdOutlineAddIcCall
+} from "react-icons/md";
 import { BiTask } from 'react-icons/bi'
 import { GrTasks } from 'react-icons/gr'
 import { TbReportAnalytics } from "react-icons/tb";
@@ -21,6 +28,7 @@ const SideBar = () => {
     { name: "Testimonials", link: "/admin/testimonials", icon: FaRegComments },
     { name: "Services", link: "/admin/Services", icon: MdOutlineMedicalServices },
     { name: "Notifications", link: "/admin/notifications", icon: MdOutlineNotificationsActive },
+    { name: "CallBack Requests", link: "/admin/callback-requests", icon: MdOutlineAddIcCall },
   ];
 
   // FiMessageSquare , , margin: true
@@ -37,7 +45,7 @@ const SideBar = () => {
           onClick={() => setOpen(!open)}
         />
       </div>
-      <div className="mt-4 flex flex-col gap-4 relative">
+      <div className="mt-4 flex flex-col gap-3 relative">
         {menus?.map((menu, i) => (
           <Link
             to={menu?.link}

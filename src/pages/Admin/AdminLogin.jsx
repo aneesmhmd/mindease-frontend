@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { toast } from 'react-toastify'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { adminLogin } from '../../services/adminApi'
-import isLogged, { getLocal } from '../../Context/auth'
+import isLogged from '../../Context/auth'
+import image from '../../images/adminBanner.png'
 
 function AdminLogin() {
     const [email, setEmail] = useState('')
@@ -99,7 +100,7 @@ function AdminLogin() {
                     </div>
 
                     <div className="md:block hidden w-1/2">
-                        <img className="rounded-2xl" src="https://tandsgo.com/wp-content/uploads/2016/12/LinkedIn-Company-Page-admin-working-on-computer.png" />
+                        <img className="rounded-2xl" src={image} />
                     </div>
                 </div>
             </section>

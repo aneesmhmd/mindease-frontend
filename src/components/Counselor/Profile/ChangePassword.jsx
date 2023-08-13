@@ -7,8 +7,7 @@ import {
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { changeCounselorPassword } from "../../../services/counselorApi";
-import { getLocal } from '../../../Context/auth'
-import jwtDecode from "jwt-decode";
+import { decodedToken } from '../../../Context/auth'
 import { useNavigate } from "react-router-dom";
 
 export default function ChangePassword() {
@@ -53,9 +52,8 @@ export default function ChangePassword() {
       setConfirmPasswordError("Passwords do not match.");
     } else {
       // If all validations pass, password will be reset
-      const token = getLocal('counselorJwt')
-      if (token) {
-        const decoded = jwtDecode(token)
+      const decoded = decodedToken('counselorJwt')
+      if (decoded) {
         const user_id = decoded.user_id
 
         changeCounselorPassword({ oldPassword, newPassword }, user_id)

@@ -240,6 +240,13 @@ const adminDeleteTaskItems = (id) => {
 }
 
 
+const adminListCallbackReqs = () => {
+    return adminAxiosInstance.get(`/list-callback-reqs/`, {
+        withCredentials: true
+    })
+}
+
+
 
 
 export {
@@ -277,4 +284,5 @@ export {
     adminUpdateProfile,
     adminUpdateProfilePic,
     adminChangePassword,
+    adminListCallbackReqs,
 }

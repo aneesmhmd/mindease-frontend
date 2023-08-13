@@ -31,7 +31,7 @@ export default function CounselorTabs() {
     ];
 
     return (
-        <Tabs id="custom-animation" value="headers">
+        <Tabs id="custom-animation" value="education">
             <TabsHeader>
                 {data.map(({ label, value }) => (
                     <Tab key={value} value={value}>

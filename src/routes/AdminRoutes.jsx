@@ -18,6 +18,7 @@ import AddTasks from '../components/Admin/Tasks/AddTasks'
 import ViewTasks from '../components/Admin/Tasks/ViewTasks'
 import AddTaskItem from '../components/Admin/Tasks/AddTaskItem'
 import AdminProfile from '../pages/Admin/AdminProfile'
+import CallBackReqs from '../pages/Admin/CallBackReqs'
 
 function AdminRoutes() {
   return (
@@ -38,6 +39,7 @@ function AdminRoutes() {
           <Route path='/Services/' element={<Services />} />
           <Route path='/testimonials/' element={<AlertModal />} />
           <Route path='/notifications/' element={<AdminNotifications />} />
+          <Route path='/callback-requests/' element={<CallBackReqs />} />
           <Route path='/notifications/verify-education/' element={<VerifyEducation />} />
           <Route path='/notifications/verify-experience/' element={<VerifyExperience />} />
           <Route path='/profile/' element={<AdminProfile />} />

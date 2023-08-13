@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import isLogged from '../../Context/auth';
 import jwtDecode from 'jwt-decode';
 import { googleAuthentication, userLogin } from '../../services/userApi';
+import image from '../../images/signup.png'
 
 
 function UserLogin() {
@@ -135,7 +136,7 @@ function UserLogin() {
                 <h4 className="text-xl  text-gray-800 mb-4 font-casual">
                     "Find Ease, Unlock Your Peace"
                 </h4>
-                <img src="https://www.samvednacare.com/blog/wp-content/uploads/2022/02/Samvedhna_Feb_Blog-01-1.png" alt="Company Logo" className="w-96 h-96 object-contain mb-4" />
+                <img src={image} alt="Company Logo" className="w-96 h-96 object-contain mb-4" />
                 <h2 className="text-2xl text-gray-800">Online Counseling Platform</h2>
 
             </div>

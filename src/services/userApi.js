@@ -27,6 +27,7 @@ const isUserAuth = (token) => {
     return userAxiosInstance.get(`/api/is-user-auth/`, token, { withCredentials: true })
 }
 
+
 const getAllServices = () => {
     return userAxiosInstance.get("/user/services-list", { withCredentials: true })
 }
@@ -51,6 +52,7 @@ const getCounselorExperience = (id) => {
     return userAxiosInstance.get(`/user/get-counselor-experience/${id}/`, { withCredentials: true })
 }
 
+
 const listPsychologicalTasks = () => {
     return userAxiosInstance.get(`/user/list-psychological-tasks/`, { withCredentials: true })
 }
@@ -65,17 +67,24 @@ const updateUserProfile = (values, id) => {
     return userAxiosInstance.put(`/api/update-profile/${id}/`, values, { withCredentials: true })
 }
 
+
 const updateUserImage = (id, image) => {
-    return userAxiosInstance.patch(`api/update-profile-photo/${id}/`, image, { withCredentials: true })
+    return userAxiosInstance.patch(`/api/update-profile-photo/${id}/`, image, { withCredentials: true })
 }
 
+
 const removeUserImage = (id) => {
-    return userAxiosInstance.delete(`api/remove-profile-photo/${id}/`, { withCredentials: true })
+    return userAxiosInstance.delete(`/api/remove-profile-photo/${id}/`, { withCredentials: true })
 }
 
 
 const changeUserPassword = (values, id) => {
     return userAxiosInstance.post(`/api/change-password/${id}/`, values, { withCredentials: true })
+}
+
+
+const addCallBackReqs = (values) => {
+    return userAxiosInstance.post(`/user/add-callback-reqs/`, values, { withCredentials: true })
 }
 
 
@@ -96,4 +105,5 @@ export {
     getCounselorProfile,
     getCounselorEducation,
     getCounselorExperience,
+    addCallBackReqs,
 }
