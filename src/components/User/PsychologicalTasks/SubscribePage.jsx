@@ -66,7 +66,7 @@ function SubscribePage() {
           });
       }
     } else {
-      toast.warn("You should login first to subscribe");
+      toast.info("Please login first to subscribe");
       navigate("/login");
     }
   };

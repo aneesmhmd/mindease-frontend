@@ -1,10 +1,13 @@
 import { Button, Typography } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import { listPsychologicalTasks } from "../../../services/userApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { decodedToken } from "../../../Context/auth";
+import { toast } from "react-toastify";
 
 function TasksCard() {
   const [tasks, setTasks] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     getTasks();
@@ -19,6 +22,16 @@ function TasksCard() {
         console.log("Task fetch er", err);
       });
   };
+
+  const handleSubmit = (id) =>{
+    const user = decodedToken('userJwt')
+    if(user){
+      navigate(`/subscribe-task/?task=${id}`)
+    }else{
+      navigate('/login')
+      toast.info('Please login first to subscribe')
+    }
+  }
 
   return (
     <div>
@@ -56,11 +69,11 @@ function TasksCard() {
                 <Typography color="blue">
                   Validity : {task.validity} days
                 </Typography>
-                <Link to={`/subscribe-task/?task=${task.id}`}>
-                  <Button className="w-max" size="sm" color="deep-orange">
+                {/* <Link to={`/subscribe-task/?task=${task.id}`}> */}
+                  <Button className="w-max" size="sm" color="deep-orange" onClick={()=>handleSubmit(task.id)}>
                     Try it for Rs.{task.amount}/-
                   </Button>
-                </Link>
+                {/* </Link> */}
               </div>
             </div>
           ))}
