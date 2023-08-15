@@ -9,20 +9,23 @@ import Pyschologists from '../pages/User/Pyschologists'
 import PsychologicalTasks from '../pages/User/PsychologicalTasks'
 import ContactUs from '../pages/User/ContactUs'
 import PsychologistProfile from '../pages/User/PsychologistProfile'
+import SubscribePage from '../components/User/PsychologicalTasks/SubscribePage'
+import PaymentSuccess from '../components/User/PsychologicalTasks/PaymentSuccess'
 
 function UserRoutes() {
     return (
         <div>
             <Routes>
                 <Route path='/' element={<UserLayout />}>
-                    <Route index element={<Home />} />
                     <Route element={<UserPrivateRoutes />}>
-
+                        <Route index element={<Home />} />
                         <Route path='profile/' element={<UserProfile />} />
                         <Route path='psychologists/' element={<Pyschologists />} />
                         <Route path='view/psychologist/' element={<PsychologistProfile />} />
                         <Route path='psychological-tasks/' element={<PsychologicalTasks />} />
                         <Route path='contact-us/' element={<ContactUs />} />
+                        <Route path='subscribe-task/' element={<SubscribePage />} />
+                        <Route path='task-payment/success/' element={<PaymentSuccess />} />
                     </Route>
                 </Route>
 

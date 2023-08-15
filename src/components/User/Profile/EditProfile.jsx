@@ -88,7 +88,7 @@ export default function EditProfile({ profile, getProfile }) {
                     <form onSubmit={handleUpdateProfile}>
 
                         <CardBody className="flex flex-col gap-4">
-                            <Typography className='text-lg text-black font-serif font-semibold' size='lg'>
+                            <Typography as='a' className='text-lg text-black font-serif font-semibold'>
                                 Edit Profile
                             </Typography>
 

@@ -97,7 +97,7 @@ function ListTable() {
                                         </Typography>
                                     </td>
                                     <td className={classes}>
-                                        <Typography as="a" href="#" variant="small" color="blue" className="font-medium">
+                                        <Typography variant="small" color="blue" className="font-medium">
                                             {user.is_active ?
                                                 <p className='text-white bg-green-700 text-center rounded-full w-1/2'>Active</p>
                                                 : <p className='text-white bg-red-700 text-center rounded-full w-1/2'>Inactive</p>

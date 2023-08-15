@@ -3,6 +3,8 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import { FcApproval } from "react-icons/fc";
+import { FaCircleNotch } from "react-icons/fa";
+import { HiPhoneXMark } from "react-icons/hi2";
 import {
   Card,
   CardHeader,
@@ -16,7 +18,12 @@ import {
   Input,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
-import { adminListCallbackReqs } from "../../../services/adminApi";
+import {
+  adminListCallbackReqs,
+  adminUpdateCallBackReqs,
+} from "../../../services/adminApi";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const TABLE_HEAD = ["Name", "Email", "Phone", "Status", "Action"];
 
@@ -34,6 +41,17 @@ export default function ReqsTable() {
       })
       .catch((err) => {
         console.log("Requests error", err);
+      });
+  };
+
+  const handleSubmit = async (id) => {
+    await adminUpdateCallBackReqs(id)
+      .then((res) => {
+        toast.success("Updated Succesfully!");
+        getRequests();
+      })
+      .catch((err) => {
+        toast.error("Some error occured. Please try again");
       });
   };
 
@@ -100,13 +118,15 @@ export default function ReqsTable() {
                     </div>
                   </td>
                   <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {request.email}
-                    </Typography>
+                    <Link to={`mailto:${request.email}`}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {request.email}
+                      </Typography>
+                    </Link>
                   </td>
                   <td className={classes}>
                     <Typography
@@ -131,9 +151,22 @@ export default function ReqsTable() {
                   </td>
 
                   <td className={classes}>
-                    <Tooltip content="Mark as Contacted">
-                      <IconButton variant="text">
-                        <FcApproval className="h-6 w-6" />
+                    <Tooltip
+                      content={
+                        request.is_contacted
+                          ? "Mark as not Contacted"
+                          : "Mark as Contacted"
+                      }
+                    >
+                      <IconButton
+                        variant="text"
+                        onClick={() => handleSubmit(request.id)}
+                      >
+                        {request.is_contacted ? (
+                          <HiPhoneXMark className="h-5 w-5 text-red-400" />
+                        ) : (
+                          <FcApproval className="h-6 w-6" />
+                        )}
                       </IconButton>
                     </Tooltip>
                   </td>
