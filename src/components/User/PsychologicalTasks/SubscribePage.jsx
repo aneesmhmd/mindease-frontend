@@ -29,7 +29,6 @@ function SubscribePage() {
     await getPsychologicalTaskDetails(taskId)
       .then((res) => {
         setTask(res.data);
-        console.log("Task details", task);
       })
       .catch((err) => {
         console.log("Details get err", err);

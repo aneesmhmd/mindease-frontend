@@ -10,6 +10,7 @@ function PaymentSuccess() {
   const urlParams = new URLSearchParams(window.location.search);
   const task = urlParams.get("task");
   const amount = urlParams.get("amount_paid");
+  const validity = urlParams.get("validity");
   const [timerCompleted, setTimerCompleted] = useState(false);
   const navigate = useNavigate();
 
@@ -21,13 +22,14 @@ function PaymentSuccess() {
       user: user,
       task: task,
       amount_paid: amount,
+      validity: validity,
     };
     createSubscription(values);
 
     const timeout = setTimeout(() => {
       setTimerCompleted(true);
       navigate("/");
-    }, 5000);
+    }, 10000);
     return () => clearTimeout(timeout);
   }, [task, navigate]);
 
@@ -37,7 +39,7 @@ function PaymentSuccess() {
         console.log("Success");
       })
       .catch((err) => {
-        console.log(err);
+        console.log("sub err", err);
       });
   };
 

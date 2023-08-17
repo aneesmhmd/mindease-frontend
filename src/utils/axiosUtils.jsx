@@ -14,10 +14,9 @@ const createAxiosClient = (baseURL) => {
 
 const attachToken = (req, tokenName) => {
     let authToken = localStorage.getItem(tokenName.access)
+    
     if (authToken) {
-        console.log('Token taken :', JSON.stringify(authToken));
         req.headers.Authorization = `Bearer ${authToken}`
-        // console.log('THis is the request header:',req.headers);
     }
     return req
 }
@@ -26,7 +25,6 @@ const attachToken = (req, tokenName) => {
 const userAxiosInstance = createAxiosClient(BaseUrl)
 userAxiosInstance.interceptors.request.use(async (req) => {
     const modifiedReq = attachToken(req, "userJwt")
-    console.log('Useraxios instance modified :', modifiedReq);
     return modifiedReq;
 })
 
@@ -34,7 +32,6 @@ userAxiosInstance.interceptors.request.use(async (req) => {
 const counselorAxiosInstance = createAxiosClient(CounselorUrl)
 counselorAxiosInstance.interceptors.request.use(async (req) => {
     const modifiedReq = attachToken(req, "counselorJwt")
-    console.log('Useraxios instance modified :', modifiedReq);
     return modifiedReq;
 })
 
@@ -42,7 +39,6 @@ counselorAxiosInstance.interceptors.request.use(async (req) => {
 const adminAxiosInstance = createAxiosClient(AdminUrl)
 adminAxiosInstance.interceptors.request.use(async (req) => {
     const modifiedReq = attachToken(req, "adminJwt")
-    console.log('Useraxios instance modified :', modifiedReq);
     return modifiedReq;
 })
 

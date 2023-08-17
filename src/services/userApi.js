@@ -25,8 +25,8 @@ const googleAuthentication = (value) => {
   });
 };
 
-const isUserAuth = (token) => {
-  return userAxiosInstance.get(`/api/is-user-auth/`, token, {
+const isUserAuth = (id) => {
+  return userAxiosInstance.get(`/api/is-user-auth/${id}/`, {
     withCredentials: true,
   });
 };
@@ -93,6 +93,19 @@ const getUserProfile = (user_id) => {
   });
 };
 
+const getSubscribedTasks = (id) => {
+  return userAxiosInstance.get(`/user/get-subscribed-tasks/${id}`, {
+    withCredentials: true,
+  });
+};
+
+const listSubscribedTaskItems = (userId, subId) => {
+  return userAxiosInstance.get(
+    `/user/get-subscribed-task-items/${userId}/${subId}/`,
+    { withCredentials: true }
+  );
+};
+
 const updateUserProfile = (values, id) => {
   return userAxiosInstance.put(`/api/update-profile/${id}/`, values, {
     withCredentials: true,
@@ -124,12 +137,14 @@ const addCallBackReqs = (values) => {
 };
 
 export {
+  isUserAuth,
   googleAuthentication,
   getAllServices,
   userLogin,
   userSignup,
-  isUserAuth,
   getUserProfile,
+  getSubscribedTasks,
+  listSubscribedTaskItems,
   changeUserPassword,
   updateUserProfile,
   removeUserImage,

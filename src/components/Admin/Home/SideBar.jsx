@@ -10,7 +10,7 @@ import {
 } from "react-icons/md";
 import { BiTask } from "react-icons/bi";
 import { GrTasks } from "react-icons/gr";
-import { TbReportAnalytics } from "react-icons/tb";
+import { TbReportAnalytics, TbCalendarTime } from "react-icons/tb";
 import { FaUsers, FaUserNurse, FaRegComments } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -25,15 +25,20 @@ const SideBar = () => {
       icon: MdAddCircleOutline,
     },
     {
+      name: "Appointment Slots",
+      link: "/admin/appointment-slots",
+      icon: TbCalendarTime,
+    },
+    {
       name: "Appointments",
       link: "/admin/appointments",
       icon: TbReportAnalytics,
     },
-    {
-      name: "Appointment Payment",
-      link: "/admin/appointment-payments",
-      icon: MdOutlinePayments,
-    },
+    // {
+    //   name: "Appointment Payment",
+    //   link: "/admin/appointment-payments",
+    //   icon: MdOutlinePayments,
+    // },
     {
       name: "Psychological tasks",
       link: "/admin/psychological-tasks",
@@ -43,11 +48,6 @@ const SideBar = () => {
       name: "Subscriptions taken",
       link: "/admin/task-subscription",
       icon: BiTask,
-    },
-    {
-      name: "Subscriptions payment",
-      link: "/admin/task-payments",
-      icon: MdOutlinePayments,
     },
     { name: "Testimonials", link: "/admin/testimonials", icon: FaRegComments },
     {
@@ -71,7 +71,7 @@ const SideBar = () => {
   const [open, setOpen] = useState(false);
   return (
     <div
-      className={`bg-blue-50 border-r-2 border-gray-500 min-h-screen ${
+      className={`bg-blue-50 shadow-lg min-h-screen ${
         open ? "w-72" : "w-16"
       } duration-500 text-dark-900 px-4 fixed z-10 mt-16`}
     >
@@ -82,7 +82,7 @@ const SideBar = () => {
           onClick={() => setOpen(!open)}
         />
       </div>
-      <div className="mt-4 flex flex-col gap-3 relative">
+      <div className="mt-4 flex flex-col md:gap-4 gap-1 relative">
         {menus?.map((menu, i) => (
           <Link
             to={menu?.link}

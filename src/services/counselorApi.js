@@ -6,6 +6,12 @@ const counselorLogin = (values) => {
   });
 };
 
+const isCounselorAuth = (id) => {
+  return counselorAxiosInstance.get(`/is-counselor-auth/${id}/`, {
+    withCredentials: true,
+  });
+};
+
 const getCounselorProfile = (id) => {
   return counselorAxiosInstance.get(`/counselor-profile/${id}/`, {
     withCredentials: true,
@@ -87,6 +93,7 @@ const updateCounselorAccount = (id, values) => {
 // }
 
 export {
+  isCounselorAuth,
   counselorLogin,
   changeCounselorPassword,
   getCounselorProfile,

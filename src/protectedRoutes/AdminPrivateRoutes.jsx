@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import { isUserAuth } from "../services/userApi";
 import { decodedToken } from "../Context/auth";
+import { isAdminAuth } from "../services/adminApi";
+import { Navigate, Outlet } from "react-router-dom";
 
-function UserPrivateRoutes({ route }) {
+function AdminPrivateRoutes({ route }) {
   const [verify, setVerify] = useState(null);
 
   useEffect(() => {
-    const decoded = decodedToken("userJwt");
+    const decoded = decodedToken("adminJwt");
     if (decoded) {
-      isUserAuth(decoded.user_id)
+      isAdminAuth(decoded.id)
         .then((res) => {
-          setVerify(true);
+          setVerify(res.data.success);
         })
         .catch((err) => {
           setVerify(false);
-          localStorage.removeItem("userJwt");
+          localStorage.removeItem("adminJwt");
         });
     }else{
       setVerify(false)
     }
   }, []);
 
-  if (verify===null) return;
+  if(verify===null) return;
 
   return verify ? <Outlet /> : <Navigate to={route} />;
 }
 
-export default UserPrivateRoutes;
+export default AdminPrivateRoutes;

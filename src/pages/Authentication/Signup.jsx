@@ -1,245 +1,325 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { useGoogleLogin } from '@react-oauth/google';
-import { googleAuthentication } from '../../services/userApi';
-import Loaders from '../../components/Loaders';
-import image from '../../images/signup.png'
-
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import axios from "axios";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { toast } from "react-toastify";
+import { useGoogleLogin } from "@react-oauth/google";
+import { googleAuthentication } from "../../services/userApi";
+import Loaders from "../../components/Loaders";
+import image from "../../images/signup.png";
+import { Helmet } from "react-helmet";
+import { Input } from "@material-tailwind/react";
 
 const Signup = () => {
-    useEffect(() => {
-        document.title = "Signup | MindEase";
-    });
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-    const [first_name, setFirstName] = useState('')
-    const [last_name, setLastName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [phone, setPhone] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [user, setUser] = useState(null)
-    const [loading, setLoading] = useState(false)
+  const passwordRegex =/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 
-    const handleLoading = () => setLoading((cur) => !cur)
+  const validationSchema = yup.object({
+    first_name: yup
+      .string()
+      .min(3, "First name should be minumum 3 characters long")
+      .required("This field is required"),
+    last_name: yup.string(),
+    email: yup
+      .string()
+      .email("Enter a valid email")
+      .required("This field is required"),
+    phone: yup
+      .string()
+      .matches(/^\d{10}$/, "Enter valid phone number")
+      .min(10, "Phone number should be 10 digits")
+      .required("This field is required"),
+    password: yup
+      .string()
+      .min(6, "Password should be min 6 characters long")
+      .max(16, "Password should be atmost 16 characters long")
+      .matches(
+        passwordRegex,
+        "Password must contain an upper case, a lower case, a number and a special character"
+      )
+      .required("Required Password !!"),
+    confirm_password: yup
+      .string()
+      .oneOf([yup.ref("password"), null], "Passwords must match")
+      .required("Please confirm your password !!"),
+  });
 
-    const [errors, setErrors] = useState({});
-
-
-    const navigate = useNavigate('');
-
-    const values = {
-        first_name,
-        last_name,
-        email,
-        password,
-        phone,
-    };
-
-    // Email register
-    const handleSignup = async (e) => {
-        e.preventDefault();
-        if (password !== confirmPassword) {
-            toast.error("Password didn't match")
+  // Email registration
+  const onSubmit = async (values) => {
+    setLoading(true);
+    console.log("vlaues", values);
+    await axios
+      .post(import.meta.env.VITE_BASE_USER_URL + "/api/register/", values)
+      .then((response) => {
+        setLoading(false)
+        toast.success(response.data.msg);
+        navigate("/login");
+      })
+      .catch((error) => {
+        setLoading(false)
+        if (error.response.data.email) {
+          toast.error(error.response.data.email[0]);
         } else {
-            handleLoading()
-            await axios.post(import.meta.env.VITE_BASE_USER_URL + '/api/register/', values).then((response) => {
-                handleLoading();
-                toast.success(response.data.msg)
-                navigate('/login')
-            }).catch((error) => {
-                handleLoading();
-                if(error.response.data.email){
-                    toast.error(error.response.data.email[0])
-                }else{
-                    toast.error('Some error occured.Please try again!')
-                }
-            });
+          toast.error("Some error occured.Please try again!");
         }
-    };
+      });
+  };
 
-    // Google login
-    const handleGoogleAuth = useGoogleLogin({
-        onSuccess: (codeResponse) => setUser(codeResponse),
-        onError: (error) => console.log('Login Failed:', error)
-    });
+  const formik = useFormik({
+    initialValues: {
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirm_password: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit,
+    validateOnBlur: true,
+  });
+  
 
-    useEffect(() => {
-        if (user) {
-            axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-                headers: {
-                    Authorization: `Bearer ${user.access_token}`,
-                    Accept: 'application/json'
-                }
-            })
-                .then((res) => {
-                    const userProfile = res.data
-                    googleAuthentication(userProfile).then((res) => {
-                        if (res.data.status === 200) {
-                            localStorage.setItem('userJwt', JSON.stringify(res.data.token));
-                            toast.success(res.data.msg)
-                            navigate('/')
-                        } else if (res.data.status === 400) {
-                            toast.error(res.data.msg)
-                        }
-                    })
-                })
-                .catch((err) => toast.error('Something went wrong!'));
-        }
-    }, [user])
+  // Google login
+  const handleGoogleAuth = useGoogleLogin({
+    onSuccess: (codeResponse) => setUser(codeResponse),
+    onError: (error) => console.log("Login Failed:", error),
+  });
 
-    return (
-        <div>
-            {loading ?
-                <Loaders />
-                :
-                <div className="flex flex-col md:flex-row h-screen">
-                    <div className="bg-white-200 md:w-1/2 flex flex-col justify-center items-center">
-                        <h2 className="text-2xl font-bold text-gray-800">MindEase</h2>
-                        <h4 className="text-xl text-gray-800 mb-4 font-casual">
-                            "Find Ease, Unlock Your Peace"
-                        </h4>
-                        <img
-                            src={image}
-                            alt="MindEase"
-                            className="w-96 h-96 object-contain mb-4"
-                        />
-                        <h2 className="text-2xl text-gray-800">Online Counseling Platform</h2>
-                    </div>
-                    <div className="bg-white flex flex-col justify-center items-center md:w-1/2">
-                        <h1 className="text-2xl font-bold text-gray-800 mb-4">
-                            Register your account here
-                        </h1>
-                        <form onSubmit={handleSignup} className="w-full max-w-sm">
-                            <div className="mb-4">
-                                <label htmlFor="firstName" className="sr-only">
-                                    First Name
-                                </label>
-                                <input
-                                    type="text"
-                                    id="firstName"
-                                    name="first_name"
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                    className="border rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
-                                    placeholder="First Name"
-                                // required
-                                />
-                                <div className="w-3/4 ms-16 mt-2">
-                                    {errors.first_name && <div className="text-red-500 text-center   bg-purple-200 rounded-md p-2 text-xs ">{errors.first_name.message}</div>}
-                                </div>
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="lastName" className="sr-only">
-                                    Last Name
-                                </label>
-                                <input
-                                    type="text"
-                                    id="lastName"
-                                    name="last_name"
-                                    onChange={(e) => setLastName(e.target.value)}
-                                    className="border rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
-                                    placeholder="Last Name"
-                                // required
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="email" className="sr-only">
-                                    Email
-                                </label>
-                                <input
-                                    type="text"
-                                    id="email"
-                                    name="email"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="border rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
-                                    placeholder="Email"
-                                // required
-                                />
-                                {/* {errors.email && <span>{errors.email}</span>} */}
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="phoneNumber" className="sr-only">
-                                    Phone Number
-                                </label>
-                                <input
-                                    type="tel"
-                                    id="phoneNumber"
-                                    name="phone"
-                                    onChange={(e) => setPhone(e.target.value)}
-                                    className="border rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
-                                    placeholder="Phone Number"
-                                // required
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="password" className="sr-only">
-                                    Password
-                                </label>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="border rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
-                                    placeholder="Password"
-                                // required
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="confirmPassword" className="sr-only">
-                                    Confirm Password
-                                </label>
-                                <input
-                                    type="password"
-                                    name="confirm_password"
-                                    id="confirmPassword"
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                    className="border rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
-                                    placeholder="Confirm Password"
-                                // required
-                                />
-                            </div>
-
-                            <div className="mb-4 flex justify-center">
-                                <button
-                                    type="submit"
-                                    className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 md:w-full"
-                                >
-                                    Sign Up
-                                </button>
-                            </div>
-                            <div className="mb-4">
-                                <button
-                                    type="button"
-                                    className="bg-white text-gray-500 border border-gray-300 py-2 px-4 rounded-md hover:bg-gray-100 w-full"
-                                    onClick={handleGoogleAuth}
-                                >
-                                    <FontAwesomeIcon
-                                        icon={faGoogle}
-                                        className="text-blue-500 mr-2"
-                                    />
-                                    Continue with Google
-                                </button>
-                            </div>
-                            <div className="text-center">
-                                <span className="text-gray-600">Already have an account?</span>
-                                <button
-                                    type="button"
-                                    className="text-blue-500 hover:underline ml-1"
-                                    onClick={() => navigate('/login')}
-                                >
-                                    Log In
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+  useEffect(() => {
+    if (user) {
+      axios
+        .get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.access_token}`,
+              Accept: "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          const userProfile = res.data;
+          googleAuthentication(userProfile).then((res) => {
+            if (res.data.status === 200) {
+              localStorage.setItem("userJwt", JSON.stringify(res.data.token));
+              toast.success(res.data.msg);
+              navigate("/");
+            } else if (res.data.status === 400) {
+              toast.error(res.data.msg);
             }
+          });
+        })
+        .catch((err) => toast.error("Something went wrong!"));
+    }
+  }, [user]);
+
+  return (
+    <div>
+      <Helmet>
+        <title>Sign Up | MindEase</title>
+      </Helmet>
+      {loading ? (
+        <Loaders />
+      ) : (
+        <div className="flex flex-col md:flex-row h-screen">
+          <div className="bg-white-200 md:w-1/2 flex flex-col justify-center items-center">
+            <h2 className="text-2xl font-bold text-gray-800">MindEase</h2>
+            <h4 className="text-xl text-gray-800 mb-4 font-casual">
+              "Find Ease, Unlock Your Peace"
+            </h4>
+            <img
+              src={image}
+              alt="MindEase"
+              className="w-96 h-96 object-contain mb-4"
+            />
+            <h2 className="text-2xl text-gray-800">
+              Online Counseling Platform
+            </h2>
+          </div>
+          <div className="bg-white flex flex-col justify-center items-center md:w-1/2">
+            <h1 className="text-2xl font-bold text-gray-800 mb-4">
+              Register your account here
+            </h1>
+            <form onSubmit={formik.handleSubmit} className="w-full max-w-sm">
+              <div className="mb-4">
+                <div className="w-full">
+                  <Input
+                    label="First name"
+                    name="first_name"
+                    size="md"
+                    value={formik.values.first_name}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.first_name &&
+                      Boolean(formik.errors.first_name)
+                    }
+                    className="bg-white bg-opacity-75"
+                  />
+                </div>
+                <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
+                  {formik.touched.first_name && formik.errors.first_name
+                    ? formik.errors.first_name
+                    : ""}
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <div className="w-full">
+                  <Input
+                    label="Last name"
+                    name="last_name"
+                    size="md"
+                    value={formik.values.last_name}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.last_name &&
+                      Boolean(formik.errors.last_name)
+                    }
+                    className="bg-white bg-opacity-75"
+                  />
+                </div>
+                <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
+                  {formik.touched.last_name && formik.errors.last_name
+                    ? formik.errors.last_name
+                    : ""}
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <div className="w-full">
+                  <Input
+                    label="Email"
+                    name="email"
+                    size="md"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    className="bg-white bg-opacity-75"
+                  />
+                </div>
+                <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
+                  {formik.touched.email && formik.errors.email
+                    ? formik.errors.email
+                    : ""}
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <div className="w-full">
+                  <Input
+                    label="Phone Number"
+                    name="phone"
+                    size="md"
+                    value={formik.values.phone}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.phone && Boolean(formik.errors.phone)}
+                    className="bg-white bg-opacity-75"
+                  />
+                </div>
+                <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
+                  {formik.touched.phone && formik.errors.phone
+                    ? formik.errors.phone
+                    : ""}
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <div className="w-full">
+                  <Input
+                    label="Password"
+                    name="password"
+                    size="md"
+                    type="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.password && Boolean(formik.errors.password)
+                    }
+                    className="bg-white bg-opacity-75"
+                  />
+                </div>
+                <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
+                  {formik.touched.password && formik.errors.password
+                    ? formik.errors.password
+                    : ""}
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <div className="w-full">
+                  <Input
+                    label="Confirm Password"
+                    name="confirm_password"
+                    size="md"
+                    type="password"
+                    value={formik.values.confirm_password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.confirm_password &&
+                      Boolean(formik.errors.confirm_password)
+                    }
+                    className="bg-white bg-opacity-75"
+                  />
+                </div>
+                <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
+                  {formik.touched.confirm_password &&
+                  formik.errors.confirm_password
+                    ? formik.errors.confirm_password
+                    : ""}
+                </div>
+              </div>
+
+              <div className="mb-4 flex justify-center">
+                <button
+                  type="submit" // This will trigger the form submission
+                  className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 md:w-full"
+                >
+                  Sign Up
+                </button>
+              </div>
+            </form>
+
+            <div className="mb-4">
+              <button
+                type="button"
+                className="bg-white text-gray-500 border border-gray-300 py-2 px-4 rounded-md hover:bg-gray-100 w-full"
+                onClick={handleGoogleAuth}
+              >
+                <FontAwesomeIcon
+                  icon={faGoogle}
+                  className="text-blue-500 mr-2"
+                />
+                Continue with Google
+              </button>
+            </div>
+            <div className="text-center">
+              <span className="text-gray-600">Already have an account?</span>
+              <button
+                type="button"
+                className="text-blue-500 hover:underline ml-1"
+                onClick={() => navigate("/login")}
+              >
+                Log In
+              </button>
+            </div>
+          </div>
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
 export default Signup;

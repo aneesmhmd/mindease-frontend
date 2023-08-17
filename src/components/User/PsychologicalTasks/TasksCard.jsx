@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 function TasksCard() {
   const [tasks, setTasks] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     getTasks();
@@ -23,15 +23,15 @@ function TasksCard() {
       });
   };
 
-  const handleSubmit = (id) =>{
-    const user = decodedToken('userJwt')
-    if(user){
-      navigate(`/subscribe-task/?task=${id}`)
-    }else{
-      navigate('/login')
-      toast.info('Please login first to subscribe')
+  const handleSubmit = (id) => {
+    const user = decodedToken("userJwt");
+    if (user) {
+      navigate(`/subscribe-task/?task=${id}`);
+    } else {
+      navigate("/login");
+      toast.info("Please login first to subscribe");
     }
-  }
+  };
 
   return (
     <div>
@@ -69,11 +69,16 @@ function TasksCard() {
                 <Typography color="blue">
                   Validity : {task.validity} days
                 </Typography>
-                {/* <Link to={`/subscribe-task/?task=${task.id}`}> */}
-                  <Button className="w-max" size="sm" color="deep-orange" onClick={()=>handleSubmit(task.id)}>
-                    Try it for Rs.{task.amount}/-
-                  </Button>
-                {/* </Link> */}
+
+                <Button
+                  className="w-max"
+                  size="sm"
+                  color="deep-orange"
+                  onClick={() => handleSubmit(task.id)}
+                >
+                  Try it for Rs.{task.amount}/-
+                </Button>
+                
               </div>
             </div>
           ))}

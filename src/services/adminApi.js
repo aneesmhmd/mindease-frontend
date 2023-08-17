@@ -6,8 +6,8 @@ const adminLogin = (values) => {
   });
 };
 
-const isAdminAuth = (token) => {
-  return adminAxiosInstance.get(`/is-admin-auth/`, token, {
+const isAdminAuth = (id) => {
+  return adminAxiosInstance.get(`/is-admin-auth/${id}/`, {
     withCredentials: true,
   });
 };
@@ -205,6 +205,12 @@ const adminDeleteTaskItems = (id) => {
   });
 };
 
+const adminListTaskSubscriptions = () => {
+  return adminAxiosInstance.get(`list-task-subscriptions/`, {
+    withCredentials: true,
+  });
+};
+
 const adminListCallbackReqs = () => {
   return adminAxiosInstance.get(`/list-callback-reqs/`, {
     withCredentials: true,
@@ -248,6 +254,7 @@ export {
   adminGetTaskItems,
   adminUpdateTaskItems,
   adminDeleteTaskItems,
+  adminListTaskSubscriptions,
   adminGetProfile,
   adminUpdateProfile,
   adminUpdateProfilePic,

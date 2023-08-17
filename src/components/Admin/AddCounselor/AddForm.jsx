@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useFormik } from "formik";
+import * as yup from "yup";
 import { toast } from "react-toastify";
 import { addCounselor } from "../../../services/adminApi";
 import { useNavigate } from "react-router-dom";
 import Loaders from "../../Loaders";
+import { Input } from "@material-tailwind/react";
 
 function AddForm() {
   const [loading, setLoading] = useState(false);
@@ -17,12 +20,12 @@ function AddForm() {
   });
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setValues({
-      ...values,
-      ["password"]: values.email,
-    });
-  }, [values.email]);
+  // useEffect(() => {
+  //   setValues({
+  //     ...values,
+  //     ["password"]: values.email,
+  //   });
+  // }, [formik.values.email]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,6 +61,50 @@ function AddForm() {
     }
   };
 
+  const validationSchema = yup.object({
+    first_name: yup
+      .string()
+      .min(3, "First name should be minumum 3 characters long")
+      .required("This field is required"),
+    last_name: yup.string(),
+    email: yup
+      .string()
+      .email("Enter a valid email")
+      .required("This field is required"),
+    phone: yup
+      .string()
+      .matches(/^\d{10}$/, "Enter valid phone number")
+      .min(10, "Phone number should be 10 digits")
+      .required("This field is required"),
+  });
+
+  const onSubmit = async (values) => {
+    handleLoading();
+    addCounselor(values)
+      .then((res) => {
+        handleLoading();
+        toast.success(res.data.message);
+        navigate("/admin/counselors");
+      })
+      .catch((error) => {
+        handleLoading();
+        console.log("Error", error);
+        toast.error(error.response.data.message);
+      });
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone: "",
+    },
+    validationSchema: validationSchema,
+    validateOnBlur: true,
+    onSubmit,
+  });
+
   return (
     <div className="md:w-1/2">
       {loading ? (
@@ -68,78 +115,91 @@ function AddForm() {
             Add Psychologist
           </h1>
           <form
-            onSubmit={handleSubmit}
-            className="flex flex-col items-center w-full border-t max-w-xl shadow-lg rounded-lg bg-gray-50"
+            onSubmit={formik.handleSubmit}
+            className="flex flex-col items-center w-full border-t max-w-xl shadow-lg rounded-lg gap-5 bg-gray-50"
           >
-            <div className="md:w-full">
-              <label htmlFor="firstName" className="sr-only">
-                First Name
-              </label>
-              <div className="relative py-2 px-8 mt-5">
-                <input
-                  type="firstName"
-                  id="firstName"
+            <div className="md:w-full px-8">
+              <div className="mt-9">
+                <Input
+                  label="First name"
                   name="first_name"
-                  onChange={(e) =>
-                    setValues({ ...values, [e.target.name]: e.target.value })
+                  size="lg"
+                  value={formik.values.first_name}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.first_name &&
+                    Boolean(formik.errors.first_name)
                   }
-                  className="border rounded-md pl-10 py-2  w-full "
-                  placeholder="First Name"
+                  className="bg-white bg-opacity-75"
                 />
+              </div>
+              <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
+                {formik.touched.first_name && formik.errors.first_name
+                  ? formik.errors.first_name
+                  : ""}
               </div>
             </div>
 
-            <div className="md:w-full">
-              <label htmlFor="lastName" className="sr-only">
-                Last Name
-              </label>
-              <div className="relative py-2 px-8">
-                <input
-                  type="lastName"
-                  id="lastName"
+            <div className="md:w-full px-8">
+              <div className="w-full">
+                <Input
+                  label="Last name"
                   name="last_name"
-                  onChange={(e) =>
-                    setValues({ ...values, [e.target.name]: e.target.value })
+                  size="lg"
+                  value={formik.values.last_name}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.last_name && Boolean(formik.errors.last_name)
                   }
-                  className="border rounded-md pl-10 py-2  w-full focus:outline-none focus:border-blue-500"
-                  placeholder="Last Name"
+                  className="bg-white bg-opacity-75"
                 />
+              </div>
+              <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
+                {formik.touched.last_name && formik.errors.last_name
+                  ? formik.errors.last_name
+                  : ""}
               </div>
             </div>
 
-            <div className="md:w-full">
-              <label htmlFor="email" className="sr-only">
-                Email
-              </label>
-              <div className="relative py-2 px-8">
-                <input
-                  type="text"
-                  id="email"
+            <div className="md:w-full px-8">
+              <div className="w-full">
+                <Input
+                  label="Email"
                   name="email"
-                  onChange={(e) =>
-                    setValues({ ...values, [e.target.name]: e.target.value })
-                  }
-                  className="border rounded-md pl-10 py-2  w-full focus:outline-none focus:border-blue-500"
-                  placeholder="Email"
+                  size="lg"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  className="bg-white bg-opacity-75"
                 />
+              </div>
+              <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
+                {formik.touched.email && formik.errors.email
+                  ? formik.errors.email
+                  : ""}
               </div>
             </div>
 
-            <div className="md:w-full mb-4">
-              <label htmlFor="phone" className="sr-only">
-                Phone Number
-              </label>
-              <div className="relative py-2 px-8">
-                <input
-                  type="text"
-                  id="phone"
+            <div className="md:w-full px-8">
+              <div className="w-full">
+                <Input
+                  label="Phone Number"
                   name="phone"
-                  onChange={(e) =>
-                    setValues({ ...values, [e.target.name]: e.target.value })
-                  }
-                  className="border rounded-md pl-10 py-2  w-full focus:outline-none focus:border-blue-500"
-                  placeholder="Phone Number"
+                  size="lg"
+                  value={formik.values.phone}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.phone && Boolean(formik.errors.phone)}
+                  className="bg-white bg-opacity-75"
                 />
+              </div>
+              <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
+                {formik.touched.phone && formik.errors.phone
+                  ? formik.errors.phone
+                  : ""}
               </div>
             </div>
 

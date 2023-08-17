@@ -9,7 +9,6 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import CounselorProfileIcon from "./CounselorProfileIcon";
 
-
 function NavList() {
   return (
     <ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -19,7 +18,10 @@ function NavList() {
         color="white"
         className="p-1 font-medium me-6"
       >
-        <Link to='/counselor/home' className="flex items-center md:text-base hover:text-blue-100 transition-colors">
+        <Link
+          to="/counselor/home"
+          className="flex items-center md:text-base hover:text-blue-100 transition-colors"
+        >
           Home
         </Link>
       </Typography>
@@ -44,27 +46,17 @@ function NavList() {
           Session
         </Link>
       </Typography>
-      {/* <Typography
+
+      <Typography
         as="li"
         variant="small"
         color="white"
         className="p-1 font-medium me-6"
       >
-        <a href="#" className="flex items-center md:text-base hover:text-blue-100 transition-colors">
-          Add Activities
-        </a>
-      </Typography> */}
-
-      {/* <Typography
-        as="li"
-        variant="small"
-        color="white"
-        className="p-1 font-medium lg:me-6"
-      >
-        <a href="#" className="flex items-center md:text-base hover:text-blue-100 transition-colors">
-          Contact Us
-        </a>
-      </Typography> */}
+        <Link to='/counselor/slots/' className="flex items-center md:text-base hover:text-blue-100 transition-colors">
+          Slots
+        </Link>
+      </Typography>
     </ul>
   );
 }
@@ -108,8 +100,7 @@ export default function NavBar() {
             <Bars3Icon className="h-6 w-6 me-10" strokeWidth={2} />
           )}
         </IconButton>
-      <CounselorProfileIcon/>
-
+        <CounselorProfileIcon />
       </div>
       <Collapse open={openNav}>
         <NavList />

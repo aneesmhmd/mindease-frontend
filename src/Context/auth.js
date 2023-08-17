@@ -17,7 +17,6 @@ export function decodedToken(tokenName) {
 
 export default function isLogged(tokenName) {
   const localResponse = getLocal(tokenName);
-  console.log("Local response :", localResponse);
   if (localResponse) {
     const decoded = jwtDecode(localResponse);
     if (tokenName === "userJwt" && decoded.role === "user") {
