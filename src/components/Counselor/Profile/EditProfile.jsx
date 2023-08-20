@@ -33,7 +33,7 @@ export default function EditProfile({ profile, updateProfile }) {
 
         // Regex patterns for validation
         const firstNameRegex = /^[a-zA-Z]{4,}$/;
-        const lastNameRegex = /^[a-zA-Z]$/;
+        const lastNameRegex = /^[a-zA-Z' ']+$/;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const phoneRegex = /^\d{10,12}$/;
 

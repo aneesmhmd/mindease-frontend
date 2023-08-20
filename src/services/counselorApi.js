@@ -12,6 +12,18 @@ const isCounselorAuth = (id) => {
   });
 };
 
+const listSlots = (id, values) => {
+  return counselorAxiosInstance.post(`/list-time-slots/${id}/`, values, {
+    withCredentials: true,
+  });
+};
+
+const addSlots = (id, values) => {
+  return counselorAxiosInstance.post(`/add-time-slots/${id}/`, values, {
+    withCredentials: true,
+  });
+};
+
 const getCounselorProfile = (id) => {
   return counselorAxiosInstance.get(`/counselor-profile/${id}/`, {
     withCredentials: true,
@@ -50,7 +62,6 @@ const getCounselorEducation = (id) => {
 };
 
 const addCounselorExperience = (values) => {
-  console.log("Experience details:", values);
   return counselorAxiosInstance.post(`/add-experience/`, values, {
     withCredentials: true,
   });
@@ -95,6 +106,8 @@ const updateCounselorAccount = (id, values) => {
 export {
   isCounselorAuth,
   counselorLogin,
+  listSlots,
+  addSlots,
   changeCounselorPassword,
   getCounselorProfile,
   addCounselorEducation,
