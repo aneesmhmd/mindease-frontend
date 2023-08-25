@@ -9,7 +9,6 @@ import {
   Input,
   IconButton,
 } from "@material-tailwind/react";
-import { PencilIcon } from "@heroicons/react/24/solid";
 import { updateUserProfile } from "../../../services/userApi";
 import { toast } from "react-toastify";
 
@@ -67,7 +66,7 @@ export default function EditProfile({ profile, getProfile }) {
   return (
     <>
       <button
-        className="bg-dark-purple md:w-36 w-1/2 rounded text-sm mt-2 mb-4 text-white"
+        className="bg-dark-purple md:w-36 w-1/2 rounded text-sm mt-2 mb-4 py-1 text-white"
         onClick={handleOpen}
       >
         Edit Profile
@@ -94,10 +93,7 @@ export default function EditProfile({ profile, getProfile }) {
                 value={values.first_name}
                 name="first_name"
                 onChange={(e) =>
-                  setValues({
-                    ...values,
-                    [e.target.name]: e.target.value,
-                  })
+                  setValues({ ...values, [e.target.name]: e.target.value })
                 }
               />
 

@@ -73,6 +73,30 @@ const getPsychologicalTaskDetails = (id) => {
   });
 };
 
+const listCounselorSlots = (id, values) => {
+  return userAxiosInstance.post(`booking/list-available-slots/${id}/`, values, {
+    withCredentials: true,
+  });
+};
+
+const userSlotBooking = (values) => {
+  return userAxiosInstance.post(`booking/create-checkout-session/`, values, {
+    withCredentials: true,
+  });
+};
+
+const bookingPaymentSuccess = (id) => {
+  return userAxiosInstance.patch(`booking/payment-success/${id}/`, {
+    withCredentials: true,
+  });
+};
+
+const getUserAppointments = (id) => {
+  return userAxiosInstance.get(`booking/list-appointments/${id}/`, {
+    withCredentials: true,
+  });
+};
+
 const createCheckoutSession = (values) => {
   return userAxiosInstance.post(
     `user/task-subscription-checkout-session/`,
@@ -136,6 +160,12 @@ const addCallBackReqs = (values) => {
   });
 };
 
+const getMeetLink = (id) => {
+  return userAxiosInstance.get(`booking/get-meet-link/${id}/`, {
+    withCredentials: true,
+  });
+};
+
 export {
   isUserAuth,
   googleAuthentication,
@@ -150,6 +180,10 @@ export {
   removeUserImage,
   updateUserImage,
   listCounselors,
+  listCounselorSlots,
+  userSlotBooking,
+  bookingPaymentSuccess,
+  getUserAppointments,
   listPsychologicalTasks,
   getPsychologicalTaskDetails,
   createCheckoutSession,
@@ -158,4 +192,5 @@ export {
   getCounselorEducation,
   getCounselorExperience,
   addCallBackReqs,
+  getMeetLink,
 };

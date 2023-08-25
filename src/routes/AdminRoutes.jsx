@@ -21,6 +21,7 @@ import CallBackReqs from "../pages/Admin/CallBackReqs";
 import TaskSubscription from "../pages/Admin/TaskSubscription";
 import AppointmentSlots from "../pages/Admin/AppointmentSlots";
 import AdminPrivateRoutes from "../protectedRoutes/AdminPrivateRoutes";
+import Appointments from "../pages/Admin/Appointments";
 
 function AdminRoutes() {
   return (
@@ -35,6 +36,7 @@ function AdminRoutes() {
             <Route path="/counselors" element={<CounselorsList />} />
             <Route path="/add-counselor/" element={<AddCounselor />} />
             <Route path="/appointment-slots" element={<AppointmentSlots />} />
+            <Route path="/appointments" element={<Appointments />} />
             <Route path="/psychological-tasks/" element={<PsychologicalTasks />} />
             <Route path="/psychological-tasks/add" element={<AddTasks />} />
             <Route path="/view-tasks" element={<ViewTasks />} />

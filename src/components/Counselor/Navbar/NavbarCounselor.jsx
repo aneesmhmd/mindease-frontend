@@ -32,11 +32,14 @@ function NavList() {
         color="white"
         className="p-1 font-medium me-6"
       >
-        <Link className="flex items-center md:text-base hover:text-blue-100 transition-colors">
+        <Link
+          to="/counselor/appointments/"
+          className="flex items-center md:text-base hover:text-blue-100 transition-colors"
+        >
           Appointments
         </Link>
       </Typography>
-      <Typography
+      {/* <Typography
         as="li"
         variant="small"
         color="white"
@@ -45,7 +48,7 @@ function NavList() {
         <Link className="flex items-center md:text-base hover:text-blue-100 transition-colors">
           Session
         </Link>
-      </Typography>
+      </Typography> */}
 
       <Typography
         as="li"
@@ -53,7 +56,10 @@ function NavList() {
         color="white"
         className="p-1 font-medium me-6"
       >
-        <Link to='/counselor/slots/' className="flex items-center md:text-base hover:text-blue-100 transition-colors">
+        <Link
+          to="/counselor/slots/"
+          className="flex items-center md:text-base hover:text-blue-100 transition-colors"
+        >
           Slots
         </Link>
       </Typography>

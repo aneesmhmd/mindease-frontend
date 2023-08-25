@@ -99,6 +99,35 @@ const updateCounselorAccount = (id, values) => {
   );
 };
 
+const listAllAppointments = (id) => {
+  return counselorAxiosInstance.get(`list-all-appointments/${id}/`, {
+    withCredentials: true,
+  });
+};
+
+const listAppointmentsByDate = (id, date) => {
+  return counselorAxiosInstance.get(
+    `list-appointments-by-date/${id}/${date}/`,
+    { withCredentials: true }
+  );
+};
+
+const updateAppointmentStatus = (id, values) => {
+  return counselorAxiosInstance.patch(
+    `update-appointment-status/${id}/`,
+    values,
+    {
+      withCredentials: true,
+    }
+  );
+};
+
+const shareMeetLink = (values) => {
+  return counselorAxiosInstance.post(`share-meet-link/`, values, {
+    withCredentials: true,
+  });
+};
+
 // const isCounselorAuth = (values) =>{
 //     return counselorAxiosInstance.post('/')
 // }
@@ -120,4 +149,8 @@ export {
   listCounselorServices,
   getCounselorAccount,
   updateCounselorAccount,
+  listAllAppointments,
+  listAppointmentsByDate,
+  updateAppointmentStatus,
+  shareMeetLink,
 };

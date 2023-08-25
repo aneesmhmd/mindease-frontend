@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  getCounselorEducation,
-  getCounselorProfile,
-} from "../../../services/userApi";
+import { getCounselorProfile } from "../../../services/userApi";
 import { Button, Typography } from "@material-tailwind/react";
 import { TagIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
@@ -18,12 +15,6 @@ function ViewProfile() {
   useEffect(() => {
     getProfile();
   }, []);
-
-  useEffect(() => {
-    if (accountId) {
-      console.log("accountId is:", accountId);
-    }
-  }, [accountId]);
 
   const getProfile = async () => {
     await getCounselorProfile(counselorId)
@@ -70,7 +61,7 @@ function ViewProfile() {
             </Typography>
           </div>
 
-          <Link>
+          <Link to={`/psychologist/book-slot/?psychologist=${counselorId}`}>
             <Button size="sm" className="py-1 w-32 mt-2" color="blue-gray">
               Book Slot
             </Button>

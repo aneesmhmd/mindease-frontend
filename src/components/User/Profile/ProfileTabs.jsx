@@ -10,6 +10,7 @@ import {TbReportAnalytics} from 'react-icons/tb'
 import {BiTask,BiSolidLockAlt} from 'react-icons/bi'
 import ChangePassword from "./ChangePassword";
 import SubscribedTasks from "./SubscribedTasks/SubscribedTasks";
+import UserAppointments from "./Appointments/UserAppointments";
  
 export default function ProfileTabs() {
   const data = [
@@ -17,7 +18,7 @@ export default function ProfileTabs() {
       label: "Appointments",
       value: "appointments",
       icon: TbReportAnalytics,
-      desc: `Appointments, its status, everything will be shown here`,
+      desc: <UserAppointments/>,
     },
     {
       label: "Subscriptions",
@@ -37,7 +38,7 @@ export default function ProfileTabs() {
       <TabsHeader>
         {data.map(({ label, value, icon }) => (
           <Tab key={value} value={value}>
-            <div className="flex items-center gap-2 md:w-auto w-10 overflow-hidden md:text-base text-xs">
+            <div className="flex items-center gap-2 py-1 md:w-auto w-10 overflow-hidden md:text-base text-xs">
               {React.createElement(icon, { className: "w-5 h-5" })}
               {label}
             </div>

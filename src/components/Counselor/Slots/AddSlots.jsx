@@ -45,7 +45,7 @@ function AddSlots() {
           );
           const timeDifference = Math.abs(newTime - existingTimeDate);
           const millisecondsIn1Hour = 60 * 60 * 1000;
-          return timeDifference <= millisecondsIn1Hour;
+          return timeDifference < millisecondsIn1Hour;
         });
 
         if (isWithin1Hour) {

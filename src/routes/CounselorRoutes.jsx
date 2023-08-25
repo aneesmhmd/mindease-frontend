@@ -11,6 +11,7 @@ import CounselorAddEducation from "../pages/Counselor/CounselorAddEducation";
 import CounselorAddExperience from "../components/Counselor/Profile/CounselorAddExperience";
 import CounselorSlots from "../pages/Counselor/CounselorSlots";
 import AddSlots from '../components/Counselor/Slots/AddSlots'
+import CounselorAppointments from "../pages/Counselor/CounselorAppointments";
 
 function CounselorRoutes() {
   return (
@@ -21,6 +22,7 @@ function CounselorRoutes() {
         <Route path="/" element={<CounselorLayout />}>
           <Route element={<CounselorPrivateRoutes route={"/counselor/login/"} />}>
             <Route path="/home/" element={<CounselorHome />} />
+            <Route path="/appointments/" element={<CounselorAppointments />} />
             <Route path="/slots/" element={<CounselorSlots />} />
             <Route path="/slots/add-slots/" element={<AddSlots/>}/>
             <Route path="/profile/" element={<CounselorProfile />} />

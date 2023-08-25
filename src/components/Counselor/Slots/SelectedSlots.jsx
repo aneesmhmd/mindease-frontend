@@ -8,7 +8,7 @@ import React from "react";
 import { TrashIcon } from "@heroicons/react/24/solid";
 
 function SelectedSlots({ selectedTime, setSelectedTime, action }) {
-  const calculateStartTime = (time) => {
+  const calculatedStartTime = (time) => {
     const [hours, minutes] = time.split(":").map(Number);
     const startTime = new Date(2000, 0, 1, hours, minutes);
     startTime.setHours(startTime.getHours());
@@ -18,7 +18,7 @@ function SelectedSlots({ selectedTime, setSelectedTime, action }) {
     });
   };
 
-  const calculateEndTime = (startTime) => {
+  const calculatedEndTime = (startTime) => {
     const [hours, minutes] = startTime.split(":").map(Number);
     const endTime = new Date(2000, 0, 1, hours, minutes);
     endTime.setHours(endTime.getHours() + 1);
@@ -49,8 +49,8 @@ function SelectedSlots({ selectedTime, setSelectedTime, action }) {
             key={index}
             className="flex flex-row justify-around items-center w-full"
           >
-            <Typography>{calculateStartTime(startTime)}</Typography>
-            <Typography>{calculateEndTime(startTime)}</Typography>
+            <Typography>{calculatedStartTime(startTime)}</Typography>
+            <Typography>{calculatedEndTime(startTime)}</Typography>
             <Tooltip content="Remove Slot">
               <IconButton
                 onClick={() => handleRemoveSlot(index)}
@@ -63,7 +63,9 @@ function SelectedSlots({ selectedTime, setSelectedTime, action }) {
           </div>
         ))}
       </div>
-      <Button onClick={()=> action()} className="w-full">Save Slots</Button>
+      <Button onClick={() => action()} className="w-full">
+        Save Slots
+      </Button>
     </div>
   );
 }

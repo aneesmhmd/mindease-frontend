@@ -12,6 +12,12 @@ const isAdminAuth = (id) => {
   });
 };
 
+const adminDashboard = () => {
+  return adminAxiosInstance.get(`dashboard-view/`, {
+    withCredentials: true,
+  });
+};
+
 const adminGetProfile = (id) => {
   return adminAxiosInstance.get(`get-admin-profile/${id}`, {
     withCredentials: true,
@@ -223,9 +229,16 @@ const adminUpdateCallBackReqs = (id) => {
   });
 };
 
+const adminListAppointments = () => {
+  return adminAxiosInstance.get(`list-all-appointments/`, {
+    withCredentials: true,
+  });
+};
+
 export {
   adminLogin,
   isAdminAuth,
+  adminDashboard,
   addCounselor,
   adminUserDetails,
   adminManageUser,
@@ -261,4 +274,5 @@ export {
   adminChangePassword,
   adminListCallbackReqs,
   adminUpdateCallBackReqs,
+  adminListAppointments,
 };

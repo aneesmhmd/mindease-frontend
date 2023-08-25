@@ -29,6 +29,8 @@ function UserLogin() {
       } else {
         toast.success(message);
       }
+    } else{
+      toast.info('Please login to continue!')
     }
     const response = isLogged("userJwt");
     if (response && response === "user") {
@@ -82,7 +84,7 @@ function UserLogin() {
     password: yup.string().required("Enter your password"),
   });
 
-  const onSubmit = async (values, { resetForm }) => {
+  const onSubmit = async (values) => {
     userLogin(values)
       .then((res) => {
         if (res.status === 200) {
@@ -100,7 +102,6 @@ function UserLogin() {
         }
       })
       .catch((error) => {
-        console.log("this is the error in login", error);
         toast.error(error.response.data.detail);
       });
   };
@@ -114,36 +115,6 @@ function UserLogin() {
     validateOnBlur: true,
     onSubmit,
   });
-
-  const isValidEmail = (email) => {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-  };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    userLogin(values)
-      .then((res) => {
-        if (res.status === 200) {
-          const token = JSON.stringify(res.data);
-          const decoded = jwtDecode(token);
-          if (decoded.role === "user") {
-            localStorage.setItem("userJwt", token);
-            toast.success("Login succesfull");
-            navigate("/");
-          } else {
-            toast.error("Invalid user");
-          }
-        } else {
-          toast.error("Invalid login credentials");
-        }
-      })
-      .catch((error) => {
-        console.log("this is the error in login", error);
-        toast.error(error.response.data.detail);
-      });
-  };
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
@@ -198,7 +169,9 @@ function UserLogin() {
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                error={formik.touched.password && Boolean(formik.errors.password)}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
                 className="bg-white bg-opacity-75"
               />
             </div>

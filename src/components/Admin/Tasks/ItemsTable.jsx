@@ -38,7 +38,7 @@ export default function ItemsTable({ taskId }) {
     }
 
     return (
-        <Card className="h-full w-full border-t mb-10 shadow-lg">
+        <Card className="h-full w-full border-t mb-10 shadow-lg overflow-x-auto">
             <CardHeader floated={false} shadow={false} className="rounded-none">
                 <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
 

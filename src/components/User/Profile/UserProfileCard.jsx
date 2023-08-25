@@ -63,7 +63,7 @@ function UserProfileCard() {
           </div>
 
           <div className="flex flex-col md:mt-8 justify-start md:items-start items-center gap-2 lg:w-3/4 w-full font-serif md:text-lg">
-            <span>First name : {profile.first_name} {profile.id}</span>
+            <span>First name : {profile.first_name}</span>
             <h1>Last Name : {profile.last_name}</h1>
             <h1>Email : {profile.email}</h1>
             <h1>Phone : {profile.phone}</h1>

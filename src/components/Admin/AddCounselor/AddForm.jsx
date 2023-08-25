@@ -88,8 +88,11 @@ function AddForm() {
       })
       .catch((error) => {
         handleLoading();
-        console.log("Error", error);
-        toast.error(error.response.data.message);
+        if (error.response.data.email) {
+          toast.error(error.response.data.email[0]);
+        } else {
+          toast.error("Registration failed.Please try again!");
+        }
       });
   };
 

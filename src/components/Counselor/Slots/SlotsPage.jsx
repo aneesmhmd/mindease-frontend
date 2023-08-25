@@ -1,15 +1,17 @@
 import { Button, Input, Typography } from "@material-tailwind/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SlotsTable from "./SlotsTable";
 import { listSlots } from "../../../services/counselorApi";
 import { decodedToken } from "../../../Context/auth";
+import NotAvailable from "./NotAvailable";
 
 function SlotsPage() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [dateErr, setDateErr] = useState("");
   const currentDate = new Date().toISOString().split("T")[0];
   const [slots, setSlots] = useState([]);
+  const [notAvailable, setNotAvailable] = useState(false);
 
   const handleSlotsSubmit = async (e) => {
     e.preventDefault();
@@ -19,11 +21,12 @@ function SlotsPage() {
       const id = counselor.counselor;
       await listSlots(id, { selectedDate })
         .then((res) => {
+          setNotAvailable(false);
           setSlots(res.data);
-          console.log("Slots on the selected date :", res.data);
         })
         .catch((err) => {
-          console.log("slot err:", err);
+          setSlots([]);
+          setNotAvailable(true);
         });
     } else {
       setDateErr("Please select a date first!");
@@ -70,7 +73,8 @@ function SlotsPage() {
           </form>
         </div>
 
-        {slots.length > 0 && <SlotsTable slots={slots}/>}
+        {slots.length > 0 && <SlotsTable slots={slots} />}
+        {notAvailable && slots.length === 0 && <NotAvailable />}
       </div>
     </div>
   );

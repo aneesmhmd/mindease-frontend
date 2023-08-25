@@ -24,11 +24,11 @@ const SideBar = () => {
       link: "/admin/add-counselor",
       icon: MdAddCircleOutline,
     },
-    {
-      name: "Appointment Slots",
-      link: "/admin/appointment-slots",
-      icon: TbCalendarTime,
-    },
+    // {
+    //   name: "Appointment Slots",
+    //   link: "/admin/appointment-slots",
+    //   icon: TbCalendarTime,
+    // },
     {
       name: "Appointments",
       link: "/admin/appointments",
@@ -49,7 +49,7 @@ const SideBar = () => {
       link: "/admin/task-subscription",
       icon: BiTask,
     },
-    { name: "Testimonials", link: "/admin/testimonials", icon: FaRegComments },
+    // { name: "Testimonials", link: "/admin/testimonials", icon: FaRegComments },
     {
       name: "Services",
       link: "/admin/Services",
@@ -82,7 +82,7 @@ const SideBar = () => {
           onClick={() => setOpen(!open)}
         />
       </div>
-      <div className="mt-4 flex flex-col md:gap-4 gap-1 relative">
+      <div className="mt-4 flex flex-col md:gap-6 gap-1 relative">
         {menus?.map((menu, i) => (
           <Link
             to={menu?.link}
