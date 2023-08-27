@@ -5,6 +5,8 @@ import { TagIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import EducationDetails from "./EducationDetails";
 import ExperienceDetails from "./ExperienceDetails";
+import axios from "axios";
+import { BaseUrl } from "../../../constants/constants";
 
 function ViewProfile() {
   const [profile, setProfile] = useState({});
@@ -17,7 +19,8 @@ function ViewProfile() {
   }, []);
 
   const getProfile = async () => {
-    await getCounselorProfile(counselorId)
+    await axios.get(BaseUrl + `/user/get-counselor-profile/${counselorId}/`)
+    // await getCounselorProfile(counselorId)
       .then((res) => {
         setProfile(res.data);
         setAccountId(res.data.counselor_details.id);

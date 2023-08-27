@@ -4,6 +4,8 @@ import { Button, Chip } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { getCounselorEducation } from "../../../services/userApi";
+import axios from "axios";
+import { BaseUrl } from "../../../constants/constants";
 
 function EducationDetails({ counselorId }) {
   const [educations, setEducations] = useState([]);

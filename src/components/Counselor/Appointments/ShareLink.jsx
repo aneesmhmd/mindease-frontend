@@ -28,9 +28,15 @@ function ShareLink({ id, user }) {
       shareMeetLink(values)
         .then((res) => {
           toast.success("Link shared!");
+          handleOpen();
         })
         .catch((err) => {
-          toast.error("Some error occured!Please try again");
+          console.log("err", err);
+          if (err.response.data.link) {
+            toast.error(err.response.data.link[0]);
+          } else {
+            toast.error("Some error occured!Please try again");
+          }
         });
     }
   };

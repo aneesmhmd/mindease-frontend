@@ -8,6 +8,8 @@ import { Helmet } from "react-helmet";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import AvailableSlots from "./AvailableSlots";
+import axios from "axios";
+import { BaseUrl } from "../../../constants/constants";
 
 function SlotBooking() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -27,7 +29,7 @@ function SlotBooking() {
   }, []);
 
   const getProfile = async () => {
-    await getCounselorProfile(counselorId)
+    await axios.get(BaseUrl + `/user/get-counselor-profile/${counselorId}/`)
       .then((res) => {
         setProfile(res.data);
       })
