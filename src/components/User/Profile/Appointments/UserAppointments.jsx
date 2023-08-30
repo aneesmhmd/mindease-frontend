@@ -48,14 +48,14 @@ function UserAppointments() {
               key={index}
               className="flex flex-row justify-around text-center text-black"
             >
-              <Typography className="w-1/4">
+              <Typography className="flex flex-col justify-center w-1/4">
                 {appointment?.session_date}
               </Typography>
-              <Typography className="w-1/4">
+              <Typography className="flex flex-col justify-center w-1/4">
                 {formatedTime(appointment?.slot?.start)} -{" "}
                 {formatedTime(appointment?.slot?.end)}
               </Typography>
-              <Typography className="w-1/4">
+              <Typography className="flex flex-col justify-center w-1/4">
                 Dr.{appointment?.counselor?.counselor_details?.first_name}{" "}
                 {appointment?.counselor?.counselor_details?.last_name}
               </Typography>
@@ -75,8 +75,10 @@ function UserAppointments() {
                   }
                 />
 
-                {appointment.status === "Not attended" && (
-                  <Link to={`/session-reschedule/?appointment=${appointment.id}`}>
+                {appointment.status === "Not attended" && !appointment.is_rescheduled && (
+                  <Link
+                    to={`/session-reschedule/?appointment=${appointment.id}`}
+                  >
                     <Button size="sm">Reschedule</Button>
                   </Link>
                 )}

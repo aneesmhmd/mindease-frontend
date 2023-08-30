@@ -12,6 +12,7 @@ import CounselorAddExperience from "../components/Counselor/Profile/CounselorAdd
 import CounselorSlots from "../pages/Counselor/CounselorSlots";
 import AddSlots from '../components/Counselor/Slots/AddSlots'
 import CounselorAppointments from "../pages/Counselor/CounselorAppointments";
+import VideoCall from "../components/VideoCall/VideoCall";
 
 function CounselorRoutes() {
   return (
@@ -29,6 +30,7 @@ function CounselorRoutes() {
             <Route path="/set-password/" element={<SetPassword />} />
             <Route path="/add-qualification/" element={<CounselorAddEducation />}/>
             <Route path="/add-experience/" element={<CounselorAddExperience />} />
+            <Route path="/session" element={<VideoCall/>}/>
           </Route>
         </Route>
       </Routes>

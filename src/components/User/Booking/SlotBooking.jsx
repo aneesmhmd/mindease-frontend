@@ -1,9 +1,6 @@
 import { Button, Input, Typography } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
-import {
-  getCounselorProfile,
-  listCounselorSlots,
-} from "../../../services/userApi";
+import { listCounselorSlots } from "../../../services/userApi";
 import { Helmet } from "react-helmet";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +26,8 @@ function SlotBooking() {
   }, []);
 
   const getProfile = async () => {
-    await axios.get(BaseUrl + `/user/get-counselor-profile/${counselorId}/`)
+    await axios
+      .get(BaseUrl + `/user/get-counselor-profile/${counselorId}/`)
       .then((res) => {
         setProfile(res.data);
       })

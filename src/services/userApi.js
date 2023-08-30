@@ -166,6 +166,18 @@ const getMeetLink = (id) => {
   });
 };
 
+const getAppointment = (id) => {
+  return userAxiosInstance.get(`booking/get-appointment-details/${id}`, {
+    withCredentials: true,
+  });
+};
+
+const sessionReschedule = (id, values) => {
+  return userAxiosInstance.patch(`booking/reschedule-session/${id}/`, values, {
+    withCredentials: true,
+  });
+};
+
 export {
   isUserAuth,
   googleAuthentication,
@@ -193,4 +205,6 @@ export {
   getCounselorExperience,
   addCallBackReqs,
   getMeetLink,
+  getAppointment,
+  sessionReschedule,
 };

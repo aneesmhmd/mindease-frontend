@@ -11,7 +11,7 @@ function SessionPage() {
 
   useEffect(() => {
     getLink();
-  }, []);
+  },[]);
 
   const getLink = () => {
     const token = decodedToken("userJwt");
@@ -21,6 +21,7 @@ function SessionPage() {
           setLink(res.data);
         })
         .catch((err) => {
+          setLink("");
           console.log("No link", err);
         });
     } else {
@@ -28,9 +29,10 @@ function SessionPage() {
     }
   };
 
-  const handleJoinMeet = () => {
+  const handleJoinRoom = () => {
     window.open(link.link);
   };
+
   return (
     <div className="flex flex-col w-full -mt-10 items-center">
       {link ? (
@@ -42,7 +44,7 @@ function SessionPage() {
             Join the session by clicking on the button below.
           </Typography>
           <div>
-            <Button onClick={() => handleJoinMeet()}>Join now</Button>
+            <Button onClick={() => handleJoinRoom()}>Join now</Button>
           </div>
         </div>
       ) : (

@@ -1,16 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
-/* if (qualifications.qualification.trim() === '') {
-    toast.error('Enter Qualification')
-  } else if (qualifications.university.trim() === '') {
-    toast.error('Enter University')
-  } else if (qualifications.state.trim() === '') {
-    toast.error('Enter the State')
-  } else if (qualifications.country.trim() === '') {
-    toast.error('Enter the Country')
-  } else if (qualifications.year.trim() === '') {
-    toast.error('Enter academic year')
-  } */

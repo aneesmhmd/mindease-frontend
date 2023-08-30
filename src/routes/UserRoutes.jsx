@@ -15,7 +15,7 @@ import TaskItems from "../components/User/Profile/SubscribedTasks/TaskItems";
 import SlotBooking from "../components/User/Booking/SlotBooking";
 import BookingSuccess from "../components/User/Booking/BookingSuccess";
 import Session from "../pages/User/Session";
-import Reschedule from "../components/User/Booking/Reschedule";
+import RescheduleSession from "../components/User/Reschedule/SessionReschedule";
 
 function UserRoutes() {
   return (
@@ -36,7 +36,7 @@ function UserRoutes() {
             <Route path="subscribe-task/" element={<SubscribePage />} />
             <Route path="view-task/" element={<TaskItems />} />
             <Route path="session/" element={<Session />} />
-            <Route path="session-reschedule/" element={<Reschedule />} />
+            <Route path="session-reschedule/" element={<RescheduleSession />} />
           </Route>
         </Route>
 

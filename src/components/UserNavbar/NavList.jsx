@@ -39,7 +39,10 @@ function NavList() {
         color="white"
         className="p-1 font-medium"
       >
-        <Link to='/session' className="flex items-center md:text-base hover:text-blue-100 transition-colors">
+        <Link
+          to="/session"
+          className="flex items-center md:text-base hover:text-blue-100 transition-colors"
+        >
           Session
         </Link>
       </Typography>
@@ -62,9 +65,9 @@ function NavList() {
         as="li"
         variant="small"
         color="white"
-        className="p-1 font-medium"
+        className="flex items-center md:text-base hover:text-blue-100 transition-colors"
       >
-        Testimonials
+        <Link>Testimonials</Link>
       </Typography>
 
       <Typography

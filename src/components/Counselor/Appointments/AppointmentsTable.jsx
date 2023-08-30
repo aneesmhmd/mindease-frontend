@@ -60,9 +60,23 @@ function AppointmentsTable() {
     });
   };
 
-  const handleCreateMeet = () => {
-    window.open("https://meet.google.com/");
-  };
+  const randomID = (len) => {
+    let result = "";
+    var chars = "12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP";
+    var maxPos = chars.length;
+    len = 10;
+    for (var i = 0; i < len; i++) {
+      result += chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+    return result;
+  }
+
+  const handleCreateRoom = () =>{
+    const url = window.location.origin;
+    const roomID = randomID(10)
+    window.open(url + '/counselor/session?roomID='+roomID)
+  }
+
 
   return (
     <div className="flex flex-col items-center">
@@ -75,7 +89,7 @@ function AppointmentsTable() {
           Today's Appointments
         </Typography>
         <div>
-          <Button size="sm" color="teal" onClick={() => handleCreateMeet()}>
+          <Button size="sm" color="teal" onClick={() => handleCreateRoom()}>
             Create meet
           </Button>
         </div>
