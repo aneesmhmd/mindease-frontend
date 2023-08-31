@@ -21,7 +21,7 @@ import { getAllServices } from "../../../services/userApi";
       }, []);
   
     async function getServices() {
-      getAllServices().then((res)=>{
+      await axios.get(BaseUrl+ '/user/services-list').then((res)=>{
         setServices(res.data)
       }).catch((err)=>{
         console.log(err);
