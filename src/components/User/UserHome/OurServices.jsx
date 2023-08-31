@@ -40,7 +40,7 @@ import { getAllServices } from "../../../services/userApi";
             <Card className="w-full h-full flex flex-col">
               <CardHeader shadow={false} floated={false}>
                 <img
-                  src={`${ BaseUrl + service?.icon}`}
+                  src={service?.icon}
                   alt="image"
                   className="w-full h-48 object-cover"
                 />

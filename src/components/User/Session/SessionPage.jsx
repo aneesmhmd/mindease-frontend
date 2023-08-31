@@ -6,12 +6,12 @@ import { Avatar, Button, Typography } from "@material-tailwind/react";
 import image from "../../../images/crossMark.png";
 
 function SessionPage() {
-  const [link, setLink] = useState("");
+  const [link, setLink] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     getLink();
-  },[]);
+  }, []);
 
   const getLink = () => {
     const token = decodedToken("userJwt");
@@ -30,7 +30,7 @@ function SessionPage() {
   };
 
   const handleJoinRoom = () => {
-    window.open(link.link);
+    navigate('/appointment-room' + link.link)
   };
 
   return (

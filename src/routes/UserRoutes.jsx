@@ -16,6 +16,7 @@ import SlotBooking from "../components/User/Booking/SlotBooking";
 import BookingSuccess from "../components/User/Booking/BookingSuccess";
 import Session from "../pages/User/Session";
 import RescheduleSession from "../components/User/Reschedule/SessionReschedule";
+import SessionScreen from "../components/User/SessionScreen/SessionScreen";
 
 function UserRoutes() {
   return (
@@ -37,6 +38,7 @@ function UserRoutes() {
             <Route path="view-task/" element={<TaskItems />} />
             <Route path="session/" element={<Session />} />
             <Route path="session-reschedule/" element={<RescheduleSession />} />
+            <Route path="appointment-room/" element={<SessionScreen />} />
           </Route>
         </Route>
 

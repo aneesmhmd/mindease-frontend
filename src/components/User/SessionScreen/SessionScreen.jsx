@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
+import { getUserProfile } from "../../../services/userApi";
+import { decodedToken } from "../../../Context/auth";
+import axios from "axios";
+import { BaseUrl } from "../../../constants/constants";
 
 function randomID(len) {
   let result = "";
@@ -18,29 +22,38 @@ function getUrlParams(url) {
   return new URLSearchParams(urlStr);
 }
 
-export default function VideoCall() {
+export default function SessionScreen() {
   const roomID = getUrlParams().get("roomID") || randomID(10);
   let role_str = getUrlParams().get("role") || "Host";
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
+    profileDetails();
+  }, []);
+
+  const profileDetails = async () => {
+    const token = decodedToken("userJwt");
+    await axios.get(BaseUrl + '/api/user-profile/' + token.user_id)
+      .then((res) => {
+        setProfile(res.data);
+      })
+      .catch((err) => {
+        console.log("err", err);
+        setProfile({});
+      });
+  };
+
   const role =
     role_str === "Host" ? ZegoUIKitPrebuilt.Host : ZegoUIKitPrebuilt.Audience;
 
   let sharedLinks = [];
-  // if (role === ZegoUIKitPrebuilt.Host || role === ZegoUIKitPrebuilt.Cohost) {
-  //   sharedLinks.push({
-  //     name: 'Join as co-host',
-  //     url:
-  //       window.location.protocol +
-  //       '//' +
-  //       window.location.host +
-  //       window.location.pathname +
-  //       '?roomID=' +
-  //       roomID +
-  //       '&role=Cohost',
-  //   });
-  // }
   sharedLinks.push({
     name: "Join",
     url:
+      window.location.protocol +
+      "//" +
+      window.location.host +
+      window.location.pathname +
       "?roomID=" +
       roomID +
       "&role=Audience",
@@ -48,9 +61,9 @@ export default function VideoCall() {
 
   // Generate Kit Token
   const appID = 2142154147;
-  const serverSecret = '7a6c6b8195fde39f44e9a977019be77a';
+  const serverSecret = "7a6c6b8195fde39f44e9a977019be77a";
   const userId = randomID(7);
-  const userName = "Anees";
+  const userName = profile?.first_name + " " + profile?.last_name || "Username";
   const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
     appID,
     serverSecret,
