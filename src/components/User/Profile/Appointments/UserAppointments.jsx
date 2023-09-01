@@ -42,7 +42,7 @@ function UserAppointments() {
   return (
     <div className="w-full">
       {appointments.length > 0 ? (
-        <div className="flex flex-col gap-2 h-24 justify-center">
+        <div className="flex flex-col gap-5 h-24 justify-center my-3">
           {appointments.map((appointment, index) => (
             <div
               key={index}

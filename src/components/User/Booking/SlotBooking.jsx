@@ -1,4 +1,4 @@
-import { Button, Input, Typography } from "@material-tailwind/react";
+import { Button, Input, Spinner, Typography } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import { listCounselorSlots } from "../../../services/userApi";
 import { Helmet } from "react-helmet";
@@ -15,6 +15,7 @@ function SlotBooking() {
   const [selectedDate, setSelectedDate] = useState("");
   const [dateErr, setDateErr] = useState("");
   const [availSlots, setAvailSlots] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const tomorrow = new Date();
@@ -26,13 +27,16 @@ function SlotBooking() {
   }, []);
 
   const getProfile = async () => {
+    setIsLoading(true);
     await axios
       .get(BaseUrl + `/user/get-counselor-profile/${counselorId}/`)
       .then((res) => {
         setProfile(res.data);
+        setIsLoading(false);
       })
       .catch((err) => {
         navigate("/psychologists");
+        setIsLoading(false);
         toast.error("Some error occured!Please try again!");
         console.log("Err", err);
       });
@@ -45,12 +49,16 @@ function SlotBooking() {
       setDateErr("Please select a date first!");
       return;
     }
+
+    setIsLoading(true);
     await listCounselorSlots(counselorId, { selectedDate })
       .then((res) => {
         setAvailSlots(res.data);
+        setIsLoading(false);
       })
       .catch((err) => {
         setAvailSlots([]);
+        setIsLoading(false);
         if (err.response.status === 404) {
           toast.error(err.response.data.message);
         } else {
@@ -133,7 +141,13 @@ function SlotBooking() {
               <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
                 {dateErr && dateErr}
               </div>
-              <Button type="submit">See available slots</Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <Spinner className="h-4 w-4 mx-auto" />
+                ) : (
+                  "See available slots"
+                )}
+              </Button>
             </form>
           </div>
         )}

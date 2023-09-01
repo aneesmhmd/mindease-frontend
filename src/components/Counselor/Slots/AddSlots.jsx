@@ -11,6 +11,7 @@ function AddSlots() {
   const [time, setTime] = useState("");
   const [selectedTime, setSelectedTime] = useState([]);
   const [timeErr, setTimeErr] = useState("");
+  const [isLoading,setIsLoading] = useState(false)
 
   const navigate = useNavigate();
 
@@ -66,13 +67,16 @@ function AddSlots() {
 
   const handleSubmitSlots = async () => {
     if (selectedTime.length > 0) {
+      setIsLoading(true)
       const counselor = decodedToken("counselorJwt");
       await addSlots(counselor.counselor, { selectedDate, selectedTime })
         .then((res) => {
+          setIsLoading(false)
           toast.success(res.data.message);
           navigate("/counselor/slots/");
         })
         .catch((err) => {
+          setIsLoading(false)
           toast.error(err.response.data.message);
           navigate("/counselor/slots/");
         });
@@ -145,6 +149,7 @@ function AddSlots() {
           selectedTime={selectedTime}
           setSelectedTime={setSelectedTime}
           action={handleSubmitSlots}
+          isLoading={isLoading}
         />
       )}
     </div>

@@ -8,10 +8,11 @@ import {
   CardFooter,
   Typography,
   Input,
+  Spinner,
 } from "@material-tailwind/react";
 import { toast } from "react-toastify";
 
-export default function EditProfile({ profile, updateProfile }) {
+export default function EditProfile({ profile, updateProfile, isLoading }) {
   const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -137,8 +138,13 @@ export default function EditProfile({ profile, updateProfile }) {
                 color="blue-gray"
                 type="submit"
                 fullWidth
+                disabled={isLoading}
               >
-                Save Changes
+                {isLoading ? (
+                  <Spinner className="h-5 w-5 mx-auto" />
+                ) : (
+                  "Save Changes"
+                )}
               </Button>
             </CardFooter>
           </form>

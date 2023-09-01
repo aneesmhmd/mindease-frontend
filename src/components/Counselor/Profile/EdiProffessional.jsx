@@ -8,8 +8,7 @@ import {
   CardFooter,
   Typography,
   Input,
-  Select,
-  Option,
+  Spinner,
 } from "@material-tailwind/react";
 import {
   listCounselorServices,
@@ -25,6 +24,8 @@ function EditProffesional({ getProffessional, proffessional }) {
   const [specialization, setSpecialization] = useState(
     proffessional.specialization_details
   );
+  const [isLoading, setIsLoading] = useState(false);
+
   const [updatedSpec, setUpdatedSpec] = useState(specialization.id);
   const [Services, setServices] = useState([]);
   const [isChange, setIsChanged] = useState(false);
@@ -73,13 +74,17 @@ function EditProffesional({ getProffessional, proffessional }) {
         state: state,
         specialization: updatedSpec,
       };
+
+      setIsLoading(true);
       await updateCounselorAccount(id, values)
         .then((res) => {
+          setIsLoading(false);
           handleOpen();
           getProffessional();
           toast.success("Details updated");
         })
         .catch((err) => {
+          setIsLoading(false);
           console.log("Err", err);
           toast.error("Something went wrong!");
         });
@@ -163,8 +168,13 @@ function EditProffesional({ getProffessional, proffessional }) {
                 color="blue-gray"
                 type="submit"
                 fullWidth
+                disabled={isLoading}
               >
-                Save Changes
+                {isLoading ? (
+                  <Spinner className="h-5 w-5 mx-auto" />
+                ) : (
+                  "Save Changes"
+                )}
               </Button>
             </CardFooter>
           </form>

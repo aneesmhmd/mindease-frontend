@@ -8,6 +8,7 @@ import {
   CardFooter,
   Typography,
   Input,
+  Spinner,
 } from "@material-tailwind/react";
 import { toast } from "react-toastify";
 import { shareMeetLink } from "../../../services/counselorApi";
@@ -15,22 +16,29 @@ import { shareMeetLink } from "../../../services/counselorApi";
 function ShareLink({ id, user }) {
   const [open, setOpen] = useState(false);
   const [link, setLink] = useState("");
+  const [linkErr, setLinkErr] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
 
   const handleShareLink = async (e) => {
     e.preventDefault();
+    setLinkErr("");
     const values = {
       appointment: id,
       user: user,
       link: link,
     };
     if (link) {
+      setIsLoading(true);
       shareMeetLink(values)
         .then((res) => {
+          setIsLoading(false);
           toast.success("Link shared!");
           handleOpen();
         })
         .catch((err) => {
+          setIsLoading(false);
+          handleOpen();
           console.log("err", err);
           if (err.response.data.link) {
             toast.error(err.response.data.link[0]);
@@ -38,6 +46,8 @@ function ShareLink({ id, user }) {
             toast.error("Some error occured!Please try again");
           }
         });
+    } else {
+      setLinkErr("Please enter the link");
     }
   };
 
@@ -67,18 +77,29 @@ function ShareLink({ id, user }) {
                 label="Paste URL here"
                 value={link}
                 onChange={(e) => setLink(e.target.value)}
+                error={Boolean(linkErr)}
               />
+              <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
+                {linkErr && linkErr}
+              </div>
             </CardBody>
+
             <CardFooter className="pt-0 mb-3">
               <Button
                 variant="gradient"
                 color="blue-gray"
                 type="submit"
                 fullWidth
+                disabled={isLoading}
               >
-                Save Changes
+                {isLoading ? (
+                  <Spinner className="h-5 w-5 mx-auto" />
+                ) : (
+                  "Save Changes"
+                )}
               </Button>
             </CardFooter>
+            
           </form>
         </Card>
       </Dialog>

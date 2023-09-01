@@ -64,17 +64,7 @@ export default function ReqsTable() {
               CallBack Requests
             </Typography>
           </div>
-          <div className="flex w-full shrink-0 gap-2 md:w-max">
-            <div className="w-full md:w-72">
-              <Input
-                label="Search"
-                icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-              />
-            </div>
-            <Button className="flex items-center gap-3" size="sm">
-              <ArrowDownTrayIcon strokeWidth={2} className="h-4 w-4" /> Download
-            </Button>
-          </div>
+          
         </div>
       </CardHeader>
       <CardBody className="px-0">

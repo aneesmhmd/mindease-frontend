@@ -4,6 +4,7 @@ import { decodedToken } from "../../../../Context/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { BaseUrl } from "../../../../constants/constants";
 import { Typography } from "@material-tailwind/react";
+import axios from "axios";
 
 function SubscribedTasks() {
   const [subscriptions, setSubscriptions] = useState([]);
@@ -16,7 +17,7 @@ function SubscribedTasks() {
   const listSubscribed = async () => {
     const user = decodedToken("userJwt");
     if (user) {
-      await getSubscribedTasks(user.user_id)
+      await axios.get(BaseUrl + '/user/get-subscribed-tasks/' +user.user_id)
         .then((res) => {
           setSubscriptions(res.data);
           console.log("subs", res.data);

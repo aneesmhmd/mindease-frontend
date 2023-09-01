@@ -61,14 +61,14 @@ function NavList() {
         </Link>
       </Typography>
 
-      <Typography
+      {/* <Typography
         as="li"
         variant="small"
         color="white"
         className="flex items-center md:text-base hover:text-blue-100 transition-colors"
       >
         <Link>Testimonials</Link>
-      </Typography>
+      </Typography> */}
 
       <Typography
         as="li"

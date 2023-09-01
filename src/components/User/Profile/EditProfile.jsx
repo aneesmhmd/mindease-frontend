@@ -7,7 +7,7 @@ import {
   CardFooter,
   Typography,
   Input,
-  IconButton,
+  Spinner,
 } from "@material-tailwind/react";
 import { updateUserProfile } from "../../../services/userApi";
 import { toast } from "react-toastify";
@@ -16,6 +16,7 @@ export default function EditProfile({ profile, getProfile }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
   const [values, setValues] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setValues({ ...profile });
@@ -48,13 +49,16 @@ export default function EditProfile({ profile, getProfile }) {
         phone: values.phone,
       };
 
+      setIsLoading(true);
       updateUserProfile(updatedProfile, profile.id)
         .then((res) => {
           getProfile();
           handleOpen();
+          setIsLoading(false);
           toast.success("Profile updated");
         })
         .catch((error) => {
+          setIsLoading(false);
           if (error.response.data.email) {
             toast.error(error.response.data.email[0]);
           } else toast.error("Some error occured. Please try again!");
@@ -142,8 +146,13 @@ export default function EditProfile({ profile, getProfile }) {
                 color="blue-gray"
                 type="submit"
                 fullWidth
+                disabled={isLoading}
               >
-                Apply Changes
+                {isLoading ? (
+                  <Spinner className="h-4 w-4 mx-auto" />
+                ) : (
+                  "Apply Changes"
+                )}
               </Button>
             </CardFooter>
           </form>

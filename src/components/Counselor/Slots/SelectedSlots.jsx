@@ -1,13 +1,14 @@
 import {
   Button,
   IconButton,
+  Spinner,
   Tooltip,
   Typography,
 } from "@material-tailwind/react";
 import React from "react";
 import { TrashIcon } from "@heroicons/react/24/solid";
 
-function SelectedSlots({ selectedTime, setSelectedTime, action }) {
+function SelectedSlots({ selectedTime, setSelectedTime, action, isLoading }) {
   const calculatedStartTime = (time) => {
     const [hours, minutes] = time.split(":").map(Number);
     const startTime = new Date(2000, 0, 1, hours, minutes);
@@ -63,8 +64,8 @@ function SelectedSlots({ selectedTime, setSelectedTime, action }) {
           </div>
         ))}
       </div>
-      <Button onClick={() => action()} className="w-full">
-        Save Slots
+      <Button onClick={() => action()} className="w-full" disabled={isLoading}>
+        {isLoading ? <Spinner className="h-4 w-5 mx-auto" /> : "Save Slots"}
       </Button>
     </div>
   );

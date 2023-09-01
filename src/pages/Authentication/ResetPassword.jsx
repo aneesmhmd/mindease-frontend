@@ -4,11 +4,13 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Input } from "@material-tailwind/react";
+import { Button, Input } from "@material-tailwind/react";
 
 const ResetPassword = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const user_id = localStorage.getItem("user_id");
+
   const passwordRegex =
     /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 
@@ -29,14 +31,17 @@ const ResetPassword = () => {
   });
 
   const onSubmit = async (values) => {
+    setIsLoading(true);
     axios
       .post(import.meta.env.VITE_BASE_USER_URL + "/api/reset-password/", values)
       .then((response) => {
+        setIsLoading(false);
         localStorage.removeItem("user_id");
         toast.success(response.data.message);
         navigate("/login");
       })
       .catch((err) => {
+        setIsLoading(false);
         toast.error("Oops! Some error occured.Please try again!");
       });
   };
@@ -122,12 +127,14 @@ const ResetPassword = () => {
             </div>
 
             <div className="mb-4">
-              <button
+              <Button
+                size="md"
                 type="submit"
-                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full"
+                className="py-2.5 px-4 rounded-md hover:bg-blue-600 w-full"
+                disabled={isLoading}
               >
-                Reset
-              </button>
+                {isLoading ? <Spinner className="h-5 w-5" /> : "Reset"}
+              </Button>
             </div>
           </form>
         </div>

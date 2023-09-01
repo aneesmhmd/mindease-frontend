@@ -7,10 +7,11 @@ import isLogged from "../../Context/auth";
 import image from "../../images/adminBanner.png";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { Input } from "@material-tailwind/react";
+import { Button, Input, Spinner } from "@material-tailwind/react";
 
 function AdminLogin() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const response = isLogged("adminJwt");
@@ -28,15 +29,18 @@ function AdminLogin() {
   });
 
   const onSubmit = async (values) => {
+    setIsLoading(true);
     adminLogin(values)
       .then((res) => {
         if (res.status === 200) {
+          setIsLoading(false);
           localStorage.setItem("adminJwt", JSON.stringify(res.data.token));
           toast.success("Login succesfull");
           navigate("/admin/dashboard");
         }
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error(error.response.data.message);
         if (error.response.status === 401) {
           navigate("/login");
@@ -61,7 +65,7 @@ function AdminLogin() {
       </Helmet>
 
       <section className="bg-gray-300 min-h-screen flex items-center justify-center">
-        <div className="bg-gray-50 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
+        <div className="bg-gray-50 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center py-10">
           <div className="md:w-1/2 px-8 md:px-16">
             <h1 className="font-bold font-sans text-2xl text-[#002D74] mb-5">
               MindEase
@@ -86,6 +90,7 @@ function AdminLogin() {
                     onBlur={formik.handleBlur}
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     className="bg-white bg-opacity-75"
+                    disabled={isLoading}
                   />
                 </div>
                 <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
@@ -109,6 +114,7 @@ function AdminLogin() {
                       formik.touched.password && Boolean(formik.errors.password)
                     }
                     className="bg-white bg-opacity-75"
+                    disabled={isLoading}
                   />
                 </div>
                 <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
@@ -117,17 +123,15 @@ function AdminLogin() {
                     : ""}
                 </div>
               </div>
-              <button
-                className="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300"
+              <Button
+                className="bg-[#002D74] rounded-xl py-2 hover:scale-105 duration-300"
                 type="submit"
+                disabled={isLoading}
               >
-                Login
-              </button>
+                {isLoading ? <Spinner className="h-5 w-5 mx-auto" /> : "Login"}
+              </Button>
             </form>
 
-            <div className="mt-5 text-xs text-center border-t border-[#002D74] py-4 text-[#002D74]">
-              <Link>Forgot your password?</Link>
-            </div>
 
             <div className="text-md  text-center py-4 text-[#002D74]">
               <h2>

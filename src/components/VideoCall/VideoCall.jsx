@@ -1,5 +1,6 @@
 import React from "react";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
+import { decodedToken } from "../../Context/auth";
 
 function randomID(len) {
   let result = "";
@@ -25,19 +26,6 @@ export default function VideoCall() {
     role_str === "Host" ? ZegoUIKitPrebuilt.Host : ZegoUIKitPrebuilt.Audience;
 
   let sharedLinks = [];
-  // if (role === ZegoUIKitPrebuilt.Host || role === ZegoUIKitPrebuilt.Cohost) {
-  //   sharedLinks.push({
-  //     name: 'Join as co-host',
-  //     url:
-  //       window.location.protocol +
-  //       '//' +
-  //       window.location.host +
-  //       window.location.pathname +
-  //       '?roomID=' +
-  //       roomID +
-  //       '&role=Cohost',
-  //   });
-  // }
   sharedLinks.push({
     name: "Join",
     url:
@@ -50,7 +38,8 @@ export default function VideoCall() {
   const appID = 2142154147;
   const serverSecret = '7a6c6b8195fde39f44e9a977019be77a';
   const userId = randomID(7);
-  const userName = "Anees";
+  const token = decodedToken("counselorJwt")
+  const userName = 'Dr.' + token.name ;
   const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
     appID,
     serverSecret,

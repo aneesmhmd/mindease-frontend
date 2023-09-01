@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
 import React, { useState } from "react";
 import image from "../../../images/experience.png";
-import { Card, Input, Button, Typography } from "@material-tailwind/react";
+import { Card, Input, Button, Typography, Spinner } from "@material-tailwind/react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { addCounselorExperience } from "../../../services/counselorApi";
@@ -17,6 +17,7 @@ function CounselorAddExperience() {
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [certificate, setCertificate] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [instituteErr, setInstituteErr] = useState("");
   const [locationErr, setLocationErr] = useState("");
@@ -60,10 +61,10 @@ function CounselorAddExperience() {
     } else if (month.trim() === "" && year.trim() === "") {
       toast.error("Either year or month is needed");
     } else {
+      setIsLoading(true);
       const token = getLocal("counselorJwt");
       const decoded = jwtDecode(token);
       const counselor = decoded.user_id;
-      console.log("Counsilere id:", counselor);
 
       const expFormData = new FormData();
       expFormData.append("institute", institute);
@@ -82,12 +83,14 @@ function CounselorAddExperience() {
 
       addCounselorExperience(expFormData)
         .then((res) => {
+          setIsLoading(false);
           if (res.status === 201) {
             toast.success("Experience addedd");
             navigate("/counselor/profile");
           }
         })
         .catch((err) => {
+          setIsLoading(false);
           console.log(err);
         });
     }
@@ -239,8 +242,13 @@ function CounselorAddExperience() {
                 </div>
               </div>
 
-              <Button className="my-6" type="submit" fullWidth>
-                Add
+              <Button
+                className="my-6"
+                type="submit"
+                fullWidth
+                disabled={isLoading}
+              >
+                {isLoading ? <Spinner className="h-5 w-5 mx-auto" /> : "Add"}
               </Button>
             </form>
           </Card>

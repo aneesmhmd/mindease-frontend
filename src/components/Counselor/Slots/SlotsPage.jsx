@@ -1,4 +1,4 @@
-import { Button, Input, Typography } from "@material-tailwind/react";
+import { Button, Input, Spinner, Typography } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SlotsTable from "./SlotsTable";
@@ -12,19 +12,24 @@ function SlotsPage() {
   const currentDate = new Date().toISOString().split("T")[0];
   const [slots, setSlots] = useState([]);
   const [notAvailable, setNotAvailable] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const handleSlotsSubmit = async (e) => {
     e.preventDefault();
     setDateErr("");
     if (selectedDate) {
+      setIsLoading(true)
       const counselor = decodedToken("counselorJwt");
       const id = counselor.counselor;
       await listSlots(id, { selectedDate })
         .then((res) => {
           setNotAvailable(false);
           setSlots(res.data);
+          setIsLoading(false)
         })
         .catch((err) => {
+          setIsLoading(false)
           setSlots([]);
           setNotAvailable(true);
         });
@@ -63,8 +68,8 @@ function SlotsPage() {
                 onChange={(e) => setSelectedDate(e.target.value)}
                 error={Boolean(dateErr)}
               />
-              <Button className="w-40" type="submit">
-                View Slots
+              <Button className="w-40" type="submit" disabled={isLoading}>
+                  {isLoading ? <Spinner className="h-4 w-5 mx-auto" /> : "View Slots"}
               </Button>
             </div>
             <div className="text-red-600 font-mono text-[12px] lg:text-[12px] md:me-28 text-center">

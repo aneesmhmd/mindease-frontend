@@ -4,7 +4,6 @@ import {
   Select,
   Spinner,
   Typography,
-  dialog,
 } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { userSlotBooking } from "../../../services/userApi";

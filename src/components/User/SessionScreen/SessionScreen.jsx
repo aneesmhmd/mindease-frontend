@@ -33,7 +33,8 @@ export default function SessionScreen() {
 
   const profileDetails = async () => {
     const token = decodedToken("userJwt");
-    await axios.get(BaseUrl + '/api/user-profile/' + token.user_id)
+    await axios
+      .get(BaseUrl + "/api/user-profile/" + token.user_id)
       .then((res) => {
         setProfile(res.data);
       })
@@ -47,23 +48,14 @@ export default function SessionScreen() {
     role_str === "Host" ? ZegoUIKitPrebuilt.Host : ZegoUIKitPrebuilt.Audience;
 
   let sharedLinks = [];
-  sharedLinks.push({
-    name: "Join",
-    url:
-      window.location.protocol +
-      "//" +
-      window.location.host +
-      window.location.pathname +
-      "?roomID=" +
-      roomID +
-      "&role=Audience",
-  });
+  
 
   // Generate Kit Token
   const appID = 2142154147;
   const serverSecret = "7a6c6b8195fde39f44e9a977019be77a";
   const userId = randomID(7);
-  const userName = profile?.first_name + " " + profile?.last_name || "Username";
+  const token = decodedToken("userJwt");
+  const userName = token.name;
   const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
     appID,
     serverSecret,
@@ -85,7 +77,6 @@ export default function SessionScreen() {
           role,
         },
       },
-      sharedLinks,
     });
   };
 

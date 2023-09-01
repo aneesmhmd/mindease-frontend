@@ -1,14 +1,23 @@
-import { Card, Input, Button, Typography } from "@material-tailwind/react";
+import {
+  Card,
+  Input,
+  Button,
+  Typography,
+  Spinner,
+} from "@material-tailwind/react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import { changeCounselorPassword } from "../../../services/counselorApi";
 import { decodedToken } from "../../../Context/auth";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function ChangePassword() {
   const navigate = useNavigate();
-const passwordRegex =
+  const [isLoading, setIsLoading] = useState(false);
+
+  const passwordRegex =
     /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 
   const validationSchema = yup.object({
@@ -30,12 +39,15 @@ const passwordRegex =
 
   const onSubmit = async (values, { resetForm }) => {
     const decoded = decodedToken("counselorJwt");
+    setIsLoading(true);
     changeCounselorPassword(values, decoded.user_id)
       .then((res) => {
+        setIsLoading(false);
         toast.success(res.data.message);
         resetForm();
       })
       .catch((err) => {
+        setIsLoading(false);
         toast.error(err.response.data.message);
         if (err.response.status === 404) {
           navigate("/counselor/login");
@@ -65,7 +77,10 @@ const passwordRegex =
           Change your password here
         </Typography>
 
-        <form className="mt-2 mb-2 w-70 max-w-screen-lg md:w-96" onSubmit={formik.handleSubmit}>
+        <form
+          className="mt-2 mb-2 w-70 max-w-screen-lg md:w-96"
+          onSubmit={formik.handleSubmit}
+        >
           <div className="mb-4 flex flex-col gap-2">
             <div className="w-full">
               <Input
@@ -134,8 +149,12 @@ const passwordRegex =
             </div>
           </div>
 
-          <Button className="my-6" type="submit" fullWidth>
-            Change Password
+          <Button className="my-6" type="submit" fullWidth disabled={isLoading}>
+            {isLoading ? (
+              <Spinner className="h-4 w-5 mx-auto" />
+            ) : (
+              "Change Password"
+            )}
           </Button>
         </form>
       </Card>

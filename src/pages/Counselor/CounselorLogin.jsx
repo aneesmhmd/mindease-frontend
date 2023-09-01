@@ -7,12 +7,13 @@ import image from "../../images/counselorLogin.jpg";
 import { Helmet } from "react-helmet";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { Input } from "@material-tailwind/react";
+import { Button, Input, Spinner } from "@material-tailwind/react";
 
 function CounselorLogin() {
   const navigate = useNavigate();
   const urlParams = new URLSearchParams(window.location.search);
   const message = urlParams.get("message");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (message) {
@@ -33,14 +34,21 @@ function CounselorLogin() {
   });
 
   const onSubmit = async (values) => {
+    setIsLoading(true);
     counselorLogin(values)
       .then((res) => {
+        setIsLoading(false);
         localStorage.setItem("counselorJwt", JSON.stringify(res.data.token));
         toast.success(res.data.message);
         navigate("/counselor/home");
       })
       .catch((error) => {
-        toast.error(error.response.data.message);
+        setIsLoading(false);
+        if (error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("Some error occured.Please try again!");
+        }
         if (error.response.status === 401) {
           navigate("/login");
         }
@@ -90,6 +98,7 @@ function CounselorLogin() {
                     onBlur={formik.handleBlur}
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     className="bg-white bg-opacity-75"
+                    disabled={isLoading}
                   />
                 </div>
                 <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
@@ -113,6 +122,7 @@ function CounselorLogin() {
                       formik.touched.password && Boolean(formik.errors.password)
                     }
                     className="bg-white bg-opacity-75"
+                    disabled={isLoading}
                   />
                 </div>
                 <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
@@ -121,9 +131,14 @@ function CounselorLogin() {
                     : ""}
                 </div>
               </div>
-              <button className="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300">
-                Login
-              </button>
+              <Button
+                className="bg-[#002D74] rounded-xl py-2 hover:scale-105 duration-300"
+                size="md"
+                disabled={isLoading}
+                type="submit"
+              >
+                {isLoading ? <Spinner className="h-5 w-5 mx-auto" /> : "Login"}
+              </Button>
             </form>
 
             <div className="mt-5 text-xs text-center border-t border-[#002D74] py-4 text-[#002D74]">

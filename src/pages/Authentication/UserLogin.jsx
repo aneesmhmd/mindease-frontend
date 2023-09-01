@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -13,14 +12,14 @@ import jwtDecode from "jwt-decode";
 import { googleAuthentication, userLogin } from "../../services/userApi";
 import image from "../../images/signup.png";
 import { Helmet } from "react-helmet";
-import { Input } from "@material-tailwind/react";
+import { Button, Input, Spinner } from "@material-tailwind/react";
 
 function UserLogin() {
   const navigate = useNavigate();
   const urlParams = new URLSearchParams(window.location.search);
   const message = urlParams.get("message");
   const [user, setUser] = useState(null);
-  const [values, setValues] = useState({ email: "", password: "" });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (message) {
@@ -29,8 +28,8 @@ function UserLogin() {
       } else {
         toast.success(message);
       }
-    } else{
-      toast.info('Please login to continue!')
+    } else {
+      toast.info("Please login to continue!");
     }
     const response = isLogged("userJwt");
     if (response && response === "user") {
@@ -46,6 +45,7 @@ function UserLogin() {
 
   useEffect(() => {
     if (user) {
+      setIsLoading(true);
       axios
         .get(
           `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
@@ -58,19 +58,21 @@ function UserLogin() {
         )
         .then((res) => {
           const userProfile = res.data;
-          googleAuthentication(userProfile).then((res) => {
-            console.log(
-              "final result :",
-              jwtDecode(JSON.stringify(res.data.token))
-            );
-            if (res.data.status === 200) {
-              localStorage.setItem("userJwt", JSON.stringify(res.data.token));
-              toast.success(res.data.msg);
-              navigate("/");
-            } else if (res.data.status === 400) {
-              toast.error(res.data.msg);
-            }
-          });
+          googleAuthentication(userProfile)
+            .then((res) => {
+              setIsLoading(false);
+              if (res.data.status === 200) {
+                localStorage.setItem("userJwt", JSON.stringify(res.data.token));
+                toast.success(res.data.msg);
+                navigate("/");
+              } else if (res.data.status === 400) {
+                toast.error(res.data.msg);
+              }
+            })
+            .catch((err) => {
+              setIsLoading(false);
+              toast.error("Some error occured.Please try again!");
+            });
         })
         .catch((err) => toast.error("Something went wrong!"));
     }
@@ -85,24 +87,27 @@ function UserLogin() {
   });
 
   const onSubmit = async (values) => {
+    setIsLoading(true);
     userLogin(values)
       .then((res) => {
-        if (res.status === 200) {
-          const token = JSON.stringify(res.data);
-          const decoded = jwtDecode(token);
-          if (decoded.role === "user") {
-            localStorage.setItem("userJwt", token);
-            toast.success("Login succesfull");
-            navigate("/");
-          } else {
-            toast.error("Invalid user");
-          }
+        const token = JSON.stringify(res.data);
+        const decoded = jwtDecode(token);
+        setIsLoading(false);
+        if (decoded.role === "user") {
+          localStorage.setItem("userJwt", token);
+          toast.success("Login succesfull");
+          navigate("/");
         } else {
-          toast.error("Invalid login credentials");
+          toast.error("Invalid user");
         }
       })
       .catch((error) => {
-        toast.error(error.response.data.detail);
+        setIsLoading(false);
+        if (error.response.data.detail) {
+          toast.error(error.response.data.detail);
+        } else {
+          toast.error("Some error occured.Please try again!");
+        }
       });
   };
 
@@ -151,6 +156,7 @@ function UserLogin() {
                 onBlur={formik.handleBlur}
                 error={formik.touched.email && Boolean(formik.errors.email)}
                 className="bg-white bg-opacity-75"
+                disabled={isLoading}
               />
             </div>
             <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
@@ -173,6 +179,7 @@ function UserLogin() {
                   formik.touched.password && Boolean(formik.errors.password)
                 }
                 className="bg-white bg-opacity-75"
+                disabled={isLoading}
               />
             </div>
             <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
@@ -182,12 +189,15 @@ function UserLogin() {
             </div>
           </div>
           <div className="mb-4">
-            <button
+            <Button
               type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full"
+              variant="gradient"
+              size="lg"
+              className="py-2 px-4 rounded-md hover:bg-blue-600 w-full"
+              disabled={isLoading}
             >
-              Log In
-            </button>
+              {isLoading ? <Spinner className="h-5 w-5 mx-auto" /> : "Login"}
+            </Button>
           </div>
           <div className="mb-4 text-center">
             <button

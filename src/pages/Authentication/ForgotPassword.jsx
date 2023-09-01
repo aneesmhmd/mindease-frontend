@@ -7,12 +7,12 @@ import * as yup from "yup";
 import { toast } from "react-toastify";
 import Loaders from "../../components/Loaders";
 import { Helmet } from "react-helmet";
-import { Input } from "@material-tailwind/react";
+import { Button, Input, Spinner } from "@material-tailwind/react";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const handleLoading = () => setLoading((cur) => !cur);
+  const [isLoading, setIsLoading] = useState(false);
+  const handleLoading = () => setIsLoading((cur) => !cur);
   const navigate = useNavigate("");
 
   const validationSchema = yup.object({
@@ -80,78 +80,81 @@ const ForgotPassword = () => {
       <Helmet>
         <title>Forgot Password | MindEase</title>
       </Helmet>
-      {loading ? (
-        <Loaders message="Sending verification email" />
-      ) : (
-        <div className="flex flex-col md:flex-row h-screen">
-          <div className="bg-white-200 md:w-1/2 flex flex-col justify-center items-center">
-            <h2 className="text-2xl font-bold text-gray-800">MindEase</h2>
 
-            <h4 className="text-xl  text-gray-800 mb-4 font-casual">
-              "Find Ease, Unlock Your Peace"
-            </h4>
-            <img
-              src={image}
-              alt="Company Logo"
-              className="w-96 h-96 object-contain mb-4"
-            />
-            <h2 className="text-2xl text-gray-800">
-              Online Counseling Platform
+      <div className="flex flex-col md:flex-row h-screen">
+        <div className="bg-white-200 md:w-1/2 flex flex-col justify-center items-center">
+          <h2 className="text-2xl font-bold text-gray-800">MindEase</h2>
+
+          <h4 className="text-xl  text-gray-800 mb-4 font-casual">
+            "Find Ease, Unlock Your Peace"
+          </h4>
+          <img
+            src={image}
+            alt="Company Logo"
+            className="w-96 h-96 object-contain mb-4"
+          />
+          <h2 className="text-2xl text-gray-800">Online Counseling Platform</h2>
+        </div>
+        <div className="bg-white flex flex-col justify-center items-center md:w-1/2">
+          <h1 className="text-2xl font-bold text-gray-800 mb-4">
+            Forgot Password
+          </h1>
+          <div className="bg-gray-200 rounded-md shadow-md p-8 w-full max-w-md">
+            <h2 className="text-xl font-bold text-gray-800 mb-4">
+              Reset Password
             </h2>
-          </div>
-          <div className="bg-white flex flex-col justify-center items-center md:w-1/2">
-            <h1 className="text-2xl font-bold text-gray-800 mb-4">
-              Forgot Password
-            </h1>
-            <div className="bg-gray-200 rounded-md shadow-md p-8 w-full max-w-md">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">
-                Reset Password
-              </h2>
-              <form onSubmit={formik.handleSubmit}>
-                <div className="mb-4">
-                  <div className="w-full">
-                    <Input
-                      label="Email"
-                      name="email"
-                      size="md"
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.email && Boolean(formik.errors.email)
-                      }
-                      className="bg-white bg-opacity-75"
-                    />
-                  </div>
-                  <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
-                    {formik.touched.email && formik.errors.email
-                      ? formik.errors.email
-                      : ""}
-                  </div>
+            <form onSubmit={formik.handleSubmit}>
+              <div className="mb-4">
+                <div className="w-full">
+                  <Input
+                    label="Email"
+                    name="email"
+                    size="md"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    className="bg-white bg-opacity-75"
+                    disabled={isLoading}
+                  />
                 </div>
-                <div className="mb-4">
-                  <button
-                    type="submit"
-                    className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full"
-                  >
-                    Get Reset Link
-                  </button>
+                <div className="text-red-600 font-mono text-[12px] lg:text-[12px]">
+                  {formik.touched.email && formik.errors.email
+                    ? formik.errors.email
+                    : ""}
                 </div>
-                <div className="text-center">
-                  <span className="text-gray-600">Got password?</span>
-                  <button
-                    type="button"
-                    className="text-blue-500 hover:underline ml-1"
-                    onClick={() => navigate("/login")}
-                  >
-                    Login
-                  </button>
-                </div>
-              </form>
-            </div>
+              </div>
+              <div className="mb-4">
+                <Button
+                  size="md"
+                  type="submit"
+                  className="py-2.5 px-4 rounded-md hover:bg-blue-600 w-full"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <div className="flex flex-row gap-3 items-center justify-center capitalize font-normal">
+                      <span>Sending reset mail</span>
+                      <Spinner className="h-5 w-5" />
+                    </div>
+                  ) : (
+                    "Get Reset Link"
+                  )}
+                </Button>
+              </div>
+              <div className="text-center">
+                <span className="text-gray-600">Got password?</span>
+                <button
+                  type="button"
+                  className="text-blue-500 hover:underline ml-1"
+                  onClick={() => navigate("/login")}
+                >
+                  Login
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
