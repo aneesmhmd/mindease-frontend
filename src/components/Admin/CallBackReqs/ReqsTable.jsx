@@ -166,7 +166,7 @@ export default function ReqsTable() {
           </tbody>
         </table>
       </CardBody>
-      <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
+      {/* <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
         <Button variant="outlined" color="blue-gray" size="sm">
           Previous
         </Button>
@@ -188,7 +188,7 @@ export default function ReqsTable() {
         <Button variant="outlined" color="blue-gray" size="sm">
           Next
         </Button>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 }

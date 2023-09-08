@@ -117,37 +117,7 @@ export default function ItemsTable({ taskId }) {
                     </tbody>
                 </table>
             </CardBody>
-            <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                <Button variant="outlined" color="blue-gray" size="sm">
-                    Previous
-                </Button>
-                <div className="flex items-center gap-2">
-                    <IconButton variant="outlined" color="blue-gray" size="sm">
-                        1
-                    </IconButton>
-                    <IconButton variant="text" color="blue-gray" size="sm">
-                        2
-                    </IconButton>
-                    <IconButton variant="text" color="blue-gray" size="sm">
-                        3
-                    </IconButton>
-                    <IconButton variant="text" color="blue-gray" size="sm">
-                        ...
-                    </IconButton>
-                    <IconButton variant="text" color="blue-gray" size="sm">
-                        8
-                    </IconButton>
-                    <IconButton variant="text" color="blue-gray" size="sm">
-                        9
-                    </IconButton>
-                    <IconButton variant="text" color="blue-gray" size="sm">
-                        10
-                    </IconButton>
-                </div>
-                <Button variant="outlined" color="blue-gray" size="sm">
-                    Next
-                </Button>
-            </CardFooter>
+            
         </Card>
     );
 }

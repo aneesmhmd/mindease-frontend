@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Button, Input } from "@material-tailwind/react";
+import { Button, Input, Spinner } from "@material-tailwind/react";
 
 const ResetPassword = () => {
   const [isLoading, setIsLoading] = useState(false);

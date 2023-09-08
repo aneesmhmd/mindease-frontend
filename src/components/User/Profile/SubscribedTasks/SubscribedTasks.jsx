@@ -41,7 +41,7 @@ function SubscribedTasks() {
             <div className="flex flex-col items-center md:w-1/3">
               <img
                 className="w-20 h-20 me-4 object-cover my-2 shadow-xl rounded-xl"
-                src={`${BaseUrl + subscription?.task?.image}`}
+                src={subscription?.task?.image}
                 alt={subscription?.task?.title}
               />
               <Typography>{subscription?.task?.title}</Typography>

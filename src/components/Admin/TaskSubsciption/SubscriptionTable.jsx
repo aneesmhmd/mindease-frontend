@@ -59,9 +59,7 @@ export default function SubscriptionTable() {
                 icon={<MagnifyingGlassIcon className="h-5 w-5" />}
               />
             </div>
-            {/* <Button className="flex items-center gap-3" size="sm">
-              <ArrowDownTrayIcon strokeWidth={2} className="h-4 w-4" /> Download
-            </Button> */}
+            
           </div>
         </div>
       </CardHeader>
@@ -180,15 +178,7 @@ export default function SubscriptionTable() {
           </tbody>
         </table>
       </CardBody>
-      <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-        <Button variant="outlined" size="sm">
-          Previous
-        </Button>
-
-        <Button variant="outlined" size="sm">
-          Next
-        </Button>
-      </CardFooter>
+      
     </Card>
   );
 }

@@ -21,10 +21,6 @@ function ViewTasks() {
         })
     }
 
-   
-
-
-
     return (
         <div className='flex items-center flex-col gap-5'>
 

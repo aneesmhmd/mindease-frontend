@@ -48,11 +48,7 @@ function AddTaskItem() {
                                     label="Title"
                                     onChange={(e) => setTitle(e.target.value)}
                                 />
-                                {/* {titleErr &&
-                            <span className="text-red-900 text-sm bg-red-300 bg-opacity-40 text-center rounded-lg p-2">
-                                {titleErr}
-                            </span>
-                        } */}
+                               
 
                                 <Textarea
                                     size="md"
