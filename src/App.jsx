@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom' 
 import Signup from './pages/Authentication/Signup'
 import UserLogin from './pages/Authentication/UserLogin'
 import ForgotPassword from './pages/Authentication/ForgotPassword'
